@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="<<你不知道的Javascript>>," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="9.1 continuation回到之前给出的异步回调的例子，为了突出重点，以下稍作了修改：12345// Aajax( &quot;..&quot;, function(..)&amp;#123;    // C&amp;#125; );// B // A 和// B 表示程序的前半部分（也就是现在的部分），而// ">
+<meta name="keywords" content="&lt;&lt;你不知道的Javascript&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的JavaScript学习笔记（九）回调">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/你不知道的Javascript学习笔记（九）回调/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="9.1 continuation回到之前给出的异步回调的例子，为了突出重点，以下稍作了修改：12345// Aajax( &quot;..&quot;, function(..)&amp;#123;    // C&amp;#125; );// B // A 和// B 表示程序的前半部分（也就是现在的部分），而// C 标识了程序的后半部分（也就是将来的部分）。前半部分立刻执行，然后是一段时间不确定的停顿。在未来的某个时刻，如果A">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-07T03:38:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的JavaScript学习笔记（九）回调">
+<meta name="twitter:description" content="9.1 continuation回到之前给出的异步回调的例子，为了突出重点，以下稍作了修改：12345// Aajax( &quot;..&quot;, function(..)&amp;#123;    // C&amp;#125; );// B // A 和// B 表示程序的前半部分（也就是现在的部分），而// C 标识了程序的后半部分（也就是将来的部分）。前半部分立刻执行，然后是一段时间不确定的停顿。在未来的某个时刻，如果A">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/07/你不知道的Javascript学习笔记（九）回调/"/>
+
+
+
+
+
+  <title>你不知道的JavaScript学习笔记（九）回调 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/07/你不知道的Javascript学习笔记（九）回调/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你不知道的JavaScript学习笔记（九）回调</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-07T00:00:00+08:00">
+                2017-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/07/你不知道的Javascript学习笔记（九）回调/" class="leancloud_visitors" data-flag-title="你不知道的JavaScript学习笔记（九）回调">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="9-1-continuation"><a href="#9-1-continuation" class="headerlink" title="9.1 continuation"></a>9.1 continuation</h2><p>回到之前给出的异步回调的例子，为了突出重点，以下稍作了修改：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A</span></span><br><span class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span>(<span class="params">..</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// C</span></span><br><span class="line">&#125; );</span><br><span class="line"><span class="comment">// B</span></span><br></pre></td></tr></table></figure></p>
+<p>// A 和// B 表示程序的前半部分（也就是现在的部分），而// C 标识了程序的后半部分（也就是将来的部分）。前半部分立刻执行，然后是一段时间不确定的停顿。在未来的某个时刻，如果Ajax 调用完成，程序就会从停下的位置继续执行后半部分。<br>换句话说，回调函数包裹或者说封装了程序的延续（continuation）。</p>
+<p>让我们进一步简化这段代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A</span></span><br><span class="line">setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// C</span></span><br><span class="line">&#125;, <span class="number">1000</span> );</span><br><span class="line"><span class="comment">// B</span></span><br></pre></td></tr></table></figure></p>
+<p>一旦我们以回调函数的形式引入了单个continuation（或者几十个，就像很多程序所做的那样！），我们就容许了大脑工作方式和代码执行方式的分歧。一旦这两者出现分歧，我们就得面对这样一个无法逆转的事实：<strong>代码变得更加难以理解、追踪、调试和维护。</strong><br><a id="more"></a></p>
+<h2 id="9-2-顺序的大脑"><a href="#9-2-顺序的大脑" class="headerlink" title="9.2 顺序的大脑"></a>9.2 顺序的大脑</h2><h3 id="9-2-1-执行与计划"><a href="#9-2-1-执行与计划" class="headerlink" title="9.2.1 执行与计划"></a>9.2.1 执行与计划</h3><p>开发者编写代码的时候是在计划一系列动作的发生。优秀的开发者会认真计划。“我需要把z 设为x 的值，然后把x 设为y 的值”，等等。</p>
+<p>编写同步代码的时候，语句是一条接一条执行的，其工作方式非常类似于待办任务清单。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换x和y（通过临时变量z）</span></span><br><span class="line">z = x;</span><br><span class="line">x = y;</span><br><span class="line">y = z;</span><br></pre></td></tr></table></figure></p>
+<p>这三条语句是同步执行的，所以x = y 会等待z = x 执行完毕，然后y = z 等待x = y 执行完毕。换个说法就是，这三条语句临时绑定按照特定顺序一个接一个地执行。</p>
+<p>所以，如果说同步的大脑计划能够很好地映射到同步代码语句，那么我们的大脑在规划异步代码方面又是怎样的呢？</p>
+<p>答案是代码（通过回调）表达异步的方式并不能很好地映射到同步的大脑计划行为。</p>
+<p>实际上你能想象按照以下思路来计划待办任务吗?</p>
+<blockquote>
+<p>“我要去商店，但是路上肯定会接到电话。‘嗨，妈妈。’然后她开始说话的时候，我要在GPS 上查找商店的地址，但是GPS 加载需要几秒钟时间，于是我把收音机的音量关小，以便听清妈妈讲话。接着我意识到忘了穿外套，外面有点冷，不过没关系，继续开车，继续和妈妈打电话。这时候安全带警告响起，提醒我系好安全带。‘是的，妈妈，我系着安全带呢。我一直都有系啊！’啊，GPS 终于找到方向了，于是……”</p>
+</blockquote>
+<p>如果我们这样计划一天中要做什么以及按什么顺序来做的话，事实就会像听上去那样荒谬。但是，在实际执行方面，我们的大脑就是这么运作的。记住，不是多任务，而是快速的上下文切换。</p>
+<p>对我们程序员来说，编写异步事件代码，特别是当回调是唯一的实现手段时，困难之处就在于这种思考/ 计划的意识流对我们中的绝大多数来说是不自然的。</p>
+<p>我们的思考方式是一步一步的，但是从同步转换到异步之后，可用的工具（回调）却不是按照一步一步的方式来表达的。</p>
+<h3 id="9-2-2-嵌套回调与链式回调"><a href="#9-2-2-嵌套回调与链式回调" class="headerlink" title="9.2.2 嵌套回调与链式回调"></a>9.2.2 嵌套回调与链式回调</h3><p>考虑：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">listen( <span class="string">"click"</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">evt</span>)</span>&#123;</span><br><span class="line">    setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        ajax( <span class="string">"http://some.url.1"</span>, <span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (text == <span class="string">"hello"</span>) &#123;</span><br><span class="line">                handler();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (text == <span class="string">"world"</span>) &#123;</span><br><span class="line">                request();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; );</span><br><span class="line">    &#125;, <span class="number">500</span>) ;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>你很可能非常熟悉这样的代码。这里我们得到了三个函数嵌套在一起构成的链，其中每个函数代表异步序列（任务，“进程”）中的一个步骤。这种代码常常被称为<strong>回调地狱</strong>（callback hell），有时也被称为毁灭金字塔（pyramid ofdoom，得名于嵌套缩进产生的横向三角形状）。</p>
+<p>一开始我们在等待click 事件，然后等待定时器启动，然后等待Ajax 响应返回，之后可能再重头开始。</p>
+<p>一眼看去，这段代码似乎很自然地将其异步性映射到了顺序大脑计划。<br>首先（现在）我们有：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">listen( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params">..</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>然后是将来，我们有：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params">..</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;, <span class="number">500</span>) ;</span><br></pre></td></tr></table></figure></p>
+<p>接着还是将来，我们有：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">..</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>最后（最晚的将来），我们有：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( .. ) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> ..</span><br></pre></td></tr></table></figure></p>
+<p>但以这种方式线性地追踪这段代码还有几个问题。<br>首先，例子中的步骤是按照1、2、3、4……的顺序，这只是一个偶然。实际的异步JavaScript 程序中总是有很多噪声，使得代码更加杂乱。在大脑的演习中，我们需要熟练地绕过这些噪声，从一个函数跳到下一个函数。</p>
+<p>另外，其中还有一个隐藏更深的错误，但在代码例子中，这个错误并不明显。我们另外设计一个场景（伪代码）来展示这一点：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">doA( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    doB();</span><br><span class="line">    doC( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        doD();</span><br><span class="line">    &#125; )</span><br><span class="line">    doE();</span><br><span class="line">&#125; );</span><br><span class="line"></span><br><span class="line">doF();</span><br></pre></td></tr></table></figure></p>
+<p>尽管有经验的你能够正确确定实际的运行顺序，但这比第一眼看上去要复杂一些，需要费一番脑筋才能想清楚。实际运行顺序是这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">• doA()</span><br><span class="line">• doF()</span><br><span class="line">• doB()</span><br><span class="line">• doC()</span><br><span class="line">• doE()</span><br><span class="line">• doD()</span><br></pre></td></tr></table></figure></p>
+<p>即使你能够很轻松地得出结论，还是有一个可能导致严重问题的风险。如果doA(..) 或doD(..) 实际并不像我们假定的那样是异步的，情况会如何呢？啊，那顺序就更麻烦了。如果它们是同步的（或者根据程序当时的状态，只在某些情况下是同步的），那么现在运行顺序就是A → C → D → F → E → B。</p>
+<p>问题是出在嵌套上吗？是它导致跟踪异步流如此之难吗？确实，部分原因是这样。<br>但是，让我们不用嵌套再把前面的嵌套事件/ 超时/Ajax 的例子重写一遍吧：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">listen( <span class="string">"click"</span>, handler );</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout( request, <span class="number">500</span> );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     ajax( <span class="string">"http://some.url.1"</span>, response );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">text</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (text == <span class="string">"hello"</span>) &#123;</span><br><span class="line">        handler();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (text == <span class="string">"world"</span>) &#123;</span><br><span class="line">        request();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在线性（顺序）地追踪这段代码的过程中，我们不得不从一个函数跳到下一个，再跳到下一个，在整个代码中跳来跳去以“查看”流程。而且别忘了，这还是简化的形式，只考虑了最优情况。我们都知道，真实的异步JavaScript 程序代码要混乱得多，这使得这种追踪的难度会成倍增加。</p>
+<p>还有一点需要注意：要把步骤2、步骤3 和步骤4 连接在一起让它们顺序执行，只用回调的话，代价可以接受的唯一方式是把步骤2 硬编码到步骤1 中，步骤3 硬编码到步骤2中，步骤4 硬编码到步骤3 中，以此类推。如果实际上步骤2 总会引出步骤3 是一个固定<br>条件的话，硬编码本身倒不一定是坏事。</p>
+<p>但是，硬编码肯定会使代码更脆弱一些，因为它并没有考虑可能导致步骤执行顺序偏离的异常情况。比如，如果步骤2 失败，就永远不会到达步骤3，不管是重试步骤2，还是跳转到其他错误处理流程，等等。</p>
+<p>这些问题都可以通过在每个步骤中手工硬编码来解决，但这样的代码通常是重复的，并且在程序中的其他异步流中或其他步骤中无法复用。</p>
+<p>尽管我们的大脑能够以顺序的方式（这个，然后这个，然后这个）计划一系列任务，但大脑运作的事件化的本质使得控制流的恢复/ 重试/ 复制几乎不费什么力气。如果你出外办事的时候发现把购物清单落在了家里，那么这一天并不会因为你没有预知到这一点就成为世界末日了。你的大脑很容易就能针对这个小意外做出计划：回家拿清单，然后立刻返回商店就是了。</p>
+<p>但是，手工硬编码（即使包含了硬编码的出错处理）回调的脆弱本性可就远没有这么优雅了。一旦你指定（也就是预先计划）了所有的可能事件和路径，代码就会变得非常复杂，以至于无法维护和更新。</p>
+<p><strong>结论：顺序阻塞式的大脑计划行为无法很好地映射到面向回调的异步代码。这就是回调方式最主要的缺陷：对于它们在代码中表达异步的方式，我们的大脑需要努力才能同步得上。</strong></p>
+<h2 id="9-3-信任问题"><a href="#9-3-信任问题" class="headerlink" title="9.3 信任问题"></a>9.3 信任问题</h2><p>顺序的人脑计划和回调驱动的异步JavaScript 代码之间的不匹配只是回调问题的一部分。</p>
+<p>还有一些更深入的问题需要考虑。<br>让我们再次思考一下程序中把回调continuation（也就是后半部分）的概念：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// A</span></span><br><span class="line">ajax( <span class="string">".."</span>, <span class="function"><span class="keyword">function</span>(<span class="params">..</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// C</span></span><br><span class="line">&#125; );</span><br><span class="line"><span class="comment">// B</span></span><br></pre></td></tr></table></figure></p>
+<p>// A 和// B 发生于现在，在JavaScript 主程序的直接控制之下。而// C 会延迟到将来发生，并且是在第三方的控制下——在本例中就是函数ajax(..)。从根本上来说，这种控制的转移通常不会给程序带来很多问题。</p>
+<p>但是，请不要被这个小概率迷惑而认为这种控制切换不是什么大问题。实际上，这是回调驱动设计最严重（也是最微妙）的问题。它以这样一个思路为中心：有时候ajax(..)（也就是你交付回调continuation 的第三方）不是你编写的代码，也不在你的直接控制下。多数情况下，它是某个第三方提供的工具。</p>
+<p>我们把这称为<strong>控制反转（inversion of control）</strong>，也就是把自己程序一部分的执行控制交给某个第三方。在你的代码和第三方工具（一组你希望有人维护的东西）之间有一份并没有明确表达的契约。</p>
+<h3 id="9-3-1-五个回调的故事"><a href="#9-3-1-五个回调的故事" class="headerlink" title="9.3.1 五个回调的故事"></a>9.3.1 五个回调的故事</h3><p>假设你是一名开发人员，为某个销售昂贵电视的网站建立商务结账系统。你已经做好了结账系统的各个界面。在最后一页，当用户点击“确定”就可以购买电视时，你需要调用（假设由某个分析追踪公司提供的）第三方函数以便跟踪这个交易。</p>
+<p>你注意到，可能是为了提高性能，他们提供了一个看似用于异步追踪的工具，这意味着你需要传入一个回调函数。在传入的这个continuation 中，你需要提供向客户收费和展示感谢页面的最终代码。</p>
+<p>代码可能是这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">analytics.trackPurchase( purchaseData, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">   chargeCreditCard();</span><br><span class="line">   displayThankyouPage();</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>你写好代码，通过测试，一切正常，然后就进行产品部署。皆大欢喜！</p>
+<blockquote>
+<p>六个月过去了，没有任何问题。你几乎已经忘了自己写过这么一段代码。某个上班之前的早晨，你像往常一样在咖啡馆里享用一杯拿铁。突然，你的老板惊慌失措地打电话过来，让你放下咖啡赶紧到办公室。到了办公室，你得知你们的一位高级客户购买了一台电视，信用卡却被刷了五次，他很生气，这可以理解。客服已经道歉并启动了退款流程。但是，你的老板需要知道这样的事情为何会出现。“这种情况你没有测试过吗？！”你甚至都不记得自己写过这段代码。但是，你得深入研究这些代码，并开始寻找问题产生的原因。通过分析日志，你得出一个结论：唯一的解释就是那个分析工具出于某种原因把你的回调调用了五次而不是一次。他们的文档中完全没有提到这种情况。沮丧的你联系他们的客服，而客服显然和你一样吃惊。他们保证，一定会向开发者提交此事，之后再给你回复。第二天，你收到一封很长的信，是解释他们的发现的，于是你立刻将其转发给你的老板。显然，分析公司的开发者开发了一些实验性的代码，在某种情况下，会在五秒钟内每秒重试一次传入的回调函数，然后才会因超时而失败。他们从来没打算把这段代码提交到产品中，但不知道为什么却这样做了，他们很是尴尬，充满了歉意。他们以漫长的篇幅解释了他们是如何确定出错点的，并保证绝不会再发生同样的事故，等等。然后呢？你和老板讨论此事，他对这种状况却不怎么满意。他坚持认为，你不能再信任他们了（你们受到了伤害）。对此你也只能无奈接受，并且你需要找到某种方法来保护结账代码，保证不再出问题。</p>
+</blockquote>
+<p>经过修补之后，你实现了像下面这样的简单临时代码，大家似乎也很满意：vhf么办？”哎呦！之前你们双方都没有想到这一点。</p>
+<p>然后，你开始沿着这个兔子洞深挖下去，考虑着他们调用你的回调时所有可能的出错情况。这里粗略列出了你能想到的分析工具可能出错的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">• 调用回调过早（在追踪之前）；</span><br><span class="line">• 调用回调过晚（或没有调用）；</span><br><span class="line">• 调用回调的次数太少或太多（就像你遇到过的问题！）；</span><br><span class="line">• 没有把所需的环境/ 参数成功传给你的回调函数；</span><br><span class="line">• 吞掉可能出现的错误或异常；</span><br><span class="line">• ……</span><br></pre></td></tr></table></figure></p>
+<p>这感觉就像是一个麻烦列表，实际上它就是。你可能已经开始慢慢意识到，对于被传给你无法信任的工具的每个回调，你都将不得不创建大量的混乱逻辑。现在你应该更加明白回调地狱是多像地狱了吧。</p>
+<h3 id="9-3-2-不只是别人的代码"><a href="#9-3-2-不只是别人的代码" class="headerlink" title="9.3.2 不只是别人的代码"></a>9.3.2 不只是别人的代码</h3><p>请思考这一点：你能够真正信任理论上（在自己的代码库中）你可以控制的工具吗？<br>不妨这样考虑：多数人都同意，至少在某种程度上我们应该在内部函数中构建一些防御性的输入参数检查，以便减少或阻止无法预料的问题。<br>过分信任输入：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// +是可以重载的，通过类型转换，也可以是字符串连接</span></span><br><span class="line">    <span class="comment">// 所以根据传入参数的不同，这个运算并不是严格安全的</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> ); <span class="comment">// 42</span></span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> ); <span class="comment">// "2121"</span></span><br></pre></td></tr></table></figure></p>
+<p>针对不信任输入的防御性代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 确保输入为数字</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> x != <span class="string">"number"</span> || <span class="keyword">typeof</span> y != <span class="string">"number"</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">Error</span>( <span class="string">"Bad parameters"</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果到达这里，可以通过+安全的进行数字相加</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> ); <span class="comment">// 42</span></span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> ); <span class="comment">// Error: "Bad parameters"</span></span><br></pre></td></tr></table></figure></p>
+<p>依旧安全但更友好一些的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addNumbers</span>(<span class="params">x,y</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 确保输入为数字</span></span><br><span class="line">    x = <span class="built_in">Number</span>( x );</span><br><span class="line">    y = <span class="built_in">Number</span>( y );</span><br><span class="line">    <span class="comment">// +安全进行数字相加</span></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="number">21</span> ); <span class="comment">// 42</span></span><br><span class="line">addNumbers( <span class="number">21</span>, <span class="string">"21"</span> ); <span class="comment">// 42</span></span><br></pre></td></tr></table></figure></p>
+<p>不管你怎么做，这种类型的检查/ 规范化的过程对于函数输入是很常见的，即使是对于理论上完全可以信任的代码。大体上说，这等价于那条地缘政治原则：“信任，但要核实。”</p>
+<p>所以，据此是不是可以推断出，对于异步函数回调的组成，我们应该要做同样的事情，而不只是针对外部代码，甚至是我们知道在我们自己控制下的代码？当然应该。</p>
+<p>但是，回调并没有为我们提供任何东西来支持这一点。我们不得不自己构建全部的机制，而且通常为每个异步回调重复这样的工作最后都成了负担。</p>
+<p>回调最大的问题是控制反转，它会导致信任链的完全断裂。如果你的代码中使用了回调，尤其是但也不限于使用第三方工具，而且你还没有应用某种逻辑来解决所有这些控制反转导致的信任问题，那你的代码现在已经有了bug，即使它们还没有给你造成损害。隐藏的bug 也是bug。</p>
+<h2 id="9-4-省点回调"><a href="#9-4-省点回调" class="headerlink" title="9.4 省点回调"></a>9.4 省点回调</h2><p>回调设计存在几个变体，意在解决前面讨论的一些信任问题。这种试图从回调模式内部挽救它的意图是勇敢的，但却注定要失败。<br>举例来说，为了更优雅地处理错误，有些API 设计提供了分离回调（一个用于成功通知，一个用于出错通知）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">success</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( data );</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">failure</span>(<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.error( err );</span><br><span class="line">&#125;</span><br><span class="line">ajax( <span class="string">"http://some.url.1"</span>, success, failure );</span><br></pre></td></tr></table></figure></p>
+<p>在这种设计下，API 的出错处理函数failure() 常常是可选的，如果没有提供的话，就是假定这个错误可以吞掉。</p>
+<p>ES6 Promise API 使用的就是这种分离回调设计。第3 章会介绍ES6 Promise的更多细节。</p>
+<p>还有一种常见的回调模式叫作“<strong>error-first 风格</strong>”（有时候也称为“Node 风格”，因为几乎所有Node.js API 都采用这种风格），其中回调的第一个参数保留用作错误对象（如果有的话）。如果成功的话，这个参数就会被清空/ 置假（后续的参数就是成功数据）。不过，如果产生了错误结果，那么第一个参数就会被置起/ 置真（通常就不会再传递其他结果）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">response</span>(<span class="params">err,data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 出错？</span></span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error( err );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 否则认为成功</span></span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log( data );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">ajax( <span class="string">"http://some.url.1"</span>, response );</span><br></pre></td></tr></table></figure></p>
+<p>在这两种情况下，都应该注意到以下几点。<br>首先，这并没有像表面看上去那样真正解决主要的信任问题。这并没有涉及阻止或过滤不想要的重复调用回调的问题。现在事情更糟了，因为现在你可能同时得到成功或者失败的结果，或者都没有，并且你还是不得不编码处理所有这些情况。</p>
+<p>另外，不要忽略这个事实：尽管这是一种你可以采用的标准模式，但是它肯定更加冗长和模式化，可复用性不高，所以你还得不厌其烦地给应用中的每个回调添加这样的代码。</p>
+<p>那么完全不调用这个信任问题又会怎样呢？如果这是个问题的话（可能应该是个问题！），<br>你可能需要设置一个超时来取消事件。可以构造一个工具（这里展示的只是一个“验证概念”版本）来帮助实现这一点：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">timeoutify</span>(<span class="params">fn,delay</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> intv = setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">             intv = <span class="literal">null</span>;</span><br><span class="line">             fn( <span class="keyword">new</span> <span class="built_in">Error</span>( <span class="string">"Timeout!"</span> ) );</span><br><span class="line">        &#125;, delay )</span><br><span class="line">    ;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 还没有超时？</span></span><br><span class="line">        <span class="keyword">if</span> (intv) &#123;</span><br><span class="line">            clearTimeout( intv );</span><br><span class="line">            fn.apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以下是使用方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用"error-first 风格" 回调设计</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">err,data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error( err );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log( data );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">ajax( <span class="string">"http://some.url.1"</span>, timeoutify( foo, <span class="number">500</span> ) );</span><br></pre></td></tr></table></figure></p>
+<p>还有一个信任问题是调用过早。在特定应用的术语中，这可能实际上是指在某个关键任务完成之前调用回调。但是更通用地来说，对于既可能在现在（同步）也可能在将来（异步）调用你的回调的工具来说，这个问题是明显的。</p>
+<p>这种由同步或异步行为引起的不确定性几乎总会带来极大的bug 追踪难度。这也引出了一条非常有效的建议：永远异步调用回调，即使就在事件循环的下一轮，这样，所有回调就都是可预测的异步调用了。</p>
+<p>考虑：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( a );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line">ajax( <span class="string">"..pre-cached-url.."</span>, result );</span><br><span class="line">a++;</span><br></pre></td></tr></table></figure></p>
+<p>这段代码会打印出0（同步回调调用）还是1（异步回调调用）呢？这要视情况而定。</p>
+<p>如果你不确定关注的API 会不会永远异步执行怎么办呢？可以创建一个类似于这个“验证概念”版本的asyncify(..) 工具：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">asyncify</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> orig_fn = fn,</span><br><span class="line">        intv = setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">             intv = <span class="literal">null</span>;</span><br><span class="line">             <span class="keyword">if</span> (fn) fn();</span><br><span class="line">        &#125;, <span class="number">0</span> )</span><br><span class="line">    ;</span><br><span class="line">    fn = <span class="literal">null</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 触发太快，在定时器intv触发指示异步转换发生之前？</span></span><br><span class="line">        <span class="keyword">if</span> (intv) &#123;</span><br><span class="line">            fn = orig_fn.bind.apply(</span><br><span class="line">                orig_fn,</span><br><span class="line">                    <span class="comment">// 把封装器的this添加到bind(..)调用的参数中，</span></span><br><span class="line">                    <span class="comment">// 以及克里化（currying）所有传入参数</span></span><br><span class="line">                    [<span class="keyword">this</span>].concat( [].slice.call( <span class="built_in">arguments</span> ) )</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 已经是异步</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 调用原来的函数</span></span><br><span class="line">            orig_fn.apply( <span class="keyword">this</span>, <span class="built_in">arguments</span> );</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以像这样使用asyncify(..)：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">result</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( a );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line">ajax( <span class="string">"..pre-cached-url.."</span>, asyncify( result ) );</span><br><span class="line">a++;</span><br></pre></td></tr></table></figure></p>
+<p>不管这个Ajax 请求已经在缓存中并试图对回调立即调用，还是要从网络上取得，进而在将来异步完成，这段代码总是会输出1，而不是0——result(..) 只能异步调用，这意味着a++ 有机会在result(..) 之前运行。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/06/07/你不知道的Javascript学习笔记（九）回调/" title="你不知道的JavaScript学习笔记（九）回调">http://yoursite.com/2017/06/07/你不知道的Javascript学习笔记（九）回调/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/你不知道的Javascript/" rel="tag"># <<你不知道的Javascript>></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/06/你不知道的Javascript学习笔记（八）异步：现在与将来/" rel="next" title="你不知道的JavaScript学习笔记（八）异步：现在与将来">
+                <i class="fa fa-chevron-left"></i> 你不知道的JavaScript学习笔记（八）异步：现在与将来
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/12/你不知道的Javascript学习笔记（十）Promise/" rel="prev" title="你不知道的JavaScript学习笔记（十）Promise">
+                你不知道的JavaScript学习笔记（十）Promise <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#9-1-continuation"><span class="nav-text">9.1 continuation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-2-顺序的大脑"><span class="nav-text">9.2 顺序的大脑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-1-执行与计划"><span class="nav-text">9.2.1 执行与计划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-2-嵌套回调与链式回调"><span class="nav-text">9.2.2 嵌套回调与链式回调</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-3-信任问题"><span class="nav-text">9.3 信任问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-1-五个回调的故事"><span class="nav-text">9.3.1 五个回调的故事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-3-2-不只是别人的代码"><span class="nav-text">9.3.2 不只是别人的代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-4-省点回调"><span class="nav-text">9.4 省点回调</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

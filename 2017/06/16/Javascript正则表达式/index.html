@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="1. 概述正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，简单来说就是使用单个字符串来描述、匹配一系列符合某个句法规则的字符串，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。比如，正则表达式给出一个Email地址的模式，然后用它来确定一个字符串是否为Email地">
+<meta name="keywords" content="javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript正则表达式（转）">
+<meta property="og:url" content="http://yoursite.com/2017/06/16/Javascript正则表达式/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="1. 概述正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，简单来说就是使用单个字符串来描述、匹配一系列符合某个句法规则的字符串，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。比如，正则表达式给出一个Email地址的模式，然后用它来确定一个字符串是否为Email地址。 新建正则表达式有两种方法：  使用字面量，以斜杠表示开始和结束。 1var">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-17T01:09:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Javascript正则表达式（转）">
+<meta name="twitter:description" content="1. 概述正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，简单来说就是使用单个字符串来描述、匹配一系列符合某个句法规则的字符串，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。比如，正则表达式给出一个Email地址的模式，然后用它来确定一个字符串是否为Email地址。 新建正则表达式有两种方法：  使用字面量，以斜杠表示开始和结束。 1var">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/16/Javascript正则表达式/"/>
+
+
+
+
+
+  <title>Javascript正则表达式（转） | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/16/Javascript正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Javascript正则表达式（转）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-16T00:00:00+08:00">
+                2017-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/16/Javascript正则表达式/" class="leancloud_visitors" data-flag-title="Javascript正则表达式（转）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1. 概述"></a>1. 概述</h2><p>正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，简单来说就是使用单个字符串来描述、匹配一系列符合某个<strong>句法规则</strong>的字符串，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。比如，正则表达式给出一个Email地址的模式，然后用它来确定一个字符串是否为Email地址。</p>
+<p>新建正则表达式有两种方法：</p>
+<ul>
+<li><p>使用字面量，以斜杠表示开始和结束。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用RegExp构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'xyz'</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>它们的主要区别是，第一种方法在编译时新建正则表达式，第二种方法在运行时新建正则表达式。</p>
+<p>RegExp构造函数还可以接受第二个参数，表示<strong>修饰符</strong>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'xyz'</span>, <span class="string">"i"</span>);</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/xyz/i</span>;</span><br></pre></td></tr></table></figure></p>
+<p>上面代码中，正则表达式<code>/xyz/</code>有一个修饰符i。</p>
+<p>正则对象生成以后，有两种使用方式：</p>
+<blockquote>
+<p>正则对象的方法：将字符串作为参数，比如regex.test(string)。<br>字符串对象的方法：将正则对象作为参数，比如string.match(regex)。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="2-正则对象的属性和方法"><a href="#2-正则对象的属性和方法" class="headerlink" title="2. 正则对象的属性和方法"></a>2. 正则对象的属性和方法</h2><h3 id="2-1-属性"><a href="#2-1-属性" class="headerlink" title="2.1 属性"></a>2.1 属性</h3><p>正则对象的属性分成两类。</p>
+<ul>
+<li>一类是修饰符相关，返回一个布尔值，表示对应的修饰符是否设置。</li>
+</ul>
+<blockquote>
+<p>ignoreCase：返回一个布尔值，表示是否设置了i修饰符，该属性只读。<br>global：返回一个布尔值，表示是否设置了g修饰符，该属性只读。<br>multiline：返回一个布尔值，表示是否设置了m修饰符，该属性只读。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/abc/igm</span>;</span><br><span class="line"></span><br><span class="line">r.ignoreCase <span class="comment">// true</span></span><br><span class="line">r.global <span class="comment">// true</span></span><br><span class="line">r.multiline <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>另一类是与修饰符无关的属性，主要是下面两个。</li>
+</ul>
+<blockquote>
+<p>lastIndex：返回下一次开始搜索的位置。该属性可读写，但是只在设置了g修饰符时有意义。<br>source：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/abc/igm</span>;</span><br><span class="line"></span><br><span class="line">r.lastIndex <span class="comment">// 0</span></span><br><span class="line">r.source <span class="comment">// "abc"</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-test"><a href="#2-2-test" class="headerlink" title="2.2 test()"></a>2.2 test()</h3><p><strong>正则对象的test方法返回一个布尔值，表示当前模式是否能匹配参数字符串。</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/cat/.test(<span class="string">'cats and dogs'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码验证参数字符串之中是否包含cat，结果返回true。</p>
+<p>如果正则表达式带有g修饰符，则每一次test方法都从上一次结束的位置开始向后匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/x/g</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</span><br><span class="line"></span><br><span class="line">r.lastIndex <span class="comment">// 0</span></span><br><span class="line">r.test(s) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">r.lastIndex <span class="comment">// 2</span></span><br><span class="line">r.test(s) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">r.lastIndex <span class="comment">// 4</span></span><br><span class="line">r.test(s) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>上面代码的正则对象使用了g修饰符，表示要记录搜索位置。接着，三次使用test方法，每一次开始搜索的位置都是上一次匹配的后一个位置。</p>
+<p>带有g修饰符时，可以通过正则对象的lastIndex属性指定开始搜索的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/x/g</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</span><br><span class="line"></span><br><span class="line">r.lastIndex = <span class="number">4</span>;</span><br><span class="line">r.test(s) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>lastIndex属性只对同一个正则表达式有效，所以下面这样写是错误的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (<span class="regexp">/a/g</span>.test(<span class="string">'babaa'</span>)) count++;</span><br></pre></td></tr></table></figure>
+<p>上面代码会导致无限循环，因为while循环的每次匹配条件都是一个新的正则表达式，导致lastIndex属性总是等于0。</p>
+<p>如果正则模式是一个空字符串，则匹配所有字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">''</span>).test(<span class="string">'abc'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-3-exec"><a href="#2-3-exec" class="headerlink" title="2.3 exec()"></a>2.3 exec()</h3><p><strong>正则对象的exec方法，可以返回匹配结果。如果发现匹配，就返回一个数组，成员是每一个匹配成功的子字符串，否则返回null。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</span><br><span class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</span><br><span class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</span><br><span class="line"></span><br><span class="line">r1.exec(s) <span class="comment">// ["x"]</span></span><br><span class="line">r2.exec(s) <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则对象r1匹配成功，返回一个数组，成员是匹配结果；正则对象r2匹配失败，返回null。</p>
+<p>如果正则表示式包含圆括号（即含有“组匹配”），则返回的数组会包括多个成员。第一个成员是整个匹配成功的结果，后面的成员就是圆括号对应的匹配成功的组。也就是说，第二个成员对应第一个括号，第三个成员对应第二个括号，以此类推。整个数组的length属性等于组匹配的数量再加1。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</span><br><span class="line"><span class="keyword">var</span> r = <span class="regexp">/_(x)/</span>;</span><br><span class="line"></span><br><span class="line">r.exec(s) <span class="comment">// ["_x", "x"]</span></span><br></pre></td></tr></table></figure>
+<p>exec方法的返回数组还包含以下两个属性：</p>
+<blockquote>
+<p>input：整个原字符串。<br>index：整个模式匹配成功的开始位置（从0开始计数）。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/</span>;</span><br><span class="line"><span class="keyword">var</span> arr = r.exec(<span class="string">'_abbba_aba_'</span>);</span><br><span class="line"></span><br><span class="line">arr <span class="comment">// ["abbba", "bbb"]</span></span><br><span class="line"></span><br><span class="line">arr.index <span class="comment">// 1</span></span><br><span class="line">arr.input <span class="comment">// "_abbba_aba_"</span></span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>上面代码中的index属性等于1，是因为从原字符串的第二个位置开始匹配成功。</p>
+<p>如果正则表达式加上g修饰符，则可以使用多次exec方法，下一次搜索的位置从上一次匹配成功结束的位置开始。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a1 = r.exec(<span class="string">'_abbba_aba_'</span>);</span><br><span class="line">a1 <span class="comment">// ['abbba', 'bbb']</span></span><br><span class="line">a1.index <span class="comment">// 1</span></span><br><span class="line">r.lastIndex <span class="comment">// 6</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a2 = r.exec(<span class="string">'_abbba_aba_'</span>);</span><br><span class="line">a2 <span class="comment">// ['aba', 'b']</span></span><br><span class="line">a2.index <span class="comment">// 7</span></span><br><span class="line">r.lastIndex <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a3 = r.exec(<span class="string">'_abbba_aba_'</span>);</span><br><span class="line">a3 <span class="comment">// null</span></span><br><span class="line">a3.index <span class="comment">// TypeError: Cannot read property 'index' of null</span></span><br><span class="line">r.lastIndex <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a4 = r.exec(<span class="string">'_abbba_aba_'</span>);</span><br><span class="line">a4 <span class="comment">// ['abbba', 'bbb']</span></span><br><span class="line">a4.index <span class="comment">// 1</span></span><br><span class="line">r.lastIndex <span class="comment">// 6</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码连续用了四次exec方法，前三次都是从上一次匹配结束的位置向后匹配。当第三次匹配结束以后，整个字符串已经到达尾部，正则对象的lastIndex属性重置为0，意味着第四次匹配将从头开始。</p>
+<p>利用g修饰符允许多次匹配的特点，可以用一个循环完成全部匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a(b+)a/g</span>;</span><br><span class="line"><span class="keyword">var</span> s = <span class="string">'_abbba_aba_'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> match = r.exec(s);</span><br><span class="line">    <span class="keyword">if</span> (!match) <span class="keyword">break</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(match[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// bbb</span></span><br><span class="line"><span class="comment">// b</span></span><br></pre></td></tr></table></figure>
+<p>正则对象的lastIndex属性不仅可读，还可写。一旦手动设置了lastIndex的值，就会从指定位置开始匹配。但是，这只在设置了g修饰符的情况下，才会有效。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a/</span>;</span><br><span class="line"></span><br><span class="line">r.lastIndex = <span class="number">7</span>; <span class="comment">// 无效</span></span><br><span class="line"><span class="keyword">var</span> match = r.exec(<span class="string">'xaxa'</span>);</span><br><span class="line">match.index <span class="comment">// 1</span></span><br><span class="line">r.lastIndex <span class="comment">// 7</span></span><br></pre></td></tr></table></figure>
+<p>上面代码设置了lastIndex属性，但是因为正则表达式没有g修饰符，所以是无效的。每次匹配都是从字符串的头部开始。</p>
+<p>如果有g修饰符，lastIndex属性就会生效。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a/g</span>;</span><br><span class="line"></span><br><span class="line">r.lastIndex = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> match = r.exec(<span class="string">'xaxa'</span>);</span><br><span class="line">match.index <span class="comment">// 3</span></span><br><span class="line">r.lastIndex <span class="comment">// 4</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，lastIndex属性指定从字符的第三个位置开始匹配。成功后，下一次匹配就是从第五个位置开始。</p>
+<p>如果正则对象是一个空字符串，则exec方法会匹配成功，但返回的也是空字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">''</span>);</span><br><span class="line"><span class="keyword">var</span> a1 = r1.exec(<span class="string">'abc'</span>);</span><br><span class="line">a1 <span class="comment">// ['']</span></span><br><span class="line">a1.index <span class="comment">// 0</span></span><br><span class="line">r1.lastIndex <span class="comment">// 0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> r2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'()'</span>);</span><br><span class="line"><span class="keyword">var</span> a2 = r2.exec(<span class="string">'abc'</span>);</span><br><span class="line">a2 <span class="comment">// ['', '']</span></span><br><span class="line">a2.index <span class="comment">// 0</span></span><br><span class="line">r2.lastIndex <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-字符串对象的方法"><a href="#3-字符串对象的方法" class="headerlink" title="3. 字符串对象的方法"></a>3. 字符串对象的方法</h2><p>字符串对象的方法之中，有4种与正则对象有关。</p>
+<blockquote>
+<p>match()：返回一个数组，成员是所有匹配的子字符串。<br>search()：按照给定的正则表达式进行搜索，返回一个整数，表示匹配开始的位置。<br>replace()：按照给定的正则表达式进行替换，返回替换后的字符串。<br>split()：按照给定规则进行字符串分割，返回一个数组，包含分割后的各个成员。</p>
+</blockquote>
+<h3 id="3-1-String-prototype-match"><a href="#3-1-String-prototype-match" class="headerlink" title="3.1 String.prototype.match()"></a>3.1 String.prototype.match()</h3><p>字符串对象的match方法对字符串进行正则匹配，返回匹配结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'_x_x'</span>;</span><br><span class="line"><span class="keyword">var</span> r1 = <span class="regexp">/x/</span>;</span><br><span class="line"><span class="keyword">var</span> r2 = <span class="regexp">/y/</span>;</span><br><span class="line"></span><br><span class="line">s.match(r1) <span class="comment">// ["x"]</span></span><br><span class="line">s.match(r2) <span class="comment">// null</span></span><br></pre></td></tr></table></figure>
+<p>从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。</p>
+<p>如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会一次性返回所有匹配成功的结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'abba'</span>;</span><br><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a/g</span>;</span><br><span class="line"></span><br><span class="line">s.match(r) <span class="comment">// ["a", "a"]</span></span><br><span class="line">r.exec(s) <span class="comment">// ["a"]</span></span><br></pre></td></tr></table></figure>
+<p>设置正则表达式的lastIndex属性，<strong>对match方法无效</strong>，匹配总是从字符串的第一个字符开始。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/a|b/g</span>;</span><br><span class="line">r.lastIndex = <span class="number">7</span>;</span><br><span class="line"><span class="string">'xaxb'</span>.match(r) <span class="comment">// ['a', 'b']</span></span><br><span class="line">r.lastIndex <span class="comment">// 0</span></span><br></pre></td></tr></table></figure>
+<p>上面代码表示，设置lastIndex属性是无效的。</p>
+<h3 id="3-2-String-prototype-search"><a href="#3-2-String-prototype-search" class="headerlink" title="3.2 String.prototype.search()"></a>3.2 String.prototype.search()</h3><p>字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'_x_x'</span>.search(<span class="regexp">/x/</span>)</span><br><span class="line"><span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，第一个匹配结果出现在字符串的1号位置。</p>
+<p>该方法会忽略g修饰符。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> r = <span class="regexp">/x/g</span>;</span><br><span class="line">r.lastIndex = <span class="number">2</span>; <span class="comment">// 无效</span></span><br><span class="line"><span class="string">'_x_x'</span>.search(r) <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则表达式使用g修饰符之后，使用lastIndex属性指定开始匹配的位置，结果无效，还是从字符串的第一个字符开始匹配。</p>
+<h3 id="3-3-String-prototype-replace"><a href="#3-3-String-prototype-replace" class="headerlink" title="3.3 String.prototype.replace()"></a>3.3 String.prototype.replace()</h3><p>字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是搜索模式，第二个是替换的内容。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.replace(search, replacement)</span><br></pre></td></tr></table></figure></p>
+<p>搜索模式如果不加g修饰符，就替换第一个匹配成功的值，否则替换所有匹配成功的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'aaa'</span>.replace(<span class="string">'a'</span>, <span class="string">'b'</span>) <span class="comment">// "baa"</span></span><br><span class="line"><span class="string">'aaa'</span>.replace(<span class="regexp">/a/</span>, <span class="string">'b'</span>) <span class="comment">// "baa"</span></span><br><span class="line"><span class="string">'aaa'</span>.replace(<span class="regexp">/a/g</span>, <span class="string">'b'</span>) <span class="comment">// "bbb"</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，最后一个正则表达式使用了g修饰符，导致所有的b都被替换掉了。</p>
+<p>replace方法的一个应用，就是消除字符串首尾两端的空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">'  #id div.class  '</span>;</span><br><span class="line"></span><br><span class="line">str.replace(<span class="regexp">/^\s+|\s+$/g</span>, <span class="string">''</span>)</span><br><span class="line"><span class="comment">// "#id div.class"</span></span><br></pre></td></tr></table></figure>
+<p>replace方法的第二个参数可以使用美元符号$，用来指代所替换的内容。</p>
+<blockquote>
+<p>$&amp; 指代匹配的子字符串。<br>$` 指代匹配结果前面的文本。<br>$’ 指代匹配结果后面的文本。<br>$n 指代匹配成功的第n组内容，n是从1开始的自然数。<br>$$ 指代美元符号$。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'hello world'</span>.replace(<span class="regexp">/(\w+)\s(\w+)/</span>, <span class="string">'$2 $1'</span>)</span><br><span class="line"><span class="comment">// "world hello"</span></span><br><span class="line"></span><br><span class="line"><span class="string">'abc'</span>.replace(<span class="string">'b'</span>, <span class="string">'[$`-$&amp;-$\']'</span>)</span><br><span class="line"><span class="comment">// "a[a-b-c]c"</span></span><br></pre></td></tr></table></figure>
+<p>replace方法的第二个参数还可以是一个函数，将每一个匹配内容替换为函数返回值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'3 and 5'</span>.replace(<span class="regexp">/[0-9]+/g</span>, <span class="function"><span class="keyword">function</span>(<span class="params">match</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">2</span> * match;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">// "6 and 10"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">'The quick brown fox jumped over the lazy dog.'</span>;</span><br><span class="line"><span class="keyword">var</span> pattern = <span class="regexp">/quick|brown|lazy/ig</span>;</span><br><span class="line"></span><br><span class="line">a.replace(pattern, <span class="function"><span class="keyword">function</span> <span class="title">replacer</span>(<span class="params">match</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> match.toUpperCase();</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// The QUICK BROWN fox jumped over the LAZY dog.</span></span><br></pre></td></tr></table></figure>
+<p>作为replace方法第二个参数的替换函数，可以接受多个参数。第一个参数是捕捉到的内容，第二个参数是捕捉到的组匹配（有多少个组匹配，就有多少个对应的参数）。此外，最后还可以添加两个参数，倒数第二个参数是捕捉到的内容在整个字符串中的位置（比如从第五个位置开始），最后一个参数是原字符串。下面是一个网页模板替换的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> prices = &#123;</span><br><span class="line">  <span class="string">'pr_1'</span>: <span class="string">'$1.99'</span>,</span><br><span class="line">  <span class="string">'pr_2'</span>: <span class="string">'$9.99'</span>,</span><br><span class="line">  <span class="string">'pr_3'</span>: <span class="string">'$5.00'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> template = <span class="string">'/* ... */'</span>; <span class="comment">// 这里可以放网页模块字符串</span></span><br><span class="line"></span><br><span class="line">template.replace(</span><br><span class="line">  /(<span class="xml"><span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">")(.*?)("</span>&gt;</span>)(<span class="tag">&lt;<span class="name">\</span>/<span class="attr">span</span>&gt;</span></span>)/g,</span><br><span class="line">  <span class="function"><span class="keyword">function</span>(<span class="params">match, $<span class="number">1</span>, $<span class="number">2</span>, $<span class="number">3</span>, $<span class="number">4</span></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $<span class="number">1</span> + $<span class="number">2</span> + $<span class="number">3</span> + prices[$<span class="number">2</span>] + $<span class="number">4</span>;</span><br><span class="line">  &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>上面代码的捕捉模式中，有四个括号，所以会产生四个组匹配，在匹配函数中用$1到$4表示。匹配函数的作用是将价格插入模板中。</p>
+<h3 id="3-4-String-prototype-split"><a href="#3-4-String-prototype-split" class="headerlink" title="3.4 String.prototype.split()"></a>3.4 String.prototype.split()</h3><p>字符串对象的split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str.split(separator, [limit])</span><br></pre></td></tr></table></figure></p>
+<p>该方法接受两个参数，第一个参数是分隔规则，第二个参数是返回数组的最大成员数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非正则分隔</span></span><br><span class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="string">','</span>)</span><br><span class="line"><span class="comment">// [ 'a', '  b', 'c', ' d' ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 正则分隔，去除多余的空格</span></span><br><span class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>)</span><br><span class="line"><span class="comment">// [ 'a', 'b', 'c', 'd' ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指定返回数组的最大成员</span></span><br><span class="line"><span class="string">'a,  b,c, d'</span>.split(<span class="regexp">/, */</span>, <span class="number">2</span>)</span><br><span class="line">[ <span class="string">'a'</span>, <span class="string">'b'</span> ]</span><br></pre></td></tr></table></figure>
+<p>上面代码使用正则表达式，去除了子字符串的逗号后面的空格。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例一</span></span><br><span class="line"><span class="string">'aaa*a*'</span>.split(<span class="regexp">/a*/</span>)</span><br><span class="line"><span class="comment">// [ '', '*', '*' ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 例二</span></span><br><span class="line"><span class="string">'aaa**a*'</span>.split(<span class="regexp">/a*/</span>)</span><br><span class="line"><span class="comment">// ["", "*", "*", "*"]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码的分割规则是0次或多次的a，由于正则默认是贪婪匹配，所以例一的第一个分隔符是aaa，第二个分割符是a，将字符串分成三个部分，包含开始处的空字符串。例二的第一个分隔符是aaa，第二个分隔符是0个a（即空字符），第三个分隔符是a，所以将字符串分成四个部分。</p>
+<p>如果正则表达式带有括号，则括号匹配的部分也会作为数组成员返回。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'aaa*a*'</span>.split(<span class="regexp">/(a*)/</span>)</span><br><span class="line"><span class="comment">// [ '', 'aaa', '*', 'a', '*' ]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码的正则表达式使用了括号，第一个组匹配是“aaa”，第二个组匹配是“a”，它们都作为数组成员返回。</p>
+<h2 id="4-匹配规则"><a href="#4-匹配规则" class="headerlink" title="4. 匹配规则"></a>4. 匹配规则</h2><h3 id="4-1-字面量字符和元字符"><a href="#4-1-字面量字符和元字符" class="headerlink" title="4.1 字面量字符和元字符"></a>4.1 字面量字符和元字符</h3><p>大部分字符在正则表达式中，就是字面的含义，比如/a/匹配a，/b/匹配b。如果在正则表达式之中，某个字符只表示它字面的含义（就像前面的a和b），那么它们就叫做“<strong>字面量字符</strong>”（literal characters），也叫原意文本字符。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dog/.test(<span class="string">"old dog"</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码中正则表达式的dog，就是字面量字符，所以/dog/匹配“old dog”，因为它就表示“d”、“o”、“g”三个字母连在一起。</p>
+<p>除了字面量字符以外，还有一部分字符有特殊含义，不代表字面的意思。它们叫做“<strong>元字符</strong>”（metacharacters），主要有以下几个。</p>
+<ul>
+<li>1.点字符（.)</li>
+</ul>
+<p>点字符（.）匹配除回车（\r）、换行(\n) 、行分隔符（\u2028）和段分隔符（\u2029）以外的所有字符。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/c.t/</span><br></pre></td></tr></table></figure></p>
+<p>上面代码中，c.t匹配c和t之间包含任意一个字符的情况，只要这三个字符在同一行，比如cat、c2t、c-t等等，但是不匹配coot。</p>
+<ul>
+<li>2.位置字符</li>
+</ul>
+<p>位置字符用来提示字符所处的位置，主要有两个字符。</p>
+<blockquote>
+<p>^ 表示字符串的开始位置<br>$ 表示字符串的结束位置</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test必须出现在开始位置</span></span><br><span class="line">/^test/.test(<span class="string">'test123'</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// test必须出现在结束位置</span></span><br><span class="line">/test$/.test(<span class="string">'new test'</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 从开始位置到结束位置只有test</span></span><br><span class="line">/^test$/.test(<span class="string">'test'</span>) <span class="comment">// true</span></span><br><span class="line">/^test$/.test(<span class="string">'test test'</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3.选择符（|）</li>
+</ul>
+<p>竖线符号（|）在正则表达式中表示“或关系”（OR），即cat|dog表示匹配cat或dog。</p>
+<p>/11|22/.test(‘911’) // true<br>上面代码中，正则表达式指定必须匹配11或22。</p>
+<p>多个选择符可以联合使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配fred、barney、betty之中的一个</span></span><br><span class="line">/fred|barney|betty/</span><br></pre></td></tr></table></figure>
+<p>选择符会包括它前后的多个字符，比如/ab|cd/指的是匹配ab或者cd，而不是指匹配b或者c。如果想修改这个行为，可以使用圆括号。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/a( |\t)b/.test(&apos;a\tb&apos;) // true</span><br></pre></td></tr></table></figure></p>
+<p>上面代码指的是，a和b之间有一个空格或者一个制表符。</p>
+<p>其他的元字符还包括\、*、+、?、()、[]、{}等，将在下文解释。</p>
+<h4 id="转义符"><a href="#转义符" class="headerlink" title="转义符"></a>转义符</h4><p>正则表达式中那些有特殊含义的字符，如果要匹配它们本身，就需要在它们前面要加上反斜杠。比如要匹配加号，就要写成<code>\+</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/<span class="number">1</span>+<span class="number">1</span>/.test(<span class="string">'1+1'</span>)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">/<span class="number">1</span>\+<span class="number">1</span>/.test(<span class="string">'1+1'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，第一个正则表达式直接用加号匹配，结果加号解释成量词，导致不匹配。第二个正则表达式使用反斜杠对加号转义，就能匹配成功。</p>
+<p>正则模式中，需要用斜杠转义的，一共有12个字符：<code>^、.、[、$、(、)、|、*、+、?、{和\\</code>。</p>
+<blockquote>
+<p>需要特别注意的是，如果使用RegExp方法生成正则对象，转义需要使用两个斜杠，因为字符串内部会先转义一次。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'1\+1'</span>)).test(<span class="string">'1+1'</span>)</span><br><span class="line"><span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">(<span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'1\\+1'</span>)).test(<span class="string">'1+1'</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，RegExp作为构造函数，参数是一个字符串。但是，在字符串内部，反斜杠也是转义字符，所以它会先被反斜杠转义一次，然后再被正则表达式转义一次，因此需要两个反斜杠转义。</p>
+<h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>正则表达式对一些不能打印的特殊字符，提供了表达方法。</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\cX</td>
+<td>表示Ctrl-[X]，其中的X是A-Z之中任一个英文字母，用来匹配控制字符。</td>
+</tr>
+<tr>
+<td>[\b]</td>
+<td>匹配退格键(U+0008)，不要与\b混淆。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配换行键。</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配回车键。</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配制表符tab（U+0009）。</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配垂直制表符（U+000B）。</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配换页符（U+000C）。</td>
+</tr>
+<tr>
+<td>\0</td>
+<td>匹配null字符（U+0000）。</td>
+</tr>
+<tr>
+<td>\xhh</td>
+<td>匹配一个以两位十六进制数（\x00-\xFF）表示的字符。</td>
+</tr>
+<tr>
+<td>\uhhhh</td>
+<td>匹配一个以四位十六进制数（\u0000-\uFFFF）表示的unicode字符。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-3-字符类"><a href="#4-3-字符类" class="headerlink" title="4.3 字符类"></a>4.3 字符类</h3><p>字符类（class）表示有一系列字符可供选择，<strong>只要匹配其中一个</strong>就可以了。所有可供选择的字符都放在方括号内，比如[xyz] 表示x、y、z之中任选一个匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/[abc]/.test(<span class="string">'hello world'</span>) <span class="comment">// false</span></span><br><span class="line">/[abc]/.test(<span class="string">'apple'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码表示，字符串“hello world”不包含a、b、c这三个字母中的任一个，而字符串“apple”包含字母a。</p>
+<p>有两个字符在字符类中有特殊含义。</p>
+<ul>
+<li>1.脱字符（^）</li>
+</ul>
+<p>如果方括号内的第一个字符是[^]，则表示除了字符类之中的字符，其他字符都可以匹配。比如，[^xyz]表示除了x、y、z之外都可以匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/[^abc]/.test(<span class="string">'hello world'</span>) <span class="comment">// true</span></span><br><span class="line">/[^abc]/.test(<span class="string">'bbc'</span>) <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>上面代码表示，字符串“hello world”不包含字母a、b、c中的任一个，所以返回true；字符串“bbc”不包含a、b、c以外的字母，所以返回false。</p>
+<p>如果方括号内没有其他字符，即只有[^]，就表示匹配一切字符，其中包括换行符，而点号（.）是不包括换行符的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'Please yes\nmake my day!'</span>;</span><br><span class="line"></span><br><span class="line">s.match(<span class="regexp">/yes.*day/</span>) <span class="comment">// null</span></span><br><span class="line">s.match(<span class="regexp">/yes[^]*day/</span>) <span class="comment">// [ 'yes\nmake my day']</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，字符串s含有一个换行符，点号不包括换行符，所以第一个正则表达式匹配失败；第二个正则表达式[^]包含一切字符，所以匹配成功。</p>
+<p>注意，脱字符只有在字符类的第一个位置才有特殊含义，否则就是字面含义。</p>
+<ul>
+<li>2.连字符（-）</li>
+</ul>
+<p>某些情况下，对于连续序列的字符，连字符（-）用来提供简写形式，表示字符的连续范围。比如，[abc]可以写成[a-c]，[0123456789]可以写成[0-9]，同理[A-Z]表示26个大写字母。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/a-z/.test(<span class="string">'b'</span>) <span class="comment">// false</span></span><br><span class="line">/[a-z]/.test(<span class="string">'b'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，当连字号（dash）不出现在方括号之中，就不具备简写的作用，只代表字面的含义，所以不匹配字符b。只有当连字号用在方括号之中，才表示连续的字符序列。</p>
+<p>以下都是合法的字符类简写形式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span><span class="number">-9.</span>,]</span><br><span class="line">[<span class="number">0</span><span class="number">-9</span>a-fA-F]</span><br><span class="line">[a-zA-Z0<span class="number">-9</span>-]</span><br><span class="line">[<span class="number">1</span><span class="number">-31</span>]</span><br></pre></td></tr></table></figure>
+<p>上面代码中最后一个字符类[1-31]，不代表1到31，只代表1到3。</p>
+<blockquote>
+<p>注意，字符类的连字符必须在头尾两个字符中间，才有特殊含义，否则就是字面含义。比如，[-9]就表示匹配连字符和9，而不是匹配0到9。</p>
+</blockquote>
+<p>连字符还可以用来指定Unicode字符的范围。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">"\u0130\u0131\u0132"</span>;</span><br><span class="line">/[\u0128-\uFFFF]/.test(str)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>另外，不要过分使用连字符，设定一个很大的范围，否则很可能选中意料之外的字符。最典型的例子就是[A-z]，表面上它是选中从大写的A到小写的z之间52个字母，但是由于在ASCII编码之中，大写字母与小写字母之间还有其他字符，结果就会出现意料之外的结果。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/[A-z]/.test(<span class="string">'\\'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码中，由于反斜杠（\）的ASCII码在大写字母与小写字母之间，结果会被选中。</p>
+<h3 id="4-3-预定义模式"><a href="#4-3-预定义模式" class="headerlink" title="4.3 预定义模式"></a>4.3 预定义模式</h3><p>预定义模式指的是某些常见模式的简写方式。<br>|字符|描述|<br>|—|—|<br>| \d | 匹配0-9之间的任一数字，相当于[0-9]| 。<br>| \D | 匹配所有0-9以外的字符，相当于[^0-9]。|<br>| \w | 匹配任意的字母、数字和下划线，相当于[A-Za-z0-9<em>]。|<br>| \W | 除所有字母、数字和下划线以外的字符，相当于[^A-Za-z0-9</em>]。|<br>| \s | 匹配空格（包括制表符、空格符、断行符等），相等于[\t\r\n\v\f]。|<br>| \S|  匹配非空格的字符，相当于[^\t\r\n\v\f]。|<br>| \b | 匹配词的边界。|<br>| \B | 匹配非词边界，即在词的内部。|<br>下面是一些例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// \s的例子</span></span><br><span class="line">/\s\w*<span class="regexp">/.exec('hello world') /</span><span class="regexp">/ [" world"]</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ \b的例子</span></span><br><span class="line"><span class="regexp">/</span>\bworld/.test(<span class="string">'hello world'</span>) <span class="comment">// true</span></span><br><span class="line">/\bworld/.test(<span class="string">'hello-world'</span>) <span class="comment">// true</span></span><br><span class="line">/\bworld/.test(<span class="string">'helloworld'</span>) <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// \B的例子</span></span><br><span class="line">/\Bworld/.test(<span class="string">'hello-world'</span>) <span class="comment">// false</span></span><br><span class="line">/\Bworld/.test(<span class="string">'helloworld'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，<code>\s</code>表示空格，所以匹配结果会包括空格。\b表示词的边界，所以“world”的词首必须独立（词尾是否独立未指定），才会匹配。同理，\B表示非词的边界，只有“world”的词首不独立，才会匹配。</p>
+<p>通常，正则表达式遇到换行符（\n）就会停止匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="string">"&lt;b&gt;Hello&lt;/b&gt;\n&lt;i&gt;world!&lt;/i&gt;"</span>;</span><br><span class="line"></span><br><span class="line">/.*<span class="regexp">/.exec(html)[0]</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ "&lt;b&gt;Hello&lt;/</span>b&gt;<span class="string">"</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，字符串html包含一个换行符，结果点字符（.）不匹配换行符，导致匹配结果可能不符合原意。这时使用\s字符类，就能包括换行符。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="string">"&lt;b&gt;Hello&lt;/b&gt;\n&lt;i&gt;world!&lt;/i&gt;"</span>;</span><br><span class="line"></span><br><span class="line">/[\S\s]*<span class="regexp">/.exec(html)[0]</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ "&lt;b&gt;Hello&lt;/</span>b&gt;\n&lt;i&gt;world!<span class="xml"><span class="tag">&lt;/<span class="name">i</span>&gt;</span></span><span class="string">"</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// 另一种写法（用到了非捕获组）</span></span><br><span class="line"><span class="string">/(?:.|\s)*/.exec(html)[0]</span></span><br><span class="line"><span class="string">// "</span>&lt;b&gt;Hello&lt;<span class="regexp">/b&gt;\n&lt;i&gt;world!&lt;/i</span>&gt;<span class="string">"</span></span><br><span class="line"><span class="string">上面代码中，[\S\s]指代一切字符。</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-4-重复类-与-量词符"><a href="#4-4-重复类-与-量词符" class="headerlink" title="4.4 重复类 与 量词符"></a>4.4 重复类 与 量词符</h3><p>模式的精确匹配次数，使用大括号（{}）表示。{n}表示恰好重复n次，{n,}表示至少重复n次，{n,m}表示重复不少于n次，不多于m次。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/lo&#123;<span class="number">2</span>&#125;k/.test(<span class="string">'look'</span>) <span class="comment">// true</span></span><br><span class="line">/lo&#123;<span class="number">2</span>,<span class="number">5</span>&#125;k/.test(<span class="string">'looook'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，第一个模式指定o连续出现2次，第二个模式指定o连续出现2次到5次之间。</p>
+<p><strong>量词符</strong>用来设定某个模式出现的次数。<br>|量词符|描述|<br>|—|—|<br>| ? | 问号表示某个模式出现0次或1次，等同于{0, 1}。|<br>| * | 星号表示某个模式出现0次或多次，等同于{0,}。|<br>| + | 加号表示某个模式出现1次或多次，等同于{1,}。|<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// t出现0次或1次</span></span><br><span class="line">/t?est/.test(<span class="string">'test'</span>) <span class="comment">// true</span></span><br><span class="line">/t?est/.test(<span class="string">'est'</span>) <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// t出现1次或多次</span></span><br><span class="line">/t+est/.test(<span class="string">'test") // true</span></span><br><span class="line"><span class="string">/t+est/.test('</span>ttest<span class="string">') // true</span></span><br><span class="line"><span class="string">/t+est/.test('</span>est<span class="string">') // false</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">// t出现0次或多次</span></span><br><span class="line"><span class="string">/t*est/.test('</span>test<span class="string">') // true</span></span><br><span class="line"><span class="string">/t*est/.test('</span>ttest<span class="string">') // true</span></span><br><span class="line"><span class="string">/t*est/.test('</span>tttest<span class="string">') // true</span></span><br><span class="line"><span class="string">/t*est/.test('</span>est<span class="string">') // true</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-5-贪婪模式"><a href="#4-5-贪婪模式" class="headerlink" title="4.5 贪婪模式"></a>4.5 贪婪模式</h3><p>上一小节的三个量词符，默认情况下都是最大可能匹配，即匹配直到下一个字符不满足匹配规则为止。这被称为<strong>贪婪模式</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'aaa'</span>;</span><br><span class="line">s.match(<span class="regexp">/a+/</span>) <span class="comment">// ["aaa"]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，模式是<code>/a+/</code>，表示匹配1个a或多个a，那么到底会匹配几个a呢？因为默认是贪婪模式，会一直匹配到字符a不出现为止，所以匹配结果是3个a。</p>
+<p>如果想将贪婪模式改为非贪婪模式，可以在量词符后面加一个问号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s = <span class="string">'aaa'</span>;</span><br><span class="line">s.match(<span class="regexp">/a+?/</span>) <span class="comment">// ["a"]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，模式结尾添加了一个问号<code>/a+?/</code>，这时就改为非贪婪模式，一旦条件满足，就不再往下匹配。</p>
+<p>除了非贪婪模式的加号，还有非贪婪模式的星号<code>（*）</code>。</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*?</code></td>
+<td>表示某个模式出现0次或多次，匹配时采用非贪婪模式。</td>
+</tr>
+<tr>
+<td><code>+?</code></td>
+<td>表示某个模式出现1次或多次，匹配时采用非贪婪模式。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-6-修饰符"><a href="#4-6-修饰符" class="headerlink" title="4.6 修饰符"></a>4.6 修饰符</h3><p>修饰符（modifier）表示模式的附加规则，放在正则模式的最尾部。修饰符可以单个使用，也可以多个一起使用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单个修饰符</span></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/test/i</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多个修饰符</span></span><br><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/test/ig</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>g修饰符</li>
+</ul>
+<p>默认情况下，第一次匹配成功后，正则对象就停止向下匹配了。g修饰符表示全局匹配（global），加上它以后，正则对象将匹配全部符合条件的结果，主要用于搜索和替换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</span><br><span class="line"></span><br><span class="line">regex.test(str); <span class="comment">// true</span></span><br><span class="line">regex.test(str); <span class="comment">// true</span></span><br><span class="line">regex.test(str); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则模式不含g修饰符，每次都是从字符串头部开始匹配。所以，连续做了三次匹配，都返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regex = <span class="regexp">/b/g</span>;</span><br><span class="line"><span class="keyword">var</span> str = <span class="string">'abba'</span>;</span><br><span class="line"></span><br><span class="line">regex.test(str); <span class="comment">// true</span></span><br><span class="line">regex.test(str); <span class="comment">// true</span></span><br><span class="line">regex.test(str); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则模式含有g修饰符，每次都是从上一次匹配成功处，开始向后匹配。因为字符串“abba”只有两个“b”，所以前两次匹配结果为true，第三次匹配结果为false。</p>
+<ul>
+<li>i修饰符</li>
+</ul>
+<p>默认情况下，正则对象区分字母的大小写，加上i修饰符以后表示忽略大小写（ignorecase）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/abc/.test(<span class="string">'ABC'</span>) <span class="comment">// false</span></span><br><span class="line">/abc/i.test(<span class="string">'ABC'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码表示，加了i修饰符以后，不考虑大小写，所以模式abc匹配字符串ABC。</p>
+<ul>
+<li>m修饰符</li>
+</ul>
+<p>m修饰符表示多行模式（multiline），会修改^和$的行为。默认情况下（即不加m修饰符时），^和$匹配字符串的开始处和结尾处，加上m修饰符以后，^和$还会匹配行首和行尾，即^和$会识别换行符（\n）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/world$/.test(<span class="string">'hello world\n'</span>) <span class="comment">// false</span></span><br><span class="line">/world$/m.test(<span class="string">'hello world\n'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，字符串结尾处有一个换行符。如果不加m修饰符，匹配不成功，因为字符串的结尾不是“world”；加上以后，$可以匹配行尾。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/^b/m.test(<span class="string">'a\nb'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码要求匹配行首的b，如果不加m修饰符，就相当于b只能处在字符串的开始处。</p>
+<h3 id="4-7-组匹配"><a href="#4-7-组匹配" class="headerlink" title="4.7 组匹配"></a>4.7 组匹配</h3><h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>正则表达式的括号表示分组匹配，括号中的模式可以用来匹配分组的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/fred+<span class="regexp">/.test('fredd') /</span><span class="regexp">/ true</span></span><br><span class="line"><span class="regexp">/</span>(fred)+<span class="regexp">/.test('fredfred') /</span><span class="regexp">/ true</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，第一个模式没有括号，结果+只表示重复字母d，第二个模式有括号，结果+就表示匹配“fred”这个词。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="string">'abcabc'</span>.match(<span class="regexp">/(.)b(.)/</span>);</span><br><span class="line">m</span><br><span class="line"><span class="comment">// ['abc', 'a', 'c']</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则表达式<code>/(.)b(.)/</code>一共使用两个括号，第一个括号捕获a，第二个括号捕获c。</p>
+<blockquote>
+<p>注意，使用组匹配时，不宜同时使用g修饰符，否则match方法不会捕获分组的内容。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="string">'abcabc'</span>.match(<span class="regexp">/(.)b(.)/g</span>);</span><br><span class="line">m</span><br><span class="line"><span class="comment">// ['abc', 'abc']</span></span><br></pre></td></tr></table></figure>
+<p>上面代码使用带g修饰符的正则表达式，结果match方法只捕获了匹配整个表达式的部分。</p>
+<p>在正则表达式内部，可以用<code>\n</code>引用括号匹配的内容，n是从1开始的自然数，表示对应顺序的括号。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/(.)b(.)\<span class="number">1</span>b\<span class="number">2</span>/.test(<span class="string">"abcabc"</span>)</span><br><span class="line"><span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，\1表示前一个括号匹配的内容（即“a”），\2表示第二个括号匹配的内容（即“b”）。</p>
+<p>下面是另外一个例子。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/y(..)(.)\<span class="number">2</span>\<span class="number">1</span>/.test(<span class="string">'yabccab'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>括号还可以嵌套。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/y((..)\<span class="number">2</span>)\<span class="number">1</span>/.test(<span class="string">'yabababab'</span>) <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>上面代码中，\1指向外层括号，\2指向内层括号。</p>
+<p>组匹配非常有用，下面是一个匹配网页标签的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> tagName = <span class="regexp">/&lt;([^&gt;]+)&gt;[^&lt;]*&lt;\/\1&gt;/</span>;</span><br><span class="line"></span><br><span class="line">tagName.exec(<span class="string">"&lt;b&gt;bold&lt;/b&gt;"</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="comment">// 'b'</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，圆括号匹配尖括号之中的标签，而\1就表示对应的闭合标签。</p>
+<p>上面代码略加修改，就能捕获带有属性的标签。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> html = <span class="string">'&lt;b class="hello"&gt;Hello&lt;/b&gt;&lt;i&gt;world&lt;/i&gt;'</span>;</span><br><span class="line"><span class="keyword">var</span> tag = <span class="regexp">/&lt;(\w+)([^&gt;]*)&gt;(.*?)&lt;\/\1&gt;/g</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> match = tag.exec(html);</span><br><span class="line"></span><br><span class="line">match[<span class="number">1</span>] <span class="comment">// "b"</span></span><br><span class="line">match[<span class="number">2</span>] <span class="comment">// "class="hello""</span></span><br><span class="line">match[<span class="number">3</span>] <span class="comment">// "Hello"</span></span><br><span class="line"></span><br><span class="line">match = tag.exec(html);</span><br><span class="line"></span><br><span class="line">match[<span class="number">1</span>] <span class="comment">// "i"</span></span><br><span class="line">match[<span class="number">2</span>] <span class="comment">// ""</span></span><br><span class="line">match[<span class="number">3</span>] <span class="comment">// "world"</span></span><br></pre></td></tr></table></figure>
+<h4 id="非捕获组"><a href="#非捕获组" class="headerlink" title="非捕获组"></a>非捕获组</h4><p><code>(?:x)</code>称为<strong>非捕获组</strong>（Non-capturing group），表示不返回该组匹配的内容，即匹配的结果中不计入这个括号。</p>
+<p>非捕获组的作用请考虑这样一个场景，假定需要匹配foo或者foofoo，正则表达式就应该写成/(foo){1, 2}/，但是这样会占用一个组匹配。这时，就可以使用非捕获组，将正则表达式改为/(?:foo){1, 2}/，它的作用与前一个正则是一样的，但是不会单独输出括号内部的内容。</p>
+<p>请看下面的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="string">'abc'</span>.match(<span class="regexp">/(?:.)b(.)/</span>);</span><br><span class="line">m <span class="comment">// ["abc", "c"]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中的模式，一共使用了两个括号。其中第一个括号是非捕获组，所以最后返回的结果中没有第一个括号，只有第二个括号匹配的内容。</p>
+<p>下面是用来分解网址的正则表达式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常匹配</span></span><br><span class="line"><span class="keyword">var</span> url = <span class="regexp">/(http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</span><br><span class="line"></span><br><span class="line">url.exec(<span class="string">'http://google.com/'</span>);</span><br><span class="line"><span class="comment">// ["http://google.com/", "http", "google.com", "/"]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 非捕获组匹配</span></span><br><span class="line"><span class="keyword">var</span> url = <span class="regexp">/(?:http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/</span>;</span><br><span class="line"></span><br><span class="line">url.exec(<span class="string">'http://google.com/'</span>);</span><br><span class="line"><span class="comment">// ["http://google.com/", "google.com", "/"]</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码中，前一个正则表达式是正常匹配，第一个括号返回网络协议；后一个正则表达式是非捕获匹配，返回结果中不包括网络协议。</p>
+<h4 id="先行断言"><a href="#先行断言" class="headerlink" title="先行断言"></a>先行断言</h4><p><code>x(?=y)</code>称为<strong>先行断言</strong>（Positive look-ahead），x只有在y前面才匹配，y不会被计入返回结果。比如，要匹配后面跟着百分号的数字，可以写成/\d+(?=%)/。</p>
+<p>“先行断言”中，括号里的部分是不会返回的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="string">'abc'</span>.match(<span class="regexp">/b(?=c)/</span>);</span><br><span class="line">m <span class="comment">// ["b"]</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码使用了先行断言，b在c前面所以被匹配，但是括号对应的c不会被返回。</p>
+<p>再看一个例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Jack (?=Sprat|Frost)/.test(&apos;Jack Frost&apos;) // true</span><br></pre></td></tr></table></figure></p>
+<h4 id="先行否定断言"><a href="#先行否定断言" class="headerlink" title="先行否定断言"></a>先行否定断言</h4><p><code>x(?!y)</code>称为先行<strong>否定断言</strong>（Negative look-ahead），x只有不在y前面才匹配，y不会被计入返回结果。比如，要匹配后面跟的不是百分号的数字，就要写成<code>/\d+(?!%)/</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/\d+(?!\.)/.exec(<span class="string">'3.14'</span>)</span><br><span class="line"><span class="comment">// ["14"]</span></span><br></pre></td></tr></table></figure>
+<p>上面代码中，正则表达式指定，只有不在小数点前面的数字才会被匹配，因此返回的结果就是14。</p>
+<p>“先行否定断言”中，括号里的部分是不会返回的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m = <span class="string">'abd'</span>.match(<span class="regexp">/b(?!c)/</span>);</span><br><span class="line">m <span class="comment">// ['b']</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码使用了先行否定断言，b不在c前面所以被匹配，而且括号对应的d不会被返回。</p>
+<p>转自：<a href="http://javascript.ruanyifeng.com/stdlib/regexp.html#toc11" target="_blank" rel="noopener">http://javascript.ruanyifeng.com/stdlib/regexp.html#toc11</a></p>
+<p>推荐正则工具：<a href="https://regexper.com/" target="_blank" rel="noopener">https://regexper.com/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/06/16/Javascript正则表达式/" title="Javascript正则表达式（转）">http://yoursite.com/2017/06/16/Javascript正则表达式/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/12/你不知道的Javascript学习笔记（十）Promise/" rel="next" title="你不知道的JavaScript学习笔记（十）Promise">
+                <i class="fa fa-chevron-left"></i> 你不知道的JavaScript学习笔记（十）Promise
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/17/ES6入门（四）数值的扩展/" rel="prev" title="ES6学习笔记（四）数值的扩展">
+                ES6学习笔记（四）数值的扩展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-概述"><span class="nav-text">1. 概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-正则对象的属性和方法"><span class="nav-text">2. 正则对象的属性和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-属性"><span class="nav-text">2.1 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-test"><span class="nav-text">2.2 test()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-exec"><span class="nav-text">2.3 exec()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-字符串对象的方法"><span class="nav-text">3. 字符串对象的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-String-prototype-match"><span class="nav-text">3.1 String.prototype.match()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-String-prototype-search"><span class="nav-text">3.2 String.prototype.search()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-String-prototype-replace"><span class="nav-text">3.3 String.prototype.replace()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-String-prototype-split"><span class="nav-text">3.4 String.prototype.split()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-匹配规则"><span class="nav-text">4. 匹配规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-字面量字符和元字符"><span class="nav-text">4.1 字面量字符和元字符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#转义符"><span class="nav-text">转义符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特殊字符"><span class="nav-text">特殊字符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-字符类"><span class="nav-text">4.3 字符类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-预定义模式"><span class="nav-text">4.3 预定义模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-重复类-与-量词符"><span class="nav-text">4.4 重复类 与 量词符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-贪婪模式"><span class="nav-text">4.5 贪婪模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-修饰符"><span class="nav-text">4.6 修饰符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-组匹配"><span class="nav-text">4.7 组匹配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非捕获组"><span class="nav-text">非捕获组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先行断言"><span class="nav-text">先行断言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先行否定断言"><span class="nav-text">先行否定断言</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

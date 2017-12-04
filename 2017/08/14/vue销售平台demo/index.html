@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="这个星期在学习vue框架，跟着教程写了个小demo，项目源码已经放在了github上了，接下来分几节记录下开发过程。 由于vue官方文档十分详细清晰的概念介绍和开发指南，我这里就不再摘录了。 1.1 首页搭建我们首先使用vue脚手架创建项目，然后把首页框架当成根组件进行开发。完成图示： 1.首页layout与路由rou">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue入门之销售平台demo">
+<meta property="og:url" content="http://yoursite.com/2017/08/14/vue销售平台demo/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="这个星期在学习vue框架，跟着教程写了个小demo，项目源码已经放在了github上了，接下来分几节记录下开发过程。 由于vue官方文档十分详细清晰的概念介绍和开发指南，我这里就不再摘录了。 1.1 首页搭建我们首先使用vue脚手架创建项目，然后把首页框架当成根组件进行开发。完成图示： 1.首页layout与路由router配置在app.vue中，我们把首页layout写好在template里。先">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i2.bvimg.com/594495/a76287ce5d6f0ed8.png">
+<meta property="og:image" content="http://i2.bvimg.com/594495/ee8eff21ba631649.png">
+<meta property="og:image" content="http://i2.bvimg.com/594495/606dc651bba0fb00.png">
+<meta property="og:image" content="http://i2.bvimg.com/594495/d9b6f0f14ed67cbe.png">
+<meta property="og:image" content="http://i2.bvimg.com/594495/d4c633344a192d49.png">
+<meta property="og:image" content="http://i1.bvimg.com/594495/d317e858cca54673.png">
+<meta property="og:image" content="http://i1.bvimg.com/594495/7c3fb1de09f49d63.png">
+<meta property="og:image" content="http://i1.bvimg.com/594495/5d847add52a2fdfa.png">
+<meta property="og:image" content="http://i1.bvimg.com/594495/6844985eba6d7c0e.png">
+<meta property="og:updated_time" content="2017-08-16T08:32:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue入门之销售平台demo">
+<meta name="twitter:description" content="这个星期在学习vue框架，跟着教程写了个小demo，项目源码已经放在了github上了，接下来分几节记录下开发过程。 由于vue官方文档十分详细清晰的概念介绍和开发指南，我这里就不再摘录了。 1.1 首页搭建我们首先使用vue脚手架创建项目，然后把首页框架当成根组件进行开发。完成图示： 1.首页layout与路由router配置在app.vue中，我们把首页layout写好在template里。先">
+<meta name="twitter:image" content="http://i2.bvimg.com/594495/a76287ce5d6f0ed8.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/14/vue销售平台demo/"/>
+
+
+
+
+
+  <title>vue入门之销售平台demo | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/14/vue销售平台demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue入门之销售平台demo</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-14T00:00:00+08:00">
+                2017-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/入门实践/" itemprop="url" rel="index">
+                    <span itemprop="name">入门实践</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/08/14/vue销售平台demo/" class="leancloud_visitors" data-flag-title="vue入门之销售平台demo">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个星期在学习vue框架，跟着教程写了个小demo，<a href="https://github.com/tancw/vueMall" target="_blank" rel="noopener">项目源码</a>已经放在了github上了，接下来分几节记录下开发过程。</p>
+<p>由于vue官方文档十分详细清晰的概念介绍和开发指南，我这里就不再摘录了。</p>
+<h2 id="1-1-首页搭建"><a href="#1-1-首页搭建" class="headerlink" title="1.1 首页搭建"></a>1.1 首页搭建</h2><p>我们首先使用vue脚手架创建项目，然后把首页框架当成根组件进行开发。<br>完成图示：<br><img src="http://i2.bvimg.com/594495/a76287ce5d6f0ed8.png" alt="Markdown"></p>
+<h3 id="1-首页layout与路由router配置"><a href="#1-首页layout与路由router配置" class="headerlink" title="1.首页layout与路由router配置"></a>1.首页layout与路由router配置</h3><p>在<code>app.vue</code>中，我们把首页layout写好在template里。先来分析页面结构，在完成图中，我们可以看到layout大致分为头-内容-脚三层。然后我们把中间的内容单独写在一个<code>index.vue</code>页面组件里，在内容中，又分为左块和右块，左块由产品板块和消息板块组成，右块由一个轮播图组件和4块小信息块组成。</p>
+<a id="more"></a>
+<p>为了显示首页内容，我们需要设置一下路由，写一下router的map<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</span><br><span class="line">  mode: <span class="string">'history'</span>,</span><br><span class="line">  routes: [&#123;</span><br><span class="line">    path: <span class="string">'*'</span>,</span><br><span class="line">    redirect: <span class="string">'/'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: <span class="string">'/'</span>,</span><br><span class="line">    component: IndexPage</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后在latyout里添加<code>router-view</code>就可以看到首页内容<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="2-信息列表-产品板块与消息板块"><a href="#2-信息列表-产品板块与消息板块" class="headerlink" title="2.信息列表-产品板块与消息板块"></a>2.信息列表-产品板块与消息板块</h3><p>产品板块：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-for</span>=<span class="string">"product in productList"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span> <span class="attr">:key</span>=<span class="string">"product.title"</span>&gt;</span>&#123;&#123;product.title&#125;&#125;<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in product.list"</span> <span class="attr">:key</span>=<span class="string">"item.id"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">:href</span>=<span class="string">"item.url"</span>&gt;</span>&#123;&#123;item.name&#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-if</span>=<span class="string">"item.hot"</span> <span class="attr">class</span>=<span class="string">"hot-tag"</span>&gt;</span>HOT<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">"!product.last"</span> <span class="attr">class</span>=<span class="string">"hr"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>由于产品板块还分有不同的产品类别，所以把产品板块写在一个模板里，使用<code>v-for</code>指令遍历data中的数据进行渲染。<br>消息板块相对简单：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"item in newsList"</span> <span class="attr">:key</span>=<span class="string">"item.title"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">:href</span>=<span class="string">"item.url"</span> <span class="attr">class</span>=<span class="string">"new-item"</span>&gt;</span>&#123;&#123; item.title &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-vue-resource与express实现模拟Ajax获取信息数据"><a href="#3-vue-resource与express实现模拟Ajax获取信息数据" class="headerlink" title="3.vue-resource与express实现模拟Ajax获取信息数据"></a>3.vue-resource与express实现模拟Ajax获取信息数据</h3><p><strong>（1）vue-resource的安装使用</strong></p>
+<p>安装vue-resource<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vue-resource --save-dev</span><br></pre></td></tr></table></figure></p>
+<p>在路由配置里引入之后，我们就可以在其他组件里使用<code>this.$http</code>使用这个插件<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> VueResource <span class="keyword">from</span> <span class="string">'vue-resource'</span></span><br><span class="line">Vue.use(VueResource)</span><br></pre></td></tr></table></figure></p>
+<p>关于vue-resource更多的使用介绍可以参考这篇博客：<a href="http://blog.csdn.net/sinat_17775997/article/details/52549084?locationNum=6&amp;fps=1#t0" target="_blank" rel="noopener">vue-resource全攻略</a><br><strong>（2）express启动数据服务</strong></p>
+<p>由于vue-cli已经配置好express服务器，可以直接使用，也无需在node中配置其他选项<br>①在项目中找到配置文件 ：<code>build/dev-server.js</code>，先确定已经引入express，接下来就是申明与配置express服务器<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> apiServer = express()         <span class="comment">//名称apiServer根据项目自定义，避免冲突为原则</span></span><br><span class="line"><span class="keyword">var</span> bodyParser = <span class="built_in">require</span>(<span class="string">'body-parser'</span>)  <span class="comment">//express必须要进行的配置</span></span><br><span class="line">apiServer.use(bodyParser.urlencoded(&#123; <span class="attr">extend</span>: <span class="literal">true</span> &#125;))</span><br><span class="line">apiServer.use(bodyParser.json())</span><br><span class="line"><span class="keyword">var</span> apiRouter = express.Router()  <span class="comment">//配置路由，名称同样可以自拟</span></span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>)</span><br><span class="line">apiRouter.get(<span class="string">'/'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;</span><br><span class="line">  res.json(&#123; <span class="attr">message</span>: <span class="string">'Welcom to our api'</span>&#125;)</span><br><span class="line">&#125;)</span><br><span class="line">apiRouter.route(<span class="string">'/:apiName'</span>)      <span class="comment">//apiName为接口名称</span></span><br><span class="line">.all(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>)</span>&#123;          <span class="comment">// .all即支持包括get\post在内的所有xhr请求</span></span><br><span class="line">  fs.readFile(<span class="string">'./db.json'</span>, <span class="string">'utf-8'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">err, data</span>)</span>&#123;    <span class="comment">//自己配置的模拟数据需要放置到db.json</span></span><br><span class="line">    <span class="keyword">if</span>(err) <span class="keyword">throw</span> err</span><br><span class="line">    <span class="keyword">var</span> data = <span class="built_in">JSON</span>.parse(data)   <span class="comment">//将从服务器端获取到的json对象转换为普通js对象</span></span><br><span class="line">    <span class="keyword">if</span>(data[req.params.apiName])&#123;</span><br><span class="line">      res.json(data[req.params.apiName])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      res.send(<span class="string">'No such api name'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br><span class="line">apiServer.use(<span class="string">'/api/'</span>, apiRouter) <span class="comment">// 配置 '/api'是因为做了服务器代理，所有要指明代理地址</span></span><br><span class="line">apiServer.listen(port + <span class="number">1</span>, (err) =&gt; &#123; <span class="comment">//配置接口端口号，为了方便查看，一般取前端口号+1</span></span><br><span class="line">  <span class="keyword">if</span>(err)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'JSON Server is running at '</span> + (port + <span class="number">1</span>))</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>②在index.html文件同级目录下新建<code>db.json</code>，整文件是一个 json对象，包含了需要请求的各接口的数据<br>下面是db.json的部分数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"getNewsList"</span>: [&#123;</span><br><span class="line">      <span class="string">"id"</span>: <span class="string">"1"</span>,</span><br><span class="line">      <span class="string">"title"</span>: <span class="string">"消息1消息1消息1消息1消息1消息1消息1"</span>,</span><br><span class="line">      <span class="string">"url"</span>: <span class="string">"http://weixin.com"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"id"</span>: <span class="string">"2"</span>,</span><br><span class="line">      <span class="string">"title"</span>: <span class="string">"消息2消息2消息2消息2消息2"</span>,</span><br><span class="line">      <span class="string">"url"</span>: <span class="string">"http://twitter.com"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"id"</span>: <span class="string">"3"</span>,</span><br><span class="line">      <span class="string">"title"</span>: <span class="string">"消息3消息3消息3消息3"</span>,</span><br><span class="line">      <span class="string">"url"</span>: <span class="string">"http://maps.com"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="string">"id"</span>: <span class="string">"4"</span>,</span><br><span class="line">      <span class="string">"title"</span>: <span class="string">"消息4"</span>,</span><br><span class="line">      <span class="string">"url"</span>: <span class="string">"http://phone.com"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"login"</span>: &#123;</span><br><span class="line">    <span class="string">"username"</span>: <span class="string">"admin"</span>,</span><br><span class="line">    <span class="string">"userId"</span>: <span class="number">100</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"getPrice"</span>: &#123;</span><br><span class="line">    <span class="string">"amount"</span>: <span class="number">123</span></span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure></p>
+<p>③设置接口代理，为了区分是真是的服务器数据和模拟数据，对模拟数据做一个代理处理<br>打开项目中，<code>config/index.js</code> 找到代理入口 <code>proxyTable</code>，默认情况代理为空，根据项目需要配置自己的代理地址<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">dev: &#123;</span><br><span class="line">  env: <span class="built_in">require</span>(<span class="string">'./dev.env'</span>),</span><br><span class="line">  port: <span class="number">8080</span>,</span><br><span class="line">  autoOpenBrowser: <span class="literal">true</span>,</span><br><span class="line">  assetsSubDirectory: <span class="string">'static'</span>,</span><br><span class="line">  assetsPublicPath: <span class="string">'/'</span>,</span><br><span class="line">  proxyTable: &#123;</span><br><span class="line">    <span class="string">'/api/'</span>: <span class="string">'http://localhost:8081/'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">// CSS Sourcemaps off by default because relative paths are "buggy"</span></span><br><span class="line">  <span class="comment">// with this option, according to the CSS-Loader README</span></span><br><span class="line">  <span class="comment">// (https://github.com/webpack/css-loader#sourcemaps)</span></span><br><span class="line">  <span class="comment">// In our experience, they generally work as expected,</span></span><br><span class="line">  <span class="comment">// just be aware of this issue when enabling this option.</span></span><br><span class="line">  cssSourceMap: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>④启动服务器获取数据<br>因为做了代理， 直接从 <a href="http://localhost:8081" target="_blank" rel="noopener">http://localhost:8081</a>  获取数据是获取不到的，想要获取数据须将代理地址补充完整 <a href="http://localhost:8081/api/getNewsList" target="_blank" rel="noopener">http://localhost:8081/api/getNewsList</a>  ，因为做了代理，也可从前端入口进行获取 <a href="http://localhost:8080/api/getNewsList" target="_blank" rel="noopener">http://localhost:8080/api/getNewsList</a></p>
+<p>⑤使用vue-resouce发送Ajax获取数据<br>在首页内容<code>index.vue</code>里请求数据<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">created: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.$http.get(<span class="string">'api/getNewsList'</span>)		<span class="comment">//之前已经配置了all请求，这里发送get\post请求都可以</span></span><br><span class="line">    .then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;	<span class="comment">//成功的返回数据。内置数据处理使用es6的箭头函数，this指向vue对象</span></span><br><span class="line">      <span class="keyword">this</span>.newsList = res.data			<span class="comment">//数据体默认存在data中</span></span><br><span class="line">    &#125;, (err) =&gt; &#123;			<span class="comment">//失败返回错误</span></span><br><span class="line">      <span class="built_in">console</span>.log(err)	</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>最后就可以在template里正常渲染了。</p>
+<h3 id="4-幻灯片组件"><a href="#4-幻灯片组件" class="headerlink" title="4.幻灯片组件"></a>4.幻灯片组件</h3><p>我们可以访问<a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">vue官方资源库</a>安装使用vue的官方资源。</p>
+<p>但这里我们就不引用了，尝试自己实现自定义组件。</p>
+<p>新建一个<code>slideShow</code>组件<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slide-show"</span> @<span class="attr">mouseover</span>=<span class="string">"pauseSlide()"</span> @<span class="attr">mouseout</span>=<span class="string">"runSlide()"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"slide-img"</span> &gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">:href</span>=<span class="string">"slides[nowIndex].href"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"slide-trans-old"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">v-if</span>=<span class="string">"!isShow"</span> <span class="attr">:src</span>=<span class="string">"slides[nowIndex].src"</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"slide-trans"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">img</span> <span class="attr">v-if</span>=<span class="string">"isShow"</span> <span class="attr">:src</span>=<span class="string">"slides[nowIndex].src"</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>&#123;&#123;slides[nowIndex].title&#125;&#125;<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"slide-pages"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> @<span class="attr">click</span>=<span class="string">"goto(prevIndex)"</span>&gt;</span>&amp;lt;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in slides"</span> <span class="attr">:key</span>=<span class="string">"item.src"</span> @<span class="attr">click</span>=<span class="string">"goto(index)"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">:class</span>=<span class="string">"&#123;on: index === nowIndex&#125;"</span>&gt;</span>&#123;&#123;index + 1&#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> @<span class="attr">click</span>=<span class="string">"goto(nextIndex)"</span>&gt;</span>&amp;gt;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><img src="http://i2.bvimg.com/594495/ee8eff21ba631649.png" alt="Markdown"><br>按照这样的联系，我们设计好轮播图的数据依赖<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">props: &#123;</span><br><span class="line">  slides: &#123;</span><br><span class="line">    type: <span class="built_in">Array</span>,</span><br><span class="line">    <span class="keyword">default</span>: []</span><br><span class="line">  &#125;,</span><br><span class="line">  slideTime: &#123;</span><br><span class="line">    type: <span class="built_in">Number</span>,</span><br><span class="line">    <span class="keyword">default</span>: <span class="number">1000</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>部分实现代码</p>
+<p><img src="http://i2.bvimg.com/594495/606dc651bba0fb00.png" alt="Markdown"></p>
+<p>可以看到在向左向右箭头，我们使用了计算属性，这样做简化了实现逻辑。</p>
+<p>在<code>index.vue</code>中引用<code>slideShow</code>组件后就可以使用了<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">slide-show</span> <span class="attr">:slides</span>=<span class="string">"slides"</span> <span class="attr">:slideTime</span>=<span class="string">"slideTime"</span> <span class="attr">onSlide</span>=<span class="string">"doOnSlide"</span>&gt;</span><span class="tag">&lt;/<span class="name">slide-show</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="5-登录注册"><a href="#5-登录注册" class="headerlink" title="5.登录注册"></a>5.登录注册</h3><p>登录注册功能，我们通过一个通用的弹窗完成。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"dialog-wrap"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"dialog-cover"</span>  <span class="attr">v-if</span>=<span class="string">"isShow"</span> @<span class="attr">click</span>=<span class="string">"closeMyDialog"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">       <span class="tag">&lt;<span class="name">transition</span> <span class="attr">name</span>=<span class="string">"drop"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"dialog-content"</span> <span class="attr">v-if</span>=<span class="string">"isShow"</span> &gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"dialog-close"</span> @<span class="attr">click</span>=<span class="string">"closeMyDialog"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">slot</span>&gt;</span>empty<span class="tag">&lt;/<span class="name">slot</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后在app.vue中引入弹窗组件<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">my-dialog</span> <span class="attr">:is-show</span>=<span class="string">"isShowLogDlg"</span> @<span class="attr">on-close</span>=<span class="string">"closeDialog('isShowLogDlg')"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">log-form</span> @<span class="attr">has-log</span>=<span class="string">"onSuccessLog"</span>&gt;</span><span class="tag">&lt;/<span class="name">log-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-dialog</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">my-dialog</span> <span class="attr">:is-show</span>=<span class="string">"isShowRegDlg"</span> @<span class="attr">on-close</span>=<span class="string">"closeDialog('isShowRegDlg')"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">reg-form</span>&gt;</span><span class="tag">&lt;/<span class="name">reg-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-dialog</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">my-dialog</span> <span class="attr">:is-show</span>=<span class="string">"isShowAboutDlg"</span> @<span class="attr">on-close</span>=<span class="string">"closeDialog('isShowAboutDlg')"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>这是一个Vue入门的实例<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-dialog</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>对于每个具体的功能，我们还有设计详细的窗口内容，分别为<code>log-form</code>和<code>reg-form</code>，因此在弹窗组件中使用了<code>slot</code>插槽，插槽用于决定将所携带的内容，插入到指定的某个位置，从而使模板分块，具有模块化的特质和更大的重用性。</p>
+<p>对于log-form和reg-form中的表单验证，我们也是用计算属性进行简单的监测<br>部分代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">computed: &#123;</span><br><span class="line">  userErrors () &#123;</span><br><span class="line">    <span class="keyword">let</span> errorText, status</span><br><span class="line">    <span class="keyword">if</span> (!<span class="regexp">/@/g</span>.test(<span class="keyword">this</span>.usernameModel)) &#123;</span><br><span class="line">      status = <span class="literal">false</span></span><br><span class="line">      errorText = <span class="string">'不包含@'</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      status = <span class="literal">true</span></span><br><span class="line">      errorText = <span class="string">''</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.userflag) &#123;</span><br><span class="line">      errorText = <span class="string">''</span></span><br><span class="line">      <span class="keyword">this</span>.userflag = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> &#123; status, errorText &#125;</span><br><span class="line"> ...</span><br></pre></td></tr></table></figure></p>
+<p>验证截图：<br><img src="http://i2.bvimg.com/594495/d9b6f0f14ed67cbe.png" alt="Markdown"><br>登录成功右上角也会出现相应变化：</p>
+<p><img src="http://i2.bvimg.com/594495/d4c633344a192d49.png" alt="Markdown"></p>
+<h2 id="2-1-购买详情页"><a href="#2-1-购买详情页" class="headerlink" title="2.1 购买详情页"></a>2.1 购买详情页</h2><p><img src="http://i1.bvimg.com/594495/d317e858cca54673.png" alt="Markdown"><br>接下来我们完成四个类似的详情页，分为2块，左边是一个<code>router-link</code>，右边是一个<code>router-view</code>，其中有多个小功能组件。</p>
+<p>新建一个detal页面，再新建4个详情页作为<code>router-view</code>显示。</p>
+<h3 id="1-路由配置"><a href="#1-路由配置" class="headerlink" title="1.路由配置"></a>1.路由配置</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"> &#123;</span><br><span class="line">   path: <span class="string">'/detail'</span>,</span><br><span class="line">   component: DetailPage,</span><br><span class="line">   redirect: <span class="string">'/detail/count'</span>,</span><br><span class="line">   children: [&#123;</span><br><span class="line">     path: <span class="string">'count'</span>,</span><br><span class="line">     component: DetailCouPage</span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">     path: <span class="string">'forecast'</span>,</span><br><span class="line">     component: DetailForPage</span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">     path: <span class="string">'analysis'</span>,</span><br><span class="line">     component: DetailAnaPage</span><br><span class="line">   &#125;,</span><br><span class="line">   &#123;</span><br><span class="line">     path: <span class="string">'publish'</span>,</span><br><span class="line">     component: DetailPubPage</span><br><span class="line">   &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建子路由匹配相应的详情页，对detail页进行重定向之后就可以完成跳转。</p>
+<h3 id="2-select选项组件"><a href="#2-select选项组件" class="headerlink" title="2.select选项组件"></a>2.select选项组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"selection-component"</span> &gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"selection-show"</span> @<span class="attr">click.stop</span>=<span class="string">"toggleDrop"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123;selections[nowIndex].label&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"arrow"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"selection-list"</span> <span class="attr">v-if</span>=<span class="string">"isDrop"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">li</span> <span class="attr">v-for</span>=<span class="string">"(item, index) in selections"</span> <span class="attr">:key</span>=<span class="string">"item.label"</span> @<span class="attr">click</span>=<span class="string">"chooseSelection(index)"</span>&gt;</span>&#123;&#123;item.label&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>选项组件我们尝试自己编写，十分简单地完成了模板样式编写和功能的实现。</p>
+<p>在需要选项组建的详情页导入后就可以使用了。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">v-selection</span> <span class="attr">:selections</span>=<span class="string">"buyTypes"</span> @<span class="attr">on-change</span>=<span class="string">"onParamChange('buyType', $event)"</span>&gt;</span><span class="tag">&lt;/<span class="name">v-selection</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p> 其他组件也是类似，可以自己分析功能，完成编写，然后导入使用。</p>
+<h3 id="3-选择银行"><a href="#3-选择银行" class="headerlink" title="3.选择银行"></a>3.选择银行</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">my-dialog</span> <span class="attr">:is-show</span>=<span class="string">"isShowPayDialog"</span> @<span class="attr">on-close</span>=<span class="string">"closePayDialog"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"buy-dialog-table"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>购买数量<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>产品类型<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>有效时间<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>产品版本<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">th</span>&gt;</span>总价<span class="tag">&lt;/<span class="name">th</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; buyNum &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; buyType.label &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; period.label &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">v-for</span>=<span class="string">"item in versions"</span> <span class="attr">:key</span>=<span class="string">"item.label"</span>&gt;</span>&#123;&#123; item.label + ' ' &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">td</span>&gt;</span>&#123;&#123; price &#125;&#125;<span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">"buy-dialog-title"</span>&gt;</span>请选择银行<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">bank-chooser</span> @<span class="attr">on-change</span>=<span class="string">"onChangeBanks"</span>&gt;</span><span class="tag">&lt;/<span class="name">bank-chooser</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"button buy-dialog-btn"</span> @<span class="attr">click</span>=<span class="string">"confirmBuy"</span>&gt;</span></span><br><span class="line">    确认购买</span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">my-dialog</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://i1.bvimg.com/594495/7c3fb1de09f49d63.png" alt="Markdown"><br>在详情页中按下立即购买弹出如图的支付方式窗口，在详情引用我们登录时写的dialog组件，在<code>payDialog</code>分为一个table和一个<code>bankChooser</code>组件。<br>确认购买后，还要弹出确认窗口，确认支付成功后就能跳转到订单列表页<br><img src="http://i1.bvimg.com/594495/5d847add52a2fdfa.png" alt="Markdown"></p>
+<h2 id="3-1-订单列表页"><a href="#3-1-订单列表页" class="headerlink" title="3.1 订单列表页"></a>3.1 订单列表页</h2><p><img src="http://i1.bvimg.com/594495/6844985eba6d7c0e.png" alt="Markdown"><br>订单列表页如图，顶部有产品选项、日期选项和关键词输入。<br>日期选项我们使用官方资源库的<code>datapicker</code>，使用方法查阅一下文档就会了。<br>下面的数据表格一样存取在<code>db.json</code>然后在页面获取渲染即可。</p>
+<p>至此，我们这样的一个销售平台demo基本完成，当然，其中还有许多小细节功能没有详细说明，这些需要我们自己在编写的时候多想想用户体验才能注意到。麻雀虽小，五脏俱全，这样一个小demo完成后我了解了vue的基本用法，接下来准备做些更深入的东西。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/08/14/vue销售平台demo/" title="vue入门之销售平台demo">http://yoursite.com/2017/08/14/vue销售平台demo/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/24/NodeJS入门（五）异步编程/" rel="next" title="NodeJS入门（五）异步编程">
+                <i class="fa fa-chevron-left"></i> NodeJS入门（五）异步编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/01/Flex布局/" rel="prev" title="Flex布局教程">
+                Flex布局教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-首页搭建"><span class="nav-text">1.1 首页搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首页layout与路由router配置"><span class="nav-text">1.首页layout与路由router配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-信息列表-产品板块与消息板块"><span class="nav-text">2.信息列表-产品板块与消息板块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-vue-resource与express实现模拟Ajax获取信息数据"><span class="nav-text">3.vue-resource与express实现模拟Ajax获取信息数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-幻灯片组件"><span class="nav-text">4.幻灯片组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-登录注册"><span class="nav-text">5.登录注册</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-购买详情页"><span class="nav-text">2.1 购买详情页</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-路由配置"><span class="nav-text">1.路由配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-select选项组件"><span class="nav-text">2.select选项组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-选择银行"><span class="nav-text">3.选择银行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-订单列表页"><span class="nav-text">3.1 订单列表页</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="<<你不知道的Javascript>>," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="回忆一下，我们用回调函数来封装程序中的continuation，然后把回调交给第三方（甚至可能是外部代码），接着期待其能够调用回调，实现正确的功能。 通过这种形式，我们要表达的意思是：“这是将来要做的事情，要在当前的步骤完成之后发生。” 但是，如果我们能够把控制反转再反转回来，会怎样呢？如果我们不把自己程序的conti">
+<meta name="keywords" content="&lt;&lt;你不知道的Javascript&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的JavaScript学习笔记（十）Promise">
+<meta property="og:url" content="http://yoursite.com/2017/06/12/你不知道的Javascript学习笔记（十）Promise/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="回忆一下，我们用回调函数来封装程序中的continuation，然后把回调交给第三方（甚至可能是外部代码），接着期待其能够调用回调，实现正确的功能。 通过这种形式，我们要表达的意思是：“这是将来要做的事情，要在当前的步骤完成之后发生。” 但是，如果我们能够把控制反转再反转回来，会怎样呢？如果我们不把自己程序的continuation 传给第三方，而是希望第三方给我们提供了解其任务何时结束的能力，然">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-16T13:41:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的JavaScript学习笔记（十）Promise">
+<meta name="twitter:description" content="回忆一下，我们用回调函数来封装程序中的continuation，然后把回调交给第三方（甚至可能是外部代码），接着期待其能够调用回调，实现正确的功能。 通过这种形式，我们要表达的意思是：“这是将来要做的事情，要在当前的步骤完成之后发生。” 但是，如果我们能够把控制反转再反转回来，会怎样呢？如果我们不把自己程序的continuation 传给第三方，而是希望第三方给我们提供了解其任务何时结束的能力，然">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/12/你不知道的Javascript学习笔记（十）Promise/"/>
+
+
+
+
+
+  <title>你不知道的JavaScript学习笔记（十）Promise | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/12/你不知道的Javascript学习笔记（十）Promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你不知道的JavaScript学习笔记（十）Promise</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-12T00:00:00+08:00">
+                2017-06-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/06/12/你不知道的Javascript学习笔记（十）Promise/" class="leancloud_visitors" data-flag-title="你不知道的JavaScript学习笔记（十）Promise">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>回忆一下，我们用回调函数来封装程序中的continuation，然后把回调交给第三方（甚至可能是外部代码），接着期待其能够调用回调，实现正确的功能。</p>
+<p>通过这种形式，我们要表达的意思是：“这是将来要做的事情，要在当前的步骤完成之后发生。”</p>
+<p>但是，如果我们能够把控制反转再反转回来，会怎样呢？如果我们不把自己程序的continuation 传给第三方，而是希望第三方给我们提供了解其任务何时结束的能力，然后由我们自己的代码来决定下一步做什么，那将会怎样呢？</p>
+<p>这种范式就称为Promise。</p>
+<a id="more"></a>
+<h2 id="10-1-什么是Promise"><a href="#10-1-什么是Promise" class="headerlink" title="10.1 什么是Promise"></a>10.1 什么是Promise</h2><p>先来查看一下关于Promise 定义的两个不同类比。</p>
+<h3 id="10-1-1-未来值"><a href="#10-1-1-未来值" class="headerlink" title="10.1.1 未来值"></a>10.1.1 未来值</h3><p>设想一下这样一个场景：</p>
+<blockquote>
+<p>我走到快餐店的柜台，点了一个芝士汉堡。我交给收银员1.47 美元。通过下订单并付款，我已经发出了一个对某个值（就是那个汉堡）的请求。我已经启动了一次交易。</p>
+<p>但是，通常我不能马上就得到这个汉堡。收银员会交给我某个东西来代替汉堡：一张带有订单号的收据。订单号就是一个IOU（I owe you，我欠你的）承诺（promise），保证了最终我会得到我的汉堡。</p>
+<p>所以我得好好保留我的收据和订单号。我知道这代表了我未来的汉堡，所以不需要担心，只是现在我还是很饿！ 在等待的过程中，我可以做点其他的事情，比如给朋友发个短信：“嗨，要来和我一起吃午饭吗？我正要吃芝士汉堡。”</p>
+<p>我已经在想着未来的芝士汉堡了，尽管现在我还没有拿到手。我的大脑之所以可以这么做，是因为它已经把订单号当作芝士汉堡的占位符了。从本质上讲，这个占位符使得这个值不再依赖时间。这是一个未来值。</p>
+<p>终于，我听到服务员在喊“订单113”，然后愉快地拿着收据走到柜台，把收据交给收银员，换来了我的芝士汉堡。</p>
+<p>换句话说，一旦我需要的值准备好了，我就用我的承诺值（value-promise）换取这个值本身。</p>
+<p>但是，还可能有另一种结果。他们叫到了我的订单号，但当我过去拿芝士汉堡的时候，收银员满是歉意地告诉我：“不好意思，芝士汉堡卖完了。”除了作为顾客对这种情况感到愤怒之外，我们还可以看到未来值的一个重要特性：它可能成功，也可能失败。每次点芝士汉堡，我都知道最终要么得到一个芝士汉堡，要么得到一个汉堡包售罄的坏消息，那我就得找点别的当午饭了。</p>
+</blockquote>
+<p>在代码中，事情并非这么简单。这是因为，用类比的方式来说就是，订单号可能永远不会被叫到。在这种情况下，我们就永远处于一种未决议状态。</p>
+<h4 id="1-现在值与将来值"><a href="#1-现在值与将来值" class="headerlink" title="1. 现在值与将来值"></a>1. 现在值与将来值</h4><p>要把以上内容应用到代码里的话，前面的描述有点过于抽象，所以这里再具体说明一下。<br>但在具体解释Promise 的工作方式之前，先来推导通过我们已经理解的方式——回调——如何处理未来值。</p>
+<p>当编写代码要得到某个值的时候，比如通过数学计算，不管你有没有意识到，你都已经对这个值做出了一些非常基本的假设，那就是，它已经是一个具体的现在值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var x, y = 2;</span><br><span class="line">console.log( x + y ); // NaN &lt;-- 因为x还没有设定</span><br></pre></td></tr></table></figure></p>
+<p>运算x + y 假定了x 和y 都已经设定。用术语简单地解释就是，这里我们假定x 和y 的值都是已决议的。期望运算符+ 本身能够神奇地检测并等待x 和y 都决议好（也就是准备好）再进行运算是没有意义的。如果有的语句现在完成，而有的语句将来完成，那就会在程序里引起混乱。</p>
+<p>如果两条语句的任何一个（或全部）可能还没有完成，你怎么可能追踪这两条语句的关系呢？如果语句2 依赖于语句1 的完成，那么就只有两个输出：要么语句1 马上完成，一切顺利执行；要么语句1 还未完成，语句2 因此也将会失败。</p>
+<p>设想如果可以通过一种方式表达：“把x 和y 加起来，但如果它们中的任何一个还没有准备好，就等待两者都准备好。一旦可以就马上执行加运算。”</p>
+<p>可能你已经想到了回调。好吧，那么……<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function add(getX,getY,cb) &#123;</span><br><span class="line">    var x, y;</span><br><span class="line">    getX( function(xVal)&#123;</span><br><span class="line">        x = xVal;</span><br><span class="line">        // 两个都准备好了？</span><br><span class="line">        if (y != undefined) &#123;</span><br><span class="line">           cb( x + y ); // 发送和</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; );</span><br><span class="line">    getY( function(yVal)&#123;</span><br><span class="line">    y = yVal;</span><br><span class="line">       // 两个都准备好了？</span><br><span class="line">       if (x != undefined) &#123;</span><br><span class="line">          cb( x + y ); // 发送和</span><br><span class="line">       &#125;</span><br><span class="line">    &#125; );</span><br><span class="line">&#125;</span><br><span class="line">// fetchX() 和fetchY()是同步或者异步函数</span><br><span class="line">add( fetchX, fetchY, function(sum)&#123;</span><br><span class="line">    console.log( sum ); // 是不是很容易？</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>尽管其中的丑陋不可否认，但这种异步模式体现出了一些非常重要的东西。在这段代码中，我们把x 和y 当作未来值，并且表达了一个运算add(..)。这个运算（从外部看）不在意x 和y 现在是否都已经可用。换句话说，它把现在和将来归一化了，因此我们可以确保这个add(..) 运算的输出是可预测的。</p>
+<p>通过使用这个时间上一致的add(..)——从现在到将来的时间，它的行为都是一致的——大大简化了对这段异步代码的追踪。</p>
+<p>说得更直白一些就是，为了统一处理现在和将来，我们把它们都变成了将来，即所有的操作都成了异步的。</p>
+<h4 id="2-Promise-值"><a href="#2-Promise-值" class="headerlink" title="2. Promise 值"></a>2. Promise 值</h4><p>我们先来大致看一下如何通过Promise 函数表达这个x + y 的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function add(xPromise,yPromise) &#123;</span><br><span class="line">    // Promise.all([ .. ])接受一个promise数组并返回一个新的promise，</span><br><span class="line">    // 这个新promise等待数组中的所有promise完成</span><br><span class="line">    return Promise.all( [xPromise, yPromise] )</span><br><span class="line">    </span><br><span class="line">    // 这个promise决议之后，我们取得收到的X和Y值并加在一起</span><br><span class="line">    .then( function(values)&#123;</span><br><span class="line">        // values是来自于之前决议的promisei的消息数组</span><br><span class="line">        return values[0] + values[1];</span><br><span class="line">    &#125; );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// fetchX()和fetchY()返回相应值的promise，可能已经就绪，</span><br><span class="line">// 也可能以后就绪</span><br><span class="line">add( fetchX(), fetchY() )</span><br><span class="line"></span><br><span class="line">// 我们得到一个这两个数组的和的promise</span><br><span class="line">// 现在链式调用 then(..)来等待返回promise的决议</span><br><span class="line">.then( function(sum)&#123;</span><br><span class="line">    console.log( sum ); // 这更简单！</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
+<p>这段代码中有两层Promise。</p>
+<p>fetchX() 和fetchY() 是直接调用的，它们的返回值（promise ！）被传给add(..)。这些promise 代表的底层值的可用时间可能是现在或将来，但不管怎样，promise 归一保证了行为的一致性。我们可以按照不依赖于时间的方式追踪值X 和Y。它们是未来值。</p>
+<p>第二层是add(..)（通过Promise.all([ .. ])）创建并返回的promise。我们通过调用then(..) 等待这个promise。add(..) 运算完成后，未来值sum 就准备好了，可以打印出来。我们把等待未来值X 和Y 的逻辑隐藏在了add(..) 内部。</p>
+<p>就像芝士汉堡订单一样，Promise 的决议结果可能是拒绝而不是完成。拒绝值和完成的Promise 不一样：完成值总是编程给出的，而拒绝值，通常称为拒绝原因（rejectionreason），可能是程序逻辑直接设置的，也可能是从运行异常隐式得出的值。</p>
+<p>通过Promise，调用then(..) 实际上可以接受两个函数，第一个用于完成情况（如前所示），第二个用于拒绝情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">add( fetchX(), fetchY() )</span><br><span class="line">.then(</span><br><span class="line">// 完成处理函数</span><br><span class="line">    function(sum) &#123;</span><br><span class="line">        console.log( sum );</span><br><span class="line">    &#125;,</span><br><span class="line">    // 拒绝处理函数</span><br><span class="line">    function(err) &#123;</span><br><span class="line">        console.error( err ); // 烦！</span><br><span class="line">    &#125;</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>如果在获取X 或Y 的过程中出错，或者在加法过程中出错，add(..) 返回的就是一个被拒绝的promise，传给then(..) 的第二个错误处理回调就会从这个promise 中得到拒绝值。</p>
+<p>从外部看，由于Promise 封装了依赖于时间的状态——等待底层值的完成或拒绝，所以Promise 本身是与时间无关的。因此，Promise 可以按照可预测的方式组成（组合），而不用关心时序或底层的结果。</p>
+<p>另外，一旦Promise 决议，它就永远保持在这个状态。此时它就成为了<strong>不变值（immutablevalue）</strong>，可以根据需求多次查看。</p>
+<p>Promise 决议后就是外部不可变的值，我们可以安全地把这个值传递给第三方，并确信它不会被有意无意地修改。特别是对于多方查看同一个Promise决议的情况，尤其如此。一方不可能影响另一方对Promise 决议的观察结果。</p>
+<p><strong>不可变性</strong>是关于Promise 需要理解的最强大也最重要的一个概念。<br><strong>Promise 是一种封装和组合未来值的易于复用的机制。</strong></p>
+<h3 id="10-1-2-完成事件"><a href="#10-1-2-完成事件" class="headerlink" title="10.1.2 完成事件"></a>10.1.2 完成事件</h3><p>如前所述，单独的Promise 展示了未来值的特性。但是，也可以从另外一个角度看待Promise 的决议：一种在异步任务中作为两个或更多步骤的流程控制机制，时序上的thisthen-that。</p>
+<p>假定要调用一个函数foo(..) 执行某个任务。我们不知道也不关心它的任何细节。这个函数可能立即完成任务，也可能需要一段时间才能完成。我们只需要知道foo(..) 什么时候结束，这样就可以进行下一个任务。换句话说，我们想要通过某种方式在foo(..) 完成的时候得到通知，以便可以继续下一步。</p>
+<p>在典型的JavaScript 风格中，如果需要侦听某个通知，你可能就会想到事件。因此，可以把对通知的需求重新组织为对foo(..) 发出的一个完成事件（completion event，或continuation 事件）的侦听。</p>
+<p>使用回调的话，通知就是任务（foo(..)）调用的回调。而使用Promise 的话，我们把这个关系反转了过来，侦听来自foo(..) 的事件，然后在得到通知的时候，根据情况继续。</p>
+<p>首先，考虑以下伪代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">foo(x) &#123;</span><br><span class="line">    // 开始做点可能耗时的工作</span><br><span class="line">&#125;</span><br><span class="line">foo( 42 )</span><br><span class="line">    on (foo &quot;completion&quot;) &#123;</span><br><span class="line">    // 可以进行下一步了！</span><br><span class="line">&#125;</span><br><span class="line">on (foo &quot;error&quot;) &#123;</span><br><span class="line">    // 啊，foo(..)中出错了</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们调用foo(..)，然后建立了两个事件侦听器，一个用于”completion”，一个用于”error”——foo(..) 调用的两种可能结果。从本质上讲，foo(..) 并不需要了解调用代码订阅了这些事件，这样就很好地实现了关注点分离。</p>
+<p>遗憾的是，这样的代码需要JavaScript 环境提供某种魔法，而这种环境并不存在。</p>
+<p>以下是在JavaScript 中更自然的表达方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo(x) &#123;</span><br><span class="line">    // 开始做点可能耗时的工作</span><br><span class="line">    // 构造一个listener事件通知处理对象来返回</span><br><span class="line">    return listener;</span><br><span class="line">&#125;</span><br><span class="line">var evt = foo( 42 );</span><br><span class="line">evt.on( &quot;completion&quot;, function()&#123;</span><br><span class="line">    // 可以进行下一步了！</span><br><span class="line">&#125; );</span><br><span class="line">evt.on( &quot;failure&quot;, function(err)&#123;</span><br><span class="line">    // 啊，foo(..)中出错了</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>foo(..) 显式创建并返回了一个事件订阅对象，调用代码得到这个对象，并在其上注册了两个事件处理函数。</p>
+<p>相对于面向回调的代码，这里的反转是显而易见的，而且这也是有意为之。这里没有把回调传给foo(..)，而是返回一个名为evt 的事件注册对象，由它来接受回调。</p>
+<p>如果你回想一下第的话，应该还记得回调本身就表达了一种控制反转。所以对回调模式的反转实际上是对反转的反转，或者称为反控制反转——把控制返还给调用代码，这也是我们最开始想要的效果。</p>
+<p>一个很重要的好处是，可以把这个事件侦听对象提供给代码中多个独立的部分；在foo(..) 完成的时候，它们都可以独立地得到通知，以执行下一步：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var evt = foo( 42 );</span><br><span class="line">// 让bar(..)侦听foo(..)的完成</span><br><span class="line">bar( evt );</span><br><span class="line">// 并且让baz(..)侦听foo(..)的完成</span><br><span class="line">baz( evt );</span><br></pre></td></tr></table></figure></p>
+<p>对控制反转的恢复实现了更好的关注点分离，其中bar(..) 和baz(..) 不需要牵扯到foo(..) 的调用细节。类似地，foo(..) 不需要知道或关注bar(..) 和baz(..) 是否存在，或者是否在等待foo(..) 的完成通知。</p>
+<p>从本质上说，evt 对象就是分离的关注点之间一个中立的第三方协商机制。</p>
+<h4 id="Promise“事件”"><a href="#Promise“事件”" class="headerlink" title="Promise“事件”"></a>Promise“事件”</h4><p>事件侦听对象evt 其实就是Promise 的一个模拟。<br>在基于Promise 的方法中，前面的代码片段会让foo(..) 创建并返回一个Promise 实例，而且这个Promise 会被传递到bar(..) 和baz(..)。</p>
+<p>考虑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function foo(x) &#123;</span><br><span class="line">    // 可是做一些可能耗时的工作</span><br><span class="line">    </span><br><span class="line">    // 构造并返回一个promise</span><br><span class="line">    return new Promise( function(resolve,reject)&#123;</span><br><span class="line">        // 最终调用resolve(..)或者reject(..)</span><br><span class="line">        // 这是这个promise的决议回调</span><br><span class="line">    &#125; );</span><br><span class="line">&#125;</span><br><span class="line">var p = foo( 42 );</span><br><span class="line">bar( p );</span><br><span class="line">baz( p );</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>new Promise( function(..){ .. } ) 模式通常称为<strong>revealing constructor</strong>（<code>http://domenic.me/2014/02/13/the-revealing-constructor-pattern/</code>）。传入的函数会立即执行（不会像then(..) 中的回调一样异步延迟），它有两个参数，在本例中我们将其分别称为resolve 和reject。这些是promise 的决议函数。resolve(..) 通常标识完成，而reject(..) 则标识拒绝。</p>
+</blockquote>
+<p>你可能会猜测bar(..) 和baz(..) 的内部实现或许如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function bar(fooPromise) &#123;</span><br><span class="line">// 侦听foo(..)完成</span><br><span class="line">    fooPromise.then(</span><br><span class="line">        function()&#123;</span><br><span class="line">            // foo(..)已经完毕，所以执行bar(..)的任务</span><br><span class="line">        &#125;,</span><br><span class="line">        function()&#123;</span><br><span class="line">            // 啊，foo(..)中出错了！</span><br><span class="line">        &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line">// 对于baz(..)也是一样</span><br></pre></td></tr></table></figure></p>
+<p>Promise 决议并不一定要像前面将Promise 作为未来值查看时一样会涉及发送消息。它也可以只作为一种流程控制信号，就像前面这段代码中的用法一样。</p>
+<p>另外一种实现方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function bar() &#123;</span><br><span class="line">    // foo(..)肯定已经完成，所以执行bar(..)的任务</span><br><span class="line">&#125;</span><br><span class="line">function oopsBar() &#123;</span><br><span class="line">    // 啊，foo(..)中出错了，所以bar(..)没有运行</span><br><span class="line">&#125;</span><br><span class="line">// 对于baz()和oopsBaz()也是一样</span><br><span class="line">var p = foo( 42 );</span><br><span class="line">p.then( bar, oopsBar );</span><br><span class="line">p.then( baz, oopsBaz );</span><br></pre></td></tr></table></figure></p>
+<p>如果以前有过基于Promise 的编码经验的话，那你可能就会不禁认为前面代码的最后两行可以用链接的方式写作p.then( .. ).then( .. )，而不是p.then(..); then(..)。但是，请注意，那样写的话意义就完全不同了！目前二者的区别可能还不是很清晰，但与目前为止我们看到的相比，这确实是一种不同的异步模式——分割与复制。</p>
+<p>这里没有把promise p 传给bar(..) 和baz(..)，而是使用promise 控制bar(..) 和baz(..)何时执行，如果执行的话。最主要的区别在于错误处理部分。</p>
+<p>在第一段代码的方法里，不论foo(..) 成功与否，bar(..) 都会被调用。并且如果收到了foo(..) 失败的通知，它会亲自处理自己的回退逻辑。显然，baz(..) 也是如此。</p>
+<p>在第二段代码中，bar(..) 只有在foo(..) 成功时才会被调用，否则就会调用oppsBar(..)。baz(..) 也是如此。</p>
+<p>这两种方法本身并谈不上对错，只是各自适用于不同的情况。不管哪种情况，都是从foo(..) 返回的promise p 来控制接下来的步骤。</p>
+<p>另外，两段代码都以使用promise p 调用then(..) 两次结束。这个事实说明了前面的观点，就是Promise（一旦决议）一直保持其决议结果（完成或拒绝）不变，可以按照需要多次查看。一旦p 决议，不论是现在还是将来，下一个步骤总是相同的。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/06/12/你不知道的Javascript学习笔记（十）Promise/" title="你不知道的JavaScript学习笔记（十）Promise">http://yoursite.com/2017/06/12/你不知道的Javascript学习笔记（十）Promise/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/你不知道的Javascript/" rel="tag"># <<你不知道的Javascript>></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/07/你不知道的Javascript学习笔记（九）回调/" rel="next" title="你不知道的JavaScript学习笔记（九）回调">
+                <i class="fa fa-chevron-left"></i> 你不知道的JavaScript学习笔记（九）回调
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/16/Javascript正则表达式/" rel="prev" title="Javascript正则表达式（转）">
+                Javascript正则表达式（转） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#10-1-什么是Promise"><span class="nav-text">10.1 什么是Promise</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-1-未来值"><span class="nav-text">10.1.1 未来值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-现在值与将来值"><span class="nav-text">1. 现在值与将来值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Promise-值"><span class="nav-text">2. Promise 值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-2-完成事件"><span class="nav-text">10.1.2 完成事件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Promise“事件”"><span class="nav-text">Promise“事件”</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

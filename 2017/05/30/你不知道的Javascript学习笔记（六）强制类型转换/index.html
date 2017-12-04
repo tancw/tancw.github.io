@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="<<你不知道的Javascript>>," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="6.1. 值类型转换将值从一种类型转换为另一种类型通常称为类型转换（type casting），这是显式的情况；隐式的情况称为强制类型转换（coercion）。然而在JavaScript 中通常将它们统称为强制类型转换。 可用”隐式强制类型转换”（implicit coercion）和“显式强制类型转换”（explic">
+<meta name="keywords" content="&lt;&lt;你不知道的Javascript&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的JavaScript学习笔记（六）强制类型转换">
+<meta property="og:url" content="http://yoursite.com/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="6.1. 值类型转换将值从一种类型转换为另一种类型通常称为类型转换（type casting），这是显式的情况；隐式的情况称为强制类型转换（coercion）。然而在JavaScript 中通常将它们统称为强制类型转换。 可用”隐式强制类型转换”（implicit coercion）和“显式强制类型转换”（explicit coercion）来区分。 例如：123var a = 42;var b">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i4.buimg.com/594495/9ecc104653874c2e.png">
+<meta property="og:updated_time" content="2017-06-06T09:24:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的JavaScript学习笔记（六）强制类型转换">
+<meta name="twitter:description" content="6.1. 值类型转换将值从一种类型转换为另一种类型通常称为类型转换（type casting），这是显式的情况；隐式的情况称为强制类型转换（coercion）。然而在JavaScript 中通常将它们统称为强制类型转换。 可用”隐式强制类型转换”（implicit coercion）和“显式强制类型转换”（explicit coercion）来区分。 例如：123var a = 42;var b">
+<meta name="twitter:image" content="http://i4.buimg.com/594495/9ecc104653874c2e.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/"/>
+
+
+
+
+
+  <title>你不知道的JavaScript学习笔记（六）强制类型转换 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你不知道的JavaScript学习笔记（六）强制类型转换</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-30T00:00:00+08:00">
+                2017-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/" class="leancloud_visitors" data-flag-title="你不知道的JavaScript学习笔记（六）强制类型转换">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="6-1-值类型转换"><a href="#6-1-值类型转换" class="headerlink" title="6.1. 值类型转换"></a>6.1. 值类型转换</h2><p>将值从一种类型转换为另一种类型通常称为类型转换（type casting），这是显式的情况；隐式的情况称为<strong>强制类型转换</strong>（coercion）。然而在JavaScript 中通常将它们统称为强制类型转换。</p>
+<p>可用”隐式强制类型转换”（implicit coercion）和“显式强制类型转换”（explicit coercion）来区分。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = a + <span class="string">""</span>; <span class="comment">// 隐式强制类型转换</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="built_in">String</span>( a ); <span class="comment">// 显式强制类型转换</span></span><br></pre></td></tr></table></figure></p>
+<p>对变量b 而言，强制类型转换是隐式的；由于+ 运算符的其中一个操作数是字符串，所以是字符串拼接操作，结果是数字42 被强制类型转换为相应的字符串”42”。而<code>String(..)</code>则是将a 显式强制类型转换为字符串。</p>
+<a id="more"></a>
+<h2 id="6-2-抽象值操作"><a href="#6-2-抽象值操作" class="headerlink" title="6.2. 抽象值操作"></a>6.2. 抽象值操作</h2><h3 id="6-2-1-ToString"><a href="#6-2-1-ToString" class="headerlink" title="6.2.1. ToString"></a>6.2.1. ToString</h3><p>抽象操作<code>ToString</code>，负责处理非字符串到字符串的强制类型转换。</p>
+<p>基本类型值的字符串化规则为：null 转换为”null”，undefined 转换为”undefined”，true转换为”true”。数字的字符串化则遵循通用规则，不过那些极小和极大的数字使用指数形式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.07 连续乘以七个 1000</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">1.07</span> * <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span> * <span class="number">1000</span>;</span><br><span class="line"><span class="comment">// 七个1000一共21位数字</span></span><br><span class="line">a.toString(); <span class="comment">// "1.07e21"</span></span><br></pre></td></tr></table></figure></p>
+<p>对普通对象来说，除非自行定义，否则<code>toString()（Object.prototype.toString()）</code>返回内部属性<code>[[Class]]</code>的值，如”<code>[object Object]</code>“。如果对象有自己的toString() 方法，字符串化时就会调用该方法并使用其返回值。</p>
+<p>数组的默认toString() 方法经过了重新定义，将所有单元字符串化以后再用”,” 连接起来：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">a.toString(); <span class="comment">// "1,2,3"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>toString()</code> 可以被显式调用，或者在需要字符串化时自动调用。</p>
+<h4 id="JSON-字符串化"><a href="#JSON-字符串化" class="headerlink" title="JSON 字符串化"></a>JSON 字符串化</h4><p>工具函数<code>JSON.stringify(..)</code> 在将JSON 对象序列化为字符串时也用到了ToString。请注意，JSON 字符串化并非严格意义上的强制类型转换。</p>
+<p>对大多数简单值来说，JSON 字符串化和toString() 的效果基本相同，只不过序列化的结果总是字符串：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify( <span class="number">42</span> ); <span class="comment">// "42"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( <span class="string">"42"</span> ); <span class="comment">// ""42"" （含有双引号的字符串）</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( <span class="literal">null</span> ); <span class="comment">// "null"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( <span class="literal">true</span> ); <span class="comment">// "true"</span></span><br></pre></td></tr></table></figure></p>
+<p>所有安全的JSON 值（JSON-safe）都可以使用<code>JSON.stringify(..)</code>字符串化。安全的JSON 值是指能够呈现为有效JSON 格式的值。</p>
+<p>不安全的JSON 值：<code>undefined、function、symbol（ES6+）</code>和包含循环引用（对象之间相互引用，形成一个无限循环）的对象都不符合JSON结构标准，支持JSON 的语言无法处理它们。<code>JSON.stringify(..)</code>在对象中遇到<code>undefined、function 和symbol</code> 时会自动将其忽略，在数组中则会返回<code>null</code>（以保证单元位置不变）。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.stringify( <span class="literal">undefined</span> ); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; ); <span class="comment">// undefined</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify(</span><br><span class="line">	[<span class="number">1</span>,<span class="literal">undefined</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,<span class="number">4</span>]</span><br><span class="line">); <span class="comment">// "[1,null,null,4]"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify(</span><br><span class="line">	&#123; <span class="attr">a</span>:<span class="number">2</span>, <span class="attr">b</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; &#125;</span><br><span class="line">); <span class="comment">// "&#123;"a":2&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p>对包含循环引用的对象执行<code>JSON.stringify(..)</code>会出错。如果对象中定义了<code>toJSON()</code>方法，JSON 字符串化时会首先调用该方法，然后用它的返回值来进行序列化。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> o = &#123; &#125;;</span><br><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	b: <span class="number">42</span>,</span><br><span class="line">	c: o,</span><br><span class="line">	d: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在a中创建一个循环引用</span></span><br><span class="line">o.e = a;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 循环引用在这里会产生错误</span></span><br><span class="line"><span class="comment">// JSON.stringify( a );</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义的JSON序列化</span></span><br><span class="line">a.toJSON = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 序列化仅包含b</span></span><br><span class="line">	<span class="keyword">return</span> &#123; <span class="attr">b</span>: <span class="keyword">this</span>.b &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a ); <span class="comment">// "&#123;"b":42&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<p><code>toJSON()</code> 应理解为：“返回一个能够被字符串化的安全的JSON 值”，而不是“返回一个JSON 字符串”。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	val: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">	<span class="comment">// 可能是我们想要的结果！</span></span><br><span class="line">	toJSON: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.val.slice( <span class="number">1</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = &#123;</span><br><span class="line">	val: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],</span><br><span class="line">	<span class="comment">// 可能不是我们想要的结果！</span></span><br><span class="line">	toJSON: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"["</span> +</span><br><span class="line">		<span class="keyword">this</span>.val.slice( <span class="number">1</span> ).join() +</span><br><span class="line">		<span class="string">"]"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a ); <span class="comment">// "[2,3]"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( b ); <span class="comment">// ""[2,3]""</span></span><br></pre></td></tr></table></figure></p>
+<p>这里第二个函数是对toJSON 返回的字符串做字符串化，而非数组本身。</p>
+<ul>
+<li>可以向<code>JSON.stringify(..)</code>传递一个可选参数<code>replacer</code>，它可以是数组或者函数，用来指定对象序列化过程中哪些属性应该被处理，哪些应该被排除，和<code>toJSON()</code> 很像。</li>
+</ul>
+<p>如果replacer 是一个数组，那么它必须是一个字符串数组，其中包含序列化要处理的对象的属性名称，除此之外其他的属性则被忽略。如果replacer 是一个函数，它会对对象本身调用一次，然后对对象中的每个属性各调用一次，每次传递两个参数，键和值。如果要忽略某个键就返回undefined，否则返回指定的值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	b: <span class="number">42</span>,</span><br><span class="line">	c: <span class="string">"42"</span>,</span><br><span class="line">	d: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a, [<span class="string">"b"</span>,<span class="string">"c"</span>] ); <span class="comment">// "&#123;"b":42,"c":"42"&#125;"</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a, <span class="function"><span class="keyword">function</span>(<span class="params">k,v</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (k !== <span class="string">"c"</span>) <span class="keyword">return</span> v;</span><br><span class="line">&#125; );</span><br><span class="line"></span><br><span class="line"><span class="comment">// "&#123;"b":42,"d":[1,2,3]&#125;"</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>JSON.string 还有一个可选参数space，用来指定输出的缩进格式。space 为正整数时是指定每一级缩进的字符数，它还可以是字符串，此时最前面的十个字符被用于每一级的缩进：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	b: <span class="number">42</span>,</span><br><span class="line">	c: <span class="string">"42"</span>,</span><br><span class="line">	d: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a, <span class="literal">null</span>, <span class="number">3</span> );</span><br><span class="line"><span class="comment">// "&#123;</span></span><br><span class="line"><span class="comment">//    "b": 42,</span></span><br><span class="line"><span class="comment">//    "c": "42",</span></span><br><span class="line"><span class="comment">//    "d": [</span></span><br><span class="line"><span class="comment">//       1,</span></span><br><span class="line"><span class="comment">//       2,</span></span><br><span class="line"><span class="comment">//       3</span></span><br><span class="line"><span class="comment">//    ]</span></span><br><span class="line"><span class="comment">// &#125;"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a, <span class="literal">null</span>, <span class="string">"-----"</span> );</span><br><span class="line"><span class="comment">// "&#123;</span></span><br><span class="line"><span class="comment">// -----"b": 42,</span></span><br><span class="line"><span class="comment">// -----"c": "42",</span></span><br><span class="line"><span class="comment">// -----"d": [</span></span><br><span class="line"><span class="comment">// ----------1,</span></span><br><span class="line"><span class="comment">// ----------2,</span></span><br><span class="line"><span class="comment">// ----------3</span></span><br><span class="line"><span class="comment">// -----]</span></span><br><span class="line"><span class="comment">// &#125;"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>JSON.stringify(..)</code> 并不是强制类型转换，它只是涉及ToString 强制类型转换，具体表现在以下两点。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>) 字符串、数字、布尔值和<span class="literal">null</span> 的<span class="built_in">JSON</span>.stringify(..) 规则与ToString 基本相同。</span><br><span class="line">(<span class="number">2</span>) 如果传递给<span class="built_in">JSON</span>.stringify(..) 的对象中定义了toJSON() 方法，那么该方法会在字符</span><br><span class="line">串化前调用，以便将对象转换为安全的<span class="built_in">JSON</span> 值。</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-2-2-ToNumber"><a href="#6-2-2-ToNumber" class="headerlink" title="6.2.2 ToNumber"></a>6.2.2 ToNumber</h3><p>ToNumber 对字符串的处理基本遵循数字常量的相关规则/ 语法。处理失败时返回NaN（处理数字常量失败时会产生语法错误）。不同之处是ToNumber 对以0 开头的十六进制数并不按十六进制处理（而是按十进制）。</p>
+<p>对象（包括数组）会首先被转换为相应的基本类型值，如果返回的是非数字的基本类型值，则再遵循以上规则将其强制转换为数字。</p>
+<p>为了将值转换为相应的基本类型值，抽象操作<code>ToPrimitive</code>会首先（通过内部操作DefaultValue）检查该值是否有<code>valueOf()</code> 方法。如果有并且返回基本类型值，就使用该值进行强制类型转换。如果没有就使用<code>toString()</code>的返回值（如果存在）来进行强制类型转换。如果<code>valueOf() 和toString()</code>均不返回基本类型值，会产生<code>TypeError</code> 错误。</p>
+<p>从ES5 开始，使用<code>Object.create(null)</code>创建的对象<code>[[Prototype]]</code>属性为<code>null</code>，并且没有<code>valueOf() 和toString()</code>方法，因此无法进行强制类型转换。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	valueOf: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"42"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = &#123;</span><br><span class="line">	toString: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"42"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = [<span class="number">4</span>,<span class="number">2</span>];</span><br><span class="line">c.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.join( <span class="string">""</span> );	<span class="comment">// "42"</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>( a );		<span class="comment">// 42</span></span><br><span class="line"><span class="built_in">Number</span>( b );		<span class="comment">// 42</span></span><br><span class="line"><span class="built_in">Number</span>( c );		<span class="comment">// 42</span></span><br><span class="line"><span class="built_in">Number</span>( <span class="string">""</span> );		<span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>( [] );		<span class="comment">// 0</span></span><br><span class="line"><span class="built_in">Number</span>( [ <span class="string">"abc"</span> ] );	<span class="comment">// NaN</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-2-3-ToBoolean"><a href="#6-2-3-ToBoolean" class="headerlink" title="6.2.3 ToBoolean"></a>6.2.3 ToBoolean</h3><p>首先也是最重要的一点是，JavaScript 中有两个关键词true 和false，分别代表布尔类型中的真和假。我们常误以为数值1 和0 分别等同于true 和false。，但在JavaScript 中布尔值和数字是不一样的。虽然我们可以将1 强制类型转换为true，将0 强制类型转换为false，反之亦然，但它们并不是一回事。</p>
+<ul>
+<li>（1）假值</li>
+</ul>
+<p>JavaScript 中的值可以分为以下两类：<br>(1) 可以被强制类型转换为false 的值<br>(2) 其他（被强制类型转换为true 的值）<br>JavaScript 规范具体定义了一小撮可以被强制类型转换为false 的值。</p>
+<p>以下这些是假值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">• <span class="literal">undefined</span></span><br><span class="line">• <span class="literal">null</span></span><br><span class="line">• <span class="literal">false</span></span><br><span class="line">• +<span class="number">0</span>、<span class="number">-0</span> 和<span class="literal">NaN</span></span><br><span class="line">• <span class="string">""</span></span><br></pre></td></tr></table></figure></p>
+<p>假值的布尔强制类型转换结果为false。<br>从逻辑上说，假值列表以外的都应该是真值（truthy）。但JavaScript 规范对此并没有明确定义，只是给出了一些示例，例如规定所有的对象都是真值，可以理解为假值列表以外的值都是真值。</p>
+<ul>
+<li>（2）假值对象</li>
+</ul>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Boolean</span>( <span class="literal">false</span> );</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> <span class="built_in">Number</span>( <span class="number">0</span> );</span><br><span class="line"><span class="keyword">var</span> c = <span class="keyword">new</span> <span class="built_in">String</span>( <span class="string">""</span> );</span><br></pre></td></tr></table></figure></p>
+<p>它们都是封装了假值的对象。那它们究竟是true 还是false 呢？答案很简单：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="built_in">Boolean</span>( a &amp;&amp; b &amp;&amp; c );</span><br><span class="line">d; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>d 为true，说明a、b、c 都为true。</p>
+<ul>
+<li>（3）真值</li>
+</ul>
+<p>真值就是假值列表之外的值。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"false"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"0"</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="string">"''"</span>;</span><br><span class="line"><span class="keyword">var</span> d = <span class="built_in">Boolean</span>( a &amp;&amp; b &amp;&amp; c );</span><br><span class="line">d;		<span class="comment">//true</span></span><br></pre></td></tr></table></figure></p>
+<p>上例的字符串看似假值，但所有字符串都是真值。不过”” 除外，因为它是假值列表中唯一的字符串。<br>再如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = []; <span class="comment">// 空数组——是真值还是假值？</span></span><br><span class="line"><span class="keyword">var</span> b = &#123;&#125;; <span class="comment">// 空对象——是真值还是假值？</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;; <span class="comment">// 空函数——是真值还是假值？</span></span><br><span class="line"><span class="keyword">var</span> d = <span class="built_in">Boolean</span>( a &amp;&amp; b &amp;&amp; c );</span><br><span class="line">d;</span><br></pre></td></tr></table></figure></p>
+<p>d 依然是true。还是同样的道理，[]、{} 和function(){} 都不在假值列表中，因此它们都是真值。</p>
+<p>也就是说真值列表可以无限长，无法一一列举，所以只能用假值列表作为参考。</p>
+<h2 id="6-3-显式强制类型转换"><a href="#6-3-显式强制类型转换" class="headerlink" title="6.3 显式强制类型转换"></a>6.3 显式强制类型转换</h2><h3 id="6-3-1-字符串和数字之间的显式转换"><a href="#6-3-1-字符串和数字之间的显式转换" class="headerlink" title="6.3.1 字符串和数字之间的显式转换"></a>6.3.1 字符串和数字之间的显式转换</h3><p>字符串和数字之间的转换是通过<code>String(..)</code> 和<code>Number(..)</code>这两个内建函数（原生构造函数）来实现的，请注意前面没有new 关键字，并不创建封装对象。</p>
+<p>下面是两者之间的显式强制类型转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = 42;</span><br><span class="line">var b = String( a );</span><br><span class="line">var c = &quot;3.14&quot;;</span><br><span class="line">var d = Number( c );</span><br><span class="line">b; // &quot;42&quot;</span><br><span class="line">d; // 3.14</span><br></pre></td></tr></table></figure></p>
+<p>String(..) 遵循ToString 规则，将值转换为字符串基本类型。Number(..) 遵循ToNumber 规则，将值转换为数字基本类型。</p>
+<p>除了String(..) 和Number(..) 以外，还有其他方法可以实现字符串和数字之间的显式转换：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = a.toString();</span><br><span class="line"><span class="keyword">var</span> c = <span class="string">"3.14"</span>;</span><br><span class="line"><span class="keyword">var</span> d = +c;</span><br><span class="line">b; <span class="comment">// "42"</span></span><br><span class="line">d; <span class="comment">// 3.14</span></span><br></pre></td></tr></table></figure></p>
+<p>a.toString() 是显式的（“toString”意为“to a string”），不过其中涉及隐式转换。因为toString() 对42 这样的基本类型值不适用，所以JavaScript 引擎会自动为42 创建一个封装对象，然后对该对象调用toString()。这里显式转换中含有隐式转换。</p>
+<p>上例中+c 是+ 运算符的一元（unary）形式（即只有一个操作数）。+ 运算符显式地将c 转换为数字，而非数字加法运算（也不是字符串拼接）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="string">"3.14"</span>;</span><br><span class="line"><span class="keyword">var</span> d = <span class="number">5</span>+ +c;</span><br><span class="line">d; <span class="comment">// 8.14</span></span><br></pre></td></tr></table></figure>
+<p>一元运算符- 和+ 一样，并且它还会反转数字的符号位。由于<code>--</code> 会被当作递减运算符来处理，所以不能使用– 来撤销反转，而应该像<code>- -&quot;3.14&quot;</code> 这样，在中间加一个空格，才能得到正确结果3.14。</p>
+<ul>
+<li>（1）日期显式转换为数字</li>
+</ul>
+<p>一元运算符+ 的另一个常见用途是将日期（Date）对象强制类型转换为数字，返回结果为Unix 时间戳，以微秒为单位（从1970 年1 月1 日00:00:00 UTC 到当前时间）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>( <span class="string">"Mon, 18 Aug 2014 08:53:06 CDT"</span> );</span><br><span class="line">+d; <span class="comment">//1408369986000</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//常用下面的方法来获得当前的时间戳，例如：</span></span><br><span class="line"><span class="keyword">var</span> timestamp = +<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br></pre></td></tr></table></figure></p>
+<p>将日期对象转换为时间戳并非只有强制类型转换这一种方法，或许使用更显式的方法会更好一些：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timestamp = <span class="keyword">new</span> <span class="built_in">Date</span>().getTime();</span><br><span class="line"><span class="comment">// var timestamp = (new Date()).getTime();</span></span><br><span class="line"><span class="comment">// var timestamp = (new Date).getTime();</span></span><br></pre></td></tr></table></figure></p>
+<p>不过最好还是使用ES5 中新加入的静态方法<code>Date.now()</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timestamp = <span class="built_in">Date</span>.now();</span><br></pre></td></tr></table></figure></p>
+<p>为老版本浏览器提供 Date.now() 的polyfill 也很简单：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Date</span>.now) &#123;</span><br><span class="line"><span class="built_in">Date</span>.now = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> +<span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不建议对日期类型使用强制类型转换，应该使用<code>Date.now()</code>来获得当前的时间戳，使用<code>new Date(..).getTime()</code>来获得指定时间的时间戳。</p>
+<ul>
+<li>（2）奇特的~运算符</li>
+</ul>
+<p>字位运算符只适用于32 位整数，运算符会强制操作数使用32 位格式。这是通过抽象操作ToInt32 来实现的<br>字位运算符（如|和~）和某些特殊数字一起使用时会产生类似强制类型转换的效果，返回另外一个数字。</p>
+<p><code>~</code> 返回2 的补码，~x 大致等同于-(x+1)。</p>
+<p>在-(x+1) 中唯一能够得到0（或者严格说是-0）的x 值是-1。也就是说如果x 为-1 时，和一些数字值在一起会返回假值0，其他情况则返回真值。</p>
+<p>JavaScript 中字符串的<code>indexOf(..)</code>不仅能够得到子字符串的位置，还可以用来检查字符串中是否包含指定的子字符串，相当于一个条件判断。<code>~ 和indexOf()</code> 一起可以将结果强制类型转换真/ 假值。</p>
+<ul>
+<li>（3）字位截止</li>
+</ul>
+<p><code>~~</code> 中的第一个~ 执行ToInt32 并反转字位，然后第二个~ 再进行一次字位反转，即将所有字位反转回原值，最后得到的仍然是ToInt32 的结果。</p>
+<p>对~~ ，首先它只适用于32 位数字，更重要的是它对负数的处理与<code>Math.floor(..)</code> 不同。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.floor( <span class="number">-49.6</span> ); <span class="comment">// -50</span></span><br><span class="line">~~<span class="number">-49.6</span>; <span class="comment">// -49</span></span><br></pre></td></tr></table></figure></p>
+<p><code>~~x</code> 能将值截除为一个32 位整数，x | 0 也可以，而且看起来还更简洁。出于对运算符优先级的考虑，更倾向于使用<code>~~x</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~~<span class="number">1E20</span> / <span class="number">10</span>; <span class="comment">// 166199296</span></span><br><span class="line"><span class="number">1E20</span> | <span class="number">0</span> / <span class="number">10</span>; <span class="comment">// 1661992960</span></span><br><span class="line">(<span class="number">1E20</span> | <span class="number">0</span>) / <span class="number">10</span>; <span class="comment">// 166199296</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6-3-2-显式解析数字字符串"><a href="#6-3-2-显式解析数字字符串" class="headerlink" title="6.3.2 显式解析数字字符串"></a>6.3.2 显式解析数字字符串</h3><p>解析字符串中的数字和将字符串强制类型转换为数字的返回结果都是数字。但解析和转换两者之间还是有明显的差别。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"42px"</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Number</span>( a ); <span class="comment">// 42</span></span><br><span class="line"><span class="built_in">parseInt</span>( a ); <span class="comment">// 42</span></span><br><span class="line"><span class="built_in">Number</span>( b ); <span class="comment">// NaN</span></span><br><span class="line"><span class="built_in">parseInt</span>( b ); <span class="comment">// 42</span></span><br></pre></td></tr></table></figure></p>
+<p>解析允许字符串中含有非数字字符，解析按从左到右的顺序，如果遇到非数字字符就停止。而转换不允许出现非数字字符，否则会失败并返回NaN。</p>
+<p>ES5 之前的<code>parseInt(..)</code> 有一个坑导致了很多bug。即如果没有第二个参数来指定转换的<strong>基数</strong>（又称为radix），parseInt(..) 会根据字符串的第一个字符来自行决定基数。从ES5 开始<code>parseInt(..)</code> 默认转换为十进制数，除非另外指定。如果你的代码需要在ES5之前的环境运行，请记得将第二个参数设置为10。</p>
+<h3 id="6-3-3-显式转换为布尔值"><a href="#6-3-3-显式转换为布尔值" class="headerlink" title="6.3.3 显式转换为布尔值"></a>6.3.3 显式转换为布尔值</h3><p>与前面的String(..) 和Number(..) 一样，<code>Boolean(..)</code>（不带new）是显式的<code>ToBoolean</code>强制类型转换：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"0"</span>;</span><br><span class="line"><span class="keyword">var</span> b = [];</span><br><span class="line"><span class="keyword">var</span> c = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> d = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">var</span> e = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> f = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> g;</span><br><span class="line"><span class="built_in">Boolean</span>( a ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Boolean</span>( b ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Boolean</span>( c ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Boolean</span>( d ); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>( e ); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>( f ); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Boolean</span>( g ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>虽然Boolean(..) 是显式的，但并不常用。<br>一元运算符<code>!</code>显式地将值强制类型转换为布尔值。但是它同时还将真值反转为假值（或者将假值反转为真值）。所以显式强制类型转换为布尔值最常用的方法是<code>!!</code>，因为第二个! 会将结果反转回原值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"0"</span>;</span><br><span class="line"><span class="keyword">var</span> b = [];</span><br><span class="line"><span class="keyword">var</span> c = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> d = <span class="string">""</span>;</span><br><span class="line"><span class="keyword">var</span> e = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> f = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> g;</span><br><span class="line"></span><br><span class="line">!!a; <span class="comment">// true</span></span><br><span class="line">!!b; <span class="comment">// true</span></span><br><span class="line">!!c; <span class="comment">// true</span></span><br><span class="line">!!d; <span class="comment">// false</span></span><br><span class="line">!!e; <span class="comment">// false</span></span><br><span class="line">!!f; <span class="comment">// false</span></span><br><span class="line">!!g; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>显式ToBoolean 的另外一个用处，是在JSON 序列化过程中将值强制类型转换为true 或false：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [</span><br><span class="line">	<span class="number">1</span>,</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">/*..*/</span> &#125;,</span><br><span class="line">	<span class="number">2</span>,</span><br><span class="line">	<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="comment">/*..*/</span> &#125;</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a ); <span class="comment">// "[1,null,2,null]"</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a, <span class="function"><span class="keyword">function</span>(<span class="params">key,val</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">typeof</span> val == <span class="string">"function"</span>) &#123;</span><br><span class="line">		<span class="comment">// 函数的ToBoolean强制类型转换</span></span><br><span class="line">		<span class="keyword">return</span> !!val;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> val;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; );</span><br><span class="line"><span class="comment">// "[1,true,2,true]"</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = a ? <span class="literal">true</span> : <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+<p>三元运算符<code>? :</code>判断a 是否为真，如果是则将变量b 赋值为true，否则赋值为false。<br>这里涉及隐式强制类型转换，因为a 要首先被强制类型转换为布尔值才能进行条件判断。这种情况称为“显式的隐式”，应尽量不适用。</p>
+<h2 id="6-4-隐式强制类型转换"><a href="#6-4-隐式强制类型转换" class="headerlink" title="6.4 隐式强制类型转换"></a>6.4 隐式强制类型转换</h2><p>隐式强制类型转换指的是那些隐蔽的强制类型转换，副作用也不是很明显。显式强制类型转换旨在让代码更加清晰易读，而隐式强制类型转换看起来就像是它的对立面，会让代码变得晦涩难懂。</p>
+<h3 id="6-4-1-隐式地简化"><a href="#6-4-1-隐式地简化" class="headerlink" title="6.4.1 隐式地简化"></a>6.4.1 隐式地简化</h3><p>我们先来看一个例子，它不是JavaScript 代码，而是强类型语言的伪代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SomeType x = SomeType( AnotherType( y ) )</span><br></pre></td></tr></table></figure></p>
+<p>其中变量y 的值被转换为SomeType 类型。问题是语言本身不允许直接将y 转换为SomeType 类型。于是需要一个中间步骤，先将y 转换为AnotherType 类型，然后再从AnotherType 转换为SomeType。</p>
+<p>如果能够这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SomeType x = SomeType( y )</span><br></pre></td></tr></table></figure></p>
+<p>省去了中间步骤以后，类型转换变得更简洁了。这些无关紧要的中间步骤可以也应该被隐藏。</p>
+<p>虽然这并非是个十分恰当的隐式强制类型转换的例子，但应该理解，隐式强制类型转换同样可以用来提高代码可读性。然而隐式强制类型转换也会带来一些负面影响，有时甚至是弊大于利。</p>
+<h3 id="6-4-2-字符串和数字之间的隐式强制类型转换"><a href="#6-4-2-字符串和数字之间的隐式强制类型转换" class="headerlink" title="6.4.2 字符串和数字之间的隐式强制类型转换"></a>6.4.2 字符串和数字之间的隐式强制类型转换</h3><p>通过重载，+ 运算符即能用于数字加法，也能用于字符串拼接。JavaScript 怎样来判断要执行的是哪个操作？例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"0"</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> d = <span class="number">0</span>;</span><br><span class="line">a + b; <span class="comment">// "420"</span></span><br><span class="line">c + d; <span class="comment">// 42</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>];</span><br><span class="line"><span class="keyword">var</span> b = [<span class="number">3</span>,<span class="number">4</span>];</span><br><span class="line">a + b; <span class="comment">// "1,23,4"</span></span><br></pre></td></tr></table></figure></p>
+<p>根据ES5 规范，如果某个操作数是字符串或者能够通过以下步骤转换为字符串的话，<code>+</code> 将进行拼接操作。如果其中一个操作数是对象（包括数组），则首先对其调用<code>ToPrimitive</code> 抽象操作，该抽象操作再调用<code>[[DefaultValue]]</code>，以数字作为上下文。</p>
+<p>这与ToNumber 抽象操作处理对象的方式一样。因为数组的valueOf() 操作无法得到简单基本类型值，于是它转而调用toString()。因此上例中的两个数组变成了”1,2” 和”3,4”。+ 将它们拼接后返回”1,23,4”。</p>
+<p>如果<code>+</code> 的其中一个操作数是字符串（或者通过以上步骤可以得到字符串），则执行字符串拼接；否则执行数字加法。</p>
+<p>可以将数字和空字符串 “” 相+ 来将其转换为字符串：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = a + <span class="string">""</span>;</span><br><span class="line">b; <span class="comment">// "42"</span></span><br></pre></td></tr></table></figure></p>
+<p>a + “”（隐式）和前面的String(a)（显式）之间有一个细微的差别需要注意。根据ToPrimitive 抽象操作规则，a + “” 会对a 调用valueOf() 方法，然后通过ToString 抽象操作将返回值转换为字符串。而String(a) 则是直接调用ToString()。</p>
+<p>它们最后返回的都是字符串，但如果a 是对象而非数字结果可能会不一样！<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;</span><br><span class="line">	valueOf: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">42</span>; &#125;,</span><br><span class="line">	toString: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">4</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line">a + <span class="string">""</span>; <span class="comment">// "42"</span></span><br><span class="line"><span class="built_in">String</span>( a ); <span class="comment">// "4"</span></span><br></pre></td></tr></table></figure></p>
+<p>再来看看从字符串强制类型转换为数字的情况。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"3.14"</span>;</span><br><span class="line"><span class="keyword">var</span> b = a - <span class="number">0</span>;</span><br><span class="line">b; <span class="comment">// 3.14</span></span><br></pre></td></tr></table></figure></p>
+<p><code>-</code>是数字减法运算符，因此a - 0 会将a 强制类型转换为数字。也可以使用<code>a * 1</code> 和<code>a /1</code>，因为这两个运算符也只适用于数字，只不过这样的用法不太常见。</p>
+<p>对象的- 操作与+ 类似：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = [<span class="number">1</span>];</span><br><span class="line">a - b; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>为了执行减法运算，a 和b 都需要被转换为数字，它们首先被转换为字符串（通过toString()），然后再转换为数字。</p>
+<h3 id="6-4-3-布尔值到数字的隐式强制类型转换"><a href="#6-4-3-布尔值到数字的隐式强制类型转换" class="headerlink" title="6.4.3 布尔值到数字的隐式强制类型转换"></a>6.4.3 布尔值到数字的隐式强制类型转换</h3><p>在将某些复杂的布尔逻辑转换为数字加法的时候，隐式强制类型转换能派上大用场。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onlyOne</span>(<span class="params">a,b,c</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> !!((a &amp;&amp; !b &amp;&amp; !c) ||</span><br><span class="line">		(!a &amp;&amp; b &amp;&amp; !c) || (!a &amp;&amp; !b &amp;&amp; c));</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">false</span>;</span><br><span class="line">onlyOne( a, b, b ); <span class="comment">// true</span></span><br><span class="line">onlyOne( b, a, b ); <span class="comment">// true</span></span><br><span class="line">onlyOne( a, b, a ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>如果其中有且仅有一个参数为true，则onlyOne(..) 返回true。其在条件判断中使用了隐式强制类型转换，其他地方则是显式的，包括最后的返回值。</p>
+<p>但如果有多个参数时（4 个、5 个，甚至20 个），用上面的代码就很难处理了。这时就可以使用从布尔值到数字（0 或1）的强制类型转换：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onlyOne</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">	<span class="comment">// 跳过假值，和处理0一样，但是避免了NaN</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">arguments</span>[i]) &#123;</span><br><span class="line">		sum += <span class="built_in">arguments</span>[i];</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> sum == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">false</span>;</span><br><span class="line">onlyOne( b, a ); <span class="comment">// true</span></span><br><span class="line">onlyOne( b, a, b, b, b ); <span class="comment">// true</span></span><br><span class="line">onlyOne( b, b ); <span class="comment">// false</span></span><br><span class="line">onlyOne( b, a, b, b, b, a ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>通过sum += arguments[i] 中的隐式强制类型转换，将真值（true/truthy）转换为1 并进行累加。如果有且仅有一个参数为true，则结果为1；否则不等于1，sum == 1 条件不成立。</p>
+<p>同样的功能也可以通过显式强制类型转换来实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onlyOne</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; <span class="built_in">arguments</span>.length; i++) &#123;</span><br><span class="line">		sum += <span class="built_in">Number</span>( !!<span class="built_in">arguments</span>[i] );</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sum === <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>!!arguments[i]</code> 首先将参数转换为true 或false。因此非布尔值参数在这里也是可以的，比如：onlyOne(“42”, 0)（否则的话，字符串会执行拼接操作，这样结果就不对了）。转换为布尔值以后，再通过Number(..) 显式强制类型转换为0 或1。</p>
+<h3 id="6-4-4-隐式强制类型转换为布尔值"><a href="#6-4-4-隐式强制类型转换为布尔值" class="headerlink" title="6.4.4 隐式强制类型转换为布尔值"></a>6.4.4 隐式强制类型转换为布尔值</h3><p>下面的情况会发生布尔值隐式强制类型转换：</p>
+<ul>
+<li>(1) if (..) 语句中的条件判断表达式。</li>
+<li>(2) for ( .. ; .. ; .. ) 语句中的条件判断表达式（第二个）。</li>
+<li>(3) while (..) 和do..while(..) 循环中的条件判断表达式。</li>
+<li>(4) ? : 中的条件判断表达式。</li>
+<li>(5) 逻辑运算符||（逻辑或）和&amp;&amp;（逻辑与）左边的操作数（作为条件判断表达式）。</li>
+</ul>
+<p>以上情况中，非布尔值会被隐式强制类型转换为布尔值，遵循前面介绍过的ToBoolean 抽象操作规则。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">var</span> c;</span><br><span class="line"><span class="keyword">var</span> d = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"yep"</span> ); <span class="comment">// yep</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (c) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"nope, never runs"</span> );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">c = d ? a : b;</span><br><span class="line">c; 	<span class="comment">// "abc"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ((a &amp;&amp; d) || c) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"yep"</span> ); 	<span class="comment">// yep</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上例中的非布尔值会被隐式强制类型转换为布尔值以便执行条件判断。</p>
+<h3 id="6-4-5-和-amp-amp"><a href="#6-4-5-和-amp-amp" class="headerlink" title="6.4.5 || 和 &amp;&amp;"></a>6.4.5 || 和 &amp;&amp;</h3><p>和其他语言不同，在JavaScript 中逻辑运算符||（或）和&amp;&amp;（与）返回的并不是布尔值。</p>
+<p>它们的返回值是两个操作数中的一个（且仅一个）。即选择两个操作数中的一个，然后返回它的值。</p>
+<blockquote>
+<p>引述ES5 规范11.11 节：<br>&amp;&amp; 和|| 运算符的返回值并不一定是布尔类型，而是两个操作数其中一个的值。</p>
+</blockquote>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">a || b; <span class="comment">// 42</span></span><br><span class="line">a &amp;&amp; b; <span class="comment">// "abc"</span></span><br><span class="line"></span><br><span class="line">c || b; <span class="comment">// "abc"</span></span><br><span class="line">c &amp;&amp; b; <span class="comment">// null</span></span><br></pre></td></tr></table></figure></p>
+<p>在C 和PHP 中，上例的结果是true 或false，在JavaScript（以及Python 和Ruby）中却是某个操作数的值。</p>
+<p>|| 和&amp;&amp; 首先会对第一个操作数（a 和c）执行条件判断，如果其不是布尔值（如上例）就先进行ToBoolean 强制类型转换，然后再执行条件判断。</p>
+<p>对于|| 来说，如果条件判断结果为true 就返回第一个操作数（a 和c）的值，如果为false 就返回第二个操作数（b）的值。<br>&amp;&amp; 则相反，如果条件判断结果为true 就返回第二个操作数（b）的值，如果为false 就返回第一个操作数（a 和c）的值。</p>
+<p>|| 和&amp;&amp; 返回它们其中一个操作数的值，而非条件判断的结果（其中可能涉及强制类型转换）。c &amp;&amp; b 中c 为null，是一个假值，因此&amp;&amp; 表达式的结果是null（即c 的值），而非条件判断的结果false。</p>
+<p>换一个角度来理解：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a || b;</span><br><span class="line"><span class="comment">// 大致相当于(roughly equivalent to):</span></span><br><span class="line">a ? a : b;</span><br><span class="line">a &amp;&amp; b;</span><br><span class="line"><span class="comment">// 大致相当于(roughly equivalent to):</span></span><br><span class="line">a ? b : a;</span><br></pre></td></tr></table></figure></p>
+<p>之所以说大致相当，是因为它们返回结果虽然相同但是却有一个细微的差别。在a ? a : b 中，如果a 是一个复杂一些的表达式（比如有副作用的函数调用等），它有可能被执行两次（如果第一次结果为真）。而在a || b 中a只执行一次，其结果用于条件判断和返回结果（如果适用的话）。a &amp;&amp; b 和a ?b : a 也是如此。</p>
+<p>下面是一个十分常见的|| 的用法，也许你已经用过但并未完全理解：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    a = a || <span class="string">"hello"</span>;</span><br><span class="line">    b = b || <span class="string">"world"</span>;</span><br><span class="line">    <span class="built_in">console</span>.log( a + <span class="string">" "</span> + b );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(); <span class="comment">// "hello world"</span></span><br><span class="line">foo( <span class="string">"yeah"</span>, <span class="string">"yeah!"</span> ); <span class="comment">// "yeah yeah!"</span></span><br></pre></td></tr></table></figure></p>
+<p>a = a || “hello”（又称为C# 的“空值合并运算符”的JavaScript 版本）检查变量a，如果还未赋值（或者为假值），就赋予它一个默认值（”hello”）。</p>
+<p>这里需要注意！<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo( <span class="string">"That’s it!"</span>, <span class="string">""</span> ); <span class="comment">// "That’s it! world" &lt;-- 晕!</span></span><br></pre></td></tr></table></figure></p>
+<p>第二个参数”” 是一个假值（falsy value），因此b = b || “world” 条件不成立，返回默认值”world”。</p>
+<p>这种用法很常见，但是其中不能有假值，除非加上更明确的条件判断，或者转而使用<code>? :</code>三元表达式。</p>
+<p>再来看看&amp;&amp;。<br>有一种用法对开发人员不常见，然而JavaScript 代码压缩工具常用。就是如果第一个操作数为真值，则&amp;&amp; 运算符“选择”第二个操作数作为返回值，这也叫作“<strong>守护运算符</strong>”（guard operator），即前面的表达式为后面的表达式“把关”：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log( a );</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line">a &amp;&amp; foo(); <span class="comment">// 42</span></span><br></pre></td></tr></table></figure>
+<p>foo() 只有在条件判断a 通过时才会被调用。如果条件判断未通过，a &amp;&amp; foo() 就会悄然终止（也叫作“<strong>短路</strong>”，short circuiting），foo() 不会被调用。</p>
+<p>这样的用法对开发人员不太常见，开发人员通常使用if (a) { foo(); }。但JavaScript代码压缩工具用的是a &amp;&amp; foo()，因为更简洁。</p>
+<p>|| 和&amp;&amp; 各自有它们的用武之地，前提是我们理解并且愿意在代码中运用隐式强制类型转换。<br>条件判断表达式最后还会执行布尔值的隐式强制类型转换。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">if</span> (a &amp;&amp; (b || c)) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"yep"</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里a &amp;&amp; (b || c) 的结果实际上是”foo” 而非true，然后再由if 将foo 强制类型转换为布尔值，所以最后结果为true。<br>现在明白了吧，这里发生了隐式强制类型转换。如果要避免隐式强制类型转换就得这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!!a &amp;&amp; (!!b || !!c)) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"yep"</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-4-6-符号的强制类型转换"><a href="#6-4-6-符号的强制类型转换" class="headerlink" title="6.4.6 符号的强制类型转换"></a>6.4.6 符号的强制类型转换</h3><p>之前我们介绍的显式和隐式强制类型转换结果是一样的，它们之间的差异仅仅体现在代码可读性方面。</p>
+<p>但ES6 中引入了符号类型，它的强制类型转换有一个坑，在这里有必要提一下。<strong>ES6 允许从符号到字符串的显式强制类型转换，然而隐式强制类型转换会产生错误。</strong></p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> s1 = <span class="built_in">Symbol</span>( <span class="string">"cool"</span> );</span><br><span class="line"><span class="built_in">String</span>( s1 );	 <span class="comment">// "Symbol(cool)"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> s2 = <span class="built_in">Symbol</span>( <span class="string">"not cool"</span> );</span><br><span class="line">s2 + <span class="string">""</span>; 		 <span class="comment">// TypeError</span></span><br></pre></td></tr></table></figure></p>
+<p>符号不能够被强制类型转换为数字（显式和隐式都会产生错误），但<strong>可以被强制类型转换为布尔值（显式和隐式结果都是true）</strong>。<br>由于规则缺乏一致性，我们要对ES6 中符号的强制类型转换多加小心。好在鉴于符号的特殊用途，我们不会经常用到它的强制类型转换。</p>
+<h2 id="6-5-宽松相等和严格相等"><a href="#6-5-宽松相等和严格相等" class="headerlink" title="6.5 宽松相等和严格相等"></a>6.5 宽松相等和严格相等</h2><p>宽松相等（loose equals）== 和严格相等（strict equals）=== 都用来判断两个值是否“相等”，但是它们之间有一个很重要的区别，特别是在判断条件上。常见的误区是“== 检查值是否相等，=== 检查值和类型是否相等”。听起来蛮有道理，然而<br>还不够准确。很多JavaScript 的书籍和博客也是这样来解释的，但是很遗憾他们都错了。</p>
+<p><strong>正确的解释是：“== 允许在相等比较中进行强制类型转换，而=== 不允许。”</strong></p>
+<h3 id="6-5-1-相等比较操作的性能"><a href="#6-5-1-相等比较操作的性能" class="headerlink" title="6.5.1 相等比较操作的性能"></a>6.5.1 相等比较操作的性能</h3><p>我们来看一看两种解释的区别。<br>根据第一种解释（不准确的版本），=== 似乎比== 做的事情更多，因为它还要检查值的类型。第二种解释中== 的工作量更大一些，因为如果值的类型不同还需要进行强制类型转换。</p>
+<p>有人觉得== 会比=== 慢，实际上虽然强制类型转换确实要多花点时间，但仅仅是微秒级（百万分之一秒）的差别而已。<br>如果进行比较的两个值类型相同，则== 和=== 使用相同的算法，所以除了JavaScript 引擎实现上的细微差别之外，它们之间并没有什么不同。</p>
+<p>如果两个值的类型不同，我们就需要考虑有没有强制类型转换的必要，有就用==，没有就用===，不用在乎性能。</p>
+<h3 id="6-5-2-抽象相等"><a href="#6-5-2-抽象相等" class="headerlink" title="6.5.2 抽象相等"></a>6.5.2 抽象相等</h3><blockquote>
+<p>ES5 规范11.9.3 节的“抽象相等比较算法”定义了== 运算符的行为。该算法简单而又全面，涵盖了所有可能出现的类型组合，以及它们进行强制类型转换的方式。</p>
+</blockquote>
+<p>其中第一段（11.9.3.1）规定如果两个值的类型相同，就仅比较它们是否相等。例如，42等于42，”abc” 等于”abc”。</p>
+<p>有几个非常规的情况需要注意。</p>
+<ul>
+<li>NaN 不等于NaN（参见第2 章）。</li>
+<li>+0 等于-0（参见第2 章）。</li>
+</ul>
+<p>11.9.3.1 的最后定义了对象（包括函数和数组）的宽松相等==。两个对象指向同一个值时即视为相等，不发生强制类型转换。</p>
+<p>11.9.3 节中还规定，== 在比较两个不同类型的值时会发生隐式强制类型转换，会将其中之一或两者都转换为相同的类型后再进行比较。</p>
+<ul>
+<li>（1）字符串和数字之间的相等比较</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"42"</span>;</span><br><span class="line">a === b; 	<span class="comment">// false</span></span><br><span class="line">a == b; 	 <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>因为没有强制类型转换，所以a === b 为false，42 和”42” 不相等。而a == b 是宽松相等，即如果两个值的类型不同，则对其中之一或两者都进行强制类型转换。</p>
+<p>具体怎么转换？是a 从42 转换为字符串，还是b 从”42” 转换为数字？</p>
+<blockquote>
+<p>ES5 规范11.9.3.4-5 这样定义：<br>(1) 如果Type(x) 是数字，Type(y) 是字符串，则返回x == ToNumber(y) 的结果。<br>(2) 如果Type(x) 是字符串，Type(y) 是数字，则返回ToNumber(x) == y 的结果。</p>
+</blockquote>
+<p>根据规范，”42” 应该被强制类型转换为数字以便进行相等比较。。</p>
+<ul>
+<li>（2） 其他类型和布尔类型之间的相等比较</li>
+</ul>
+<p>== 最容易出错的一个地方是true 和false 与其他类型之间的相等比较。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="literal">true</span>;</span><br><span class="line">a == b; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>我们都知道”42” 是一个真值，为什么== 的结果不是true 呢？原因既简单又复杂，让人很容易掉坑里，很多JavaScript 开发人员对这个地方并未引起足够的重视。</p>
+<blockquote>
+<p>规范11.9.3.6-7 是这样说的：<br>(1) 如果Type(x) 是布尔类型，则返回ToNumber(x) == y 的结果；<br>(2) 如果Type(y) 是布尔类型，则返回x == ToNumber(y) 的结果。</p>
+</blockquote>
+<p>仔细分析例子，首先：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="string">"42"</span>;</span><br><span class="line">x == y; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>Type(x) 是布尔值，所以ToNumber(x) 将true 强制类型转换为1，变成1 == “42”，二者的类型仍然不同，”42” 根据规则被强制类型转换为42，最后变成1 == 42，结果为false。</p>
+<p>反过来也一样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x = <span class="string">"42"</span>;</span><br><span class="line"><span class="keyword">var</span> y = <span class="literal">false</span>;</span><br><span class="line">x == y; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>Type(y) 是布尔值，所以ToNumber(y) 将false 强制类型转换为0，然后”42” == 0 再变成42 == 0，结果为false。</p>
+<p>“42” 是一个真值没错，但”42” == true 中并没有发生布尔值的比较和强制类型转换。这里不是”42” 转换为布尔值（true），而是true 转换为1，”42” 转换为42。这里并不涉及ToBoolean，所以”42” 是真值还是假值与== 本身没有关系！</p>
+<p>建议无论什么情况下都不要使用== true 和== false。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"42"</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不要这样用，条件判断不成立：</span></span><br><span class="line"><span class="keyword">if</span> (a == <span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 也不要这样用，条件判断不成立：</span></span><br><span class="line"><span class="keyword">if</span> (a === <span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样的显式用法没问题：</span></span><br><span class="line"><span class="keyword">if</span> (a) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样的显式用法更好：</span></span><br><span class="line"><span class="keyword">if</span> (!!a) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样的显式用法也很好：</span></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">Boolean</span>( a )) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>避免了== true 和== false（也叫作布尔值的宽松相等）之后我们就不用担心这些坑了。</p>
+<ul>
+<li>（3）null 和undefined 之间的相等比较</li>
+</ul>
+<p>null 和undefined 之间的== 也涉及隐式强制类型转换。</p>
+<blockquote>
+<p>ES5 规范11.9.3.2-3 规定：<br>(1) 如果x 为null，y 为undefined，则结果为true。<br>(2) 如果x 为undefined，y 为null，则结果为true。</p>
+</blockquote>
+<p>在== 中null 和undefined 相等（它们也与其自身相等），除此之外其他值都不存在这种情况。也就是说在== 中null 和undefined 是一回事，可以相互进行隐式强制类型转换：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> b;</span><br><span class="line">a == b; 	<span class="comment">// true</span></span><br><span class="line">a == <span class="literal">null</span>;  <span class="comment">// true</span></span><br><span class="line">b == <span class="literal">null</span>;  <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line">a == <span class="literal">false</span>; <span class="comment">// false</span></span><br><span class="line">b == <span class="literal">false</span>; <span class="comment">// false</span></span><br><span class="line">a == <span class="string">""</span>;    <span class="comment">// false</span></span><br><span class="line">b == <span class="string">""</span>;    <span class="comment">// false</span></span><br><span class="line">a == <span class="number">0</span>; 	<span class="comment">// false</span></span><br><span class="line">b == <span class="number">0</span>;	 <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>null 和undefined 之间的强制类型转换是安全可靠的，上例中除null 和undefined 以外的其他值均无法得到假阳（false positive）结果。个人认为通过这种方式将null 和undefined作为等价值来处理比较好。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = doSomething();</span><br><span class="line"><span class="keyword">if</span> (a == <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>条件判断a == null 仅在doSomething() 返回非null 和undefined 时才成立，除此之外其他值都不成立，包括0、false 和”” 这样的假值。</p>
+<p>下面是显式的做法，其中不涉及强制类型转换，个人感觉更繁琐一些（大概执行效率也会更低）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = doSomething();</span><br><span class="line"><span class="keyword">if</span> (a === <span class="literal">undefined</span> || a === <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>（4）对象和非对象之间的相等比较</li>
+</ul>
+<p>关于对象（对象/ 函数/ 数组）和标量基本类型（字符串/ 数字/ 布尔值）之间的相等比较，</p>
+<blockquote>
+<p>ES5 规范11.9.3.8-9 做如下规定：<br>(1) 如果Type(x) 是字符串或数字，Type(y) 是对象，则返回x == ToPrimitive(y) 的结果；<br>(2) 如果Type(x) 是对象，Type(y) 是字符串或数字，则返回ToPromitive(x) == y 的结果。</p>
+</blockquote>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = [ <span class="number">42</span> ];</span><br><span class="line">a == b; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>[ 42 ] 首先调用ToPromitive 抽象操作，返回”42”，变成”42” == 42，然后又变成42 == 42，最后二者相等。</p>
+<p>之前介绍过的ToPromitive 抽象操作的所有特性（如toString()、valueOf()）在这里都适用。如果我们需要自定义valueOf() 以便从复杂的数据结构返回一个简单值进行相等比较，这些特性会很有帮助。</p>
+<p>我们介绍过“拆封”，即“打开”封装对象（如new String(“abc”)），返回其中的基本数据类型值（”abc”）。== 中的ToPromitive 强制类型转换也会发生这样的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"abc"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="built_in">Object</span>( a ); <span class="comment">// 和new String( a )一样</span></span><br><span class="line">a === b; <span class="comment">// false</span></span><br><span class="line">a == b; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>a == b 结果为true，因为b 通过ToPromitive 进行强制类型转换（也称为“拆封”，英文为unboxed 或者unwrapped），并返回标量基本类型值”abc”，与a 相等。但有一些值不这样，原因是== 算法中其他优先级更高的规则。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="built_in">Object</span>( a ); <span class="comment">// 和Object()一样</span></span><br><span class="line">a == b; <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">var</span> d = <span class="built_in">Object</span>( c ); <span class="comment">// 和Object()一样</span></span><br><span class="line">c == d; <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> e = <span class="literal">NaN</span>;</span><br><span class="line"><span class="keyword">var</span> f = <span class="built_in">Object</span>( e ); <span class="comment">// 和new Number( e )一样</span></span><br><span class="line">e == f; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>因为没有对应的封装对象，所以null 和undefined 不能够被封装（boxed），Object(null)和Object() 均返回一个常规对象。<br>NaN 能够被封装为数字封装对象，但拆封之后NaN == NaN 返回false，因为NaN 不等于NaN。</p>
+<ul>
+<li>（3）比较少见的情况</li>
+</ul>
+<p>首先来看看更改内置原生原型会导致哪些奇怪的结果。</p>
+<p><strong>a. 返回其他数字</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.prototype.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">3</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Number</span>( <span class="number">2</span> ) == <span class="number">3</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>2 == 3 不会有这种问题，因为2 和3 都是数字基本类型值，不会调用Number.prototype.valueOf() 方法。而Number(2) 涉及ToPrimitive 强制类型转换，因此会调用valueOf()。</p>
+<p>还有更奇怪的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (a == <span class="number">2</span> &amp;&amp; a == <span class="number">3</span>) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>你也许觉得这不可能，因为a 不会同时等于2 和3。但“同时”一词并不准确，因为a ==2 在a == 3 之前执行。</p>
+<p>如果让a.valueOf() 每次调用都产生副作用，比如第一次返回2，第二次返回3，就会出现这样的情况。这实现起来很简单：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i = <span class="number">2</span>;</span><br><span class="line"><span class="built_in">Number</span>.prototype.valueOf = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> i++;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> <span class="built_in">Number</span>( <span class="number">42</span> );</span><br><span class="line"><span class="keyword">if</span> (a == <span class="number">2</span> &amp;&amp; a == <span class="number">3</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"Yep, this happened."</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再次强调，千万不要这样，也不要因此而抱怨强制类型转换。对一种机制的滥用并不能成为诟病它的借口。我们应该正确合理地运用强制类型转换，避免这些极端的情况。</p>
+<p><strong>b. 假值的相等比较</strong></p>
+<p>== 中的隐式强制类型转换最为人诟病的地方是假值的相等比较。<br>下面分别列出了常规和非常规的情况：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"0"</span> == <span class="literal">null</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="string">"0"</span> == <span class="literal">undefined</span>; <span class="regexp">/	/</span> <span class="literal">false</span></span><br><span class="line"><span class="string">"0"</span> == <span class="literal">false</span>; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">"0"</span> == <span class="literal">NaN</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="string">"0"</span> == <span class="number">0</span>; 	<span class="comment">// true</span></span><br><span class="line"><span class="string">"0"</span> == <span class="string">""</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="literal">null</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="literal">undefined</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="literal">NaN</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="literal">false</span> == <span class="number">0</span>; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == <span class="string">""</span>; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == []; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == &#123;&#125;; 	<span class="comment">// false</span></span><br><span class="line"><span class="string">""</span> == <span class="literal">null</span>;	 <span class="comment">// false</span></span><br><span class="line"><span class="string">""</span> == <span class="literal">undefined</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="string">""</span> == <span class="literal">NaN</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="string">""</span> == <span class="number">0</span>; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">""</span> == []; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">""</span> == &#123;&#125;; 	<span class="comment">// false</span></span><br><span class="line"><span class="number">0</span> == <span class="literal">null</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="number">0</span> == <span class="literal">undefined</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="number">0</span> == <span class="literal">NaN</span>; 	<span class="comment">// false</span></span><br><span class="line"><span class="number">0</span> == []; 	<span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="number">0</span> == &#123;&#125;; 	<span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<p>以上24 种情况中有17 种比较好理解。比如我们都知道”” 和NaN 不相等，”0” 和0 相等。然而有7 种我们注释了“晕！”，因为它们属于假阳（false positive）的情况，里面坑很多。”” 和0 明显是两个不同的值，它们之间的强制类型转换很容易搞错。请注意这里不存在假阴（false negative）的情况。</p>
+<p><strong>c.极端情况</strong></p>
+<p>这还不算完，还有更极端的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[] == ![] <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>看起来这似乎是真值和假值的相等比较，结果不应该是true，因为一个值不可能同时既是真值也是假值！</p>
+<p>根据ToBoolean 规则，它会进行布尔值的显式强制类型转换（同时反转奇偶校验位）。所以[] == ![] 变成了[] == false。前<br>面我们讲过false == []，最后的结果就顺理成章了。</p>
+<p>再来看看其他情况：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2</span> == [<span class="number">2</span>]; <span class="comment">// true</span></span><br><span class="line"><span class="string">""</span> == [<span class="literal">null</span>]; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>介绍ToNumber 时我们讲过，== 右边的值[2] 和[null] 会进行ToPrimitive 强制类型转换，以便能够和左边的基本类型值（2 和””）进行比较。因为数组的valueOf() 返回数组本身，所以强制类型转换过程中数组会进行字符串化。</p>
+<p>第一行中的[2] 会转换为”2”，然后通过ToNumber 转换为2。第二行中的[null] 会直接转换为””。所以最后的结果就是2 == 2 和”” == “”。</p>
+<p>如果还是觉得头大，那么你的困惑可能并非来自强制类型转换，而是ToPrimitive 将数组转换为字符串这一过程。也许你认为[2].toString() 返回的不是”2”，[null].toString()返回的也不是””。</p>
+<p>还有一个坑常常被提到：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span> == <span class="string">"\n"</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>前面介绍过，””、”\n”（或者” “ 等其他空格组合）等空字符串被ToNumber 强制类型转换为0。</p>
+<p>上述7 种情况基本涵盖了所有我们可能遇到的坑（除修改valueOf() 和toStrign() 的情况以外）。<br>与前面24 种情况列表相对应的是下面这些例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">42</span> == <span class="string">"43"</span>; <span class="comment">// false</span></span><br><span class="line"><span class="string">"foo"</span> == <span class="number">42</span>; <span class="comment">// false</span></span><br><span class="line"><span class="string">"true"</span> == <span class="literal">true</span>; <span class="comment">// false</span></span><br><span class="line"><span class="number">42</span> == <span class="string">"42"</span>; <span class="comment">// true</span></span><br><span class="line"><span class="string">"foo"</span> == [ <span class="string">"foo"</span> ]; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>这些是非假值的常规情况（实际上还可以加上无穷大数字的相等比较），其中涉及的强制类型转换是安全的，也比较好理解。</p>
+<p><strong>d.完整性检查</strong></p>
+<p>前面列举了相等比较中的强制类型转换的7 个坑，不过另外还有至少17 种情况是绝对安全和容易理解的。</p>
+<p>因为7 棵歪脖树而放弃整片森林似乎有点因噎废食了，所以明智的做法是扬其长避其短。<br>再来看看那些“短”的地方：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"0"</span> == <span class="literal">false</span>; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == <span class="number">0</span>; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == <span class="string">""</span>; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="literal">false</span> == []; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">""</span> == <span class="number">0</span>; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">""</span> == []; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="number">0</span> == []; <span class="comment">// true -- 晕！</span></span><br></pre></td></tr></table></figure></p>
+<p>其中有4 种情况涉及== false，之前我们说过应该避免，应该不难掌握。<br>现在剩下3 种：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">""</span> == <span class="number">0</span>; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="string">""</span> == []; <span class="comment">// true -- 晕！</span></span><br><span class="line"><span class="number">0</span> == []; <span class="comment">// true -- 晕！</span></span><br></pre></td></tr></table></figure></p>
+<p>正常情况下我们应该不会这样来写代码。我们应该不太可能会用== [] 来做条件判断，而<br>是用== “” 或者== 0，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a == <span class="string">""</span>) &#123;</span><br><span class="line">        <span class="comment">// ..</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果不小心碰到doSomething(0) 和doSomething([]) 这样的情况，结果会让你大吃一惊。<br>又如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">a,b</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a == b) &#123;</span><br><span class="line">        <span class="comment">// ..</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">doSomething(<span class="string">""</span>,<span class="number">0</span>) 和doSomething([],<span class="string">""</span>)  <span class="comment">//也会如此。</span></span><br></pre></td></tr></table></figure></p>
+<p>这些特殊情况会导致各种问题，我们要多加小心，好在它们并不十分常见。</p>
+<p><strong>e.安全运用隐式强制类型转换</strong></p>
+<p>我们要对== 两边的值认真推敲，以下两个原则可以让我们有效地避免出错。</p>
+<ul>
+<li>如果两边的值中有true 或者false，千万不要使用==。</li>
+<li>如果两边的值中有[]、”” 或者0，尽量不要使用==。</li>
+</ul>
+<p>这时最好用=== 来避免不经意的强制类型转换。这两个原则可以让我们避开几乎所有强制类型转换的坑。<br>这种情况下强制类型转换越显式越好，能省去很多麻烦。所以== 和=== 选择哪一个取决于是否允许在相等比较中发生强制类型转换。</p>
+<p>强制类型转换在很多地方非常有用，能够让相等比较更简洁（比如null 和undefined）。隐式强制类型转换在部分情况下确实很危险，这时为了安全起见就要使用===。</p>
+<p>有一种情况下强制类型转换是绝对安全的，那就是typeof 操作。typeof 总是返回七个字符串之一（参见第1 章），其中没有空字符串。所以在类型检查过程中不会发生隐式强制类型转换。<code>typeof x == &quot;function&quot;</code>是100% 安全的，和<code>typeof x === &quot;function&quot;</code> 一样。事实上两者在规范中是一回事。所以既不要盲目听命于代码工具每一处都用===，更不要对这个问题置若罔闻。</p>
+<p>Alex Dorey（GitHub 用户名@dorey）在GitHub 上制作了一张图表，列出了各种相等比较的情况，如图所示。<br><img src="http://i4.buimg.com/594495/9ecc104653874c2e.png" alt="Markdown"></p>
+<h2 id="6-6-抽象关系比较"><a href="#6-6-抽象关系比较" class="headerlink" title="6.6 抽象关系比较"></a>6.6 抽象关系比较</h2><p>a &lt; b 中涉及的隐式强制类型转换不太引人注意，不过还是很有必要深入了解一下。</p>
+<blockquote>
+<p>ES5 规范11.8.5 节定义了“抽象关系比较”（abstract relational comparison），分为两个部分：比较双方都是字符串（后半部分）和其他情况（前半部分）。</p>
+</blockquote>
+<p>比较双方首先调用ToPrimitive，如果结果出现非字符串，就根据ToNumber 规则将双方强制类型转换为数字来进行比较。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ <span class="number">42</span> ];</span><br><span class="line"><span class="keyword">var</span> b = [ <span class="string">"43"</span> ];</span><br><span class="line"></span><br><span class="line">a &lt; b; <span class="comment">// true</span></span><br><span class="line">b &lt; a; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>前面介绍过的-0 和NaN 的相关规则在这里也适用。</p>
+<p>如果比较双方都是字符串，则按字母顺序来进行比较：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ <span class="string">"42"</span> ];</span><br><span class="line"><span class="keyword">var</span> b = [ <span class="string">"043"</span> ];</span><br><span class="line">a &lt; b; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>a 和b 并没有被转换为数字，因为ToPrimitive 返回的是字符串，所以这里比较的是”42”和”043” 两个字符串，它们分别以”4” 和”0” 开头。因为”0” 在字母顺序上小于”4”，所以最后结果为false。</p>
+<p>同理：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ <span class="number">4</span>, <span class="number">2</span> ];</span><br><span class="line"><span class="keyword">var</span> b = [ <span class="number">0</span>, <span class="number">4</span>, <span class="number">3</span> ];</span><br><span class="line">a &lt; b; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>a 转换为”4, 2”，b 转换为”0, 4, 3”，同样是按字母顺序进行比较。</p>
+<p>再比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var a = &#123; b: 42 &#125;;</span><br><span class="line">var b = &#123; b: 43 &#125;;</span><br><span class="line">a &lt; b; // ??</span><br></pre></td></tr></table></figure></p>
+<p>结果还是false，因为a 是[object Object]，b 也是[object Object]，所以按照字母顺序a &lt; b 并不成立。</p>
+<p>下面的例子就有些奇怪了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123; <span class="attr">b</span>: <span class="number">42</span> &#125;;</span><br><span class="line"><span class="keyword">var</span> b = &#123; <span class="attr">b</span>: <span class="number">43</span> &#125;;</span><br><span class="line">a &lt; b; <span class="comment">// false</span></span><br><span class="line">a == b; <span class="comment">// false</span></span><br><span class="line">a &gt; b; <span class="comment">// false</span></span><br><span class="line">a &lt;= b; <span class="comment">// true</span></span><br><span class="line">a &gt;= b; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>为什么a == b 的结果不是true ？它们的字符串值相同（同为”[object Object]”），按道理应该相等才对？（查看前面的对象比较）</p>
+<p>而且如果a &lt; b 和a == b 结果为false，为什么a &lt;= b 和a &gt;= b 的结果会是true 呢？</p>
+<p>因为根据规范a &lt;= b 被处理为b &lt; a，然后将结果反转。因为b &lt; a 的结果是false，所以a &lt;= b 的结果是true。</p>
+<p>实际上JavaScript 中&lt;= 是“不大于”的意思（即!(a &gt; b)，处理为!(b &lt; a)）。同理a &gt;= b 处理为b &lt;= a。</p>
+<p>相等比较有严格相等，关系比较却没有“严格关系比较”（strict relational comparison）。也就是说如果要避免a &lt; b 中发生隐式强制类型转换，我们只能确保a 和b 为相同的类型，除此之外别无他法。</p>
+<p>与== 和=== 的完整性检查一样，我们应该在必要和安全的情况下使用强制类型转换，如：42 &lt; “43”。换句话说就是为了保证安全，应该对关系比较中的值进行显式强制类型转换：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ <span class="number">42</span> ];</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"043"</span>;</span><br><span class="line">a &lt; b; <span class="comment">// false -- 字符串比较！</span></span><br><span class="line"><span class="built_in">Number</span>( a ) &lt; <span class="built_in">Number</span>( b ); <span class="comment">// true -- 数字比较！</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/" title="你不知道的JavaScript学习笔记（六）强制类型转换">http://yoursite.com/2017/05/30/你不知道的Javascript学习笔记（六）强制类型转换/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/你不知道的Javascript/" rel="tag"># <<你不知道的Javascript>></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/27/ES6入门（三）字符串的扩展/" rel="next" title="ES6学习笔记（三）字符串的扩展">
+                <i class="fa fa-chevron-left"></i> ES6学习笔记（三）字符串的扩展
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/01/你不知道的Javascript学习笔记（七）语法/" rel="prev" title="你不知道的JavaScript学习笔记（七）语法">
+                你不知道的JavaScript学习笔记（七）语法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#6-1-值类型转换"><span class="nav-text">6.1. 值类型转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-2-抽象值操作"><span class="nav-text">6.2. 抽象值操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-1-ToString"><span class="nav-text">6.2.1. ToString</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON-字符串化"><span class="nav-text">JSON 字符串化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-2-ToNumber"><span class="nav-text">6.2.2 ToNumber</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-3-ToBoolean"><span class="nav-text">6.2.3 ToBoolean</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-3-显式强制类型转换"><span class="nav-text">6.3 显式强制类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-1-字符串和数字之间的显式转换"><span class="nav-text">6.3.1 字符串和数字之间的显式转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-2-显式解析数字字符串"><span class="nav-text">6.3.2 显式解析数字字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-3-显式转换为布尔值"><span class="nav-text">6.3.3 显式转换为布尔值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-4-隐式强制类型转换"><span class="nav-text">6.4 隐式强制类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-1-隐式地简化"><span class="nav-text">6.4.1 隐式地简化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-2-字符串和数字之间的隐式强制类型转换"><span class="nav-text">6.4.2 字符串和数字之间的隐式强制类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-3-布尔值到数字的隐式强制类型转换"><span class="nav-text">6.4.3 布尔值到数字的隐式强制类型转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-4-隐式强制类型转换为布尔值"><span class="nav-text">6.4.4 隐式强制类型转换为布尔值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-5-和-amp-amp"><span class="nav-text">6.4.5 || 和 &&</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-6-符号的强制类型转换"><span class="nav-text">6.4.6 符号的强制类型转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-5-宽松相等和严格相等"><span class="nav-text">6.5 宽松相等和严格相等</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-1-相等比较操作的性能"><span class="nav-text">6.5.1 相等比较操作的性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-2-抽象相等"><span class="nav-text">6.5.2 抽象相等</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-6-抽象关系比较"><span class="nav-text">6.6 抽象关系比较</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NodeJS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="让前端觉得如获神器的不是NodeJS能做网络编程，而是NodeJS能够操作文件。小至文件查找，大至代码编译，几乎没有一个前端工具不操作文件。换个角度讲，几乎也只需要一些数据处理逻辑，再加上一些文件操作，就能够编写出大多数前端工具。 3.1 文件拷贝示例NodeJS提供了基本的文件操作API，但是像文件拷贝这种高级功能就">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS入门（三）文件操作">
+<meta property="og:url" content="http://yoursite.com/2017/07/21/NodeJS入门（三）文件操作/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="让前端觉得如获神器的不是NodeJS能做网络编程，而是NodeJS能够操作文件。小至文件查找，大至代码编译，几乎没有一个前端工具不操作文件。换个角度讲，几乎也只需要一些数据处理逻辑，再加上一些文件操作，就能够编写出大多数前端工具。 3.1 文件拷贝示例NodeJS提供了基本的文件操作API，但是像文件拷贝这种高级功能就没有提供。 3.1.1 小文件拷贝我们使用NodeJS内置的fs模块简单实现这个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-07-21T09:19:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS入门（三）文件操作">
+<meta name="twitter:description" content="让前端觉得如获神器的不是NodeJS能做网络编程，而是NodeJS能够操作文件。小至文件查找，大至代码编译，几乎没有一个前端工具不操作文件。换个角度讲，几乎也只需要一些数据处理逻辑，再加上一些文件操作，就能够编写出大多数前端工具。 3.1 文件拷贝示例NodeJS提供了基本的文件操作API，但是像文件拷贝这种高级功能就没有提供。 3.1.1 小文件拷贝我们使用NodeJS内置的fs模块简单实现这个">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/21/NodeJS入门（三）文件操作/"/>
+
+
+
+
+
+  <title>NodeJS入门（三）文件操作 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/21/NodeJS入门（三）文件操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NodeJS入门（三）文件操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-21T17:12:00+08:00">
+                2017-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/全栈入门/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈入门</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/21/NodeJS入门（三）文件操作/" class="leancloud_visitors" data-flag-title="NodeJS入门（三）文件操作">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>让前端觉得如获神器的不是NodeJS能做网络编程，而是NodeJS能够操作文件。小至文件查找，大至代码编译，几乎没有一个前端工具不操作文件。换个角度讲，几乎也只需要一些数据处理逻辑，再加上一些文件操作，就能够编写出大多数前端工具。</p>
+<h2 id="3-1-文件拷贝示例"><a href="#3-1-文件拷贝示例" class="headerlink" title="3.1 文件拷贝示例"></a>3.1 文件拷贝示例</h2><p>NodeJS提供了基本的文件操作API，但是像文件拷贝这种高级功能就没有提供。</p>
+<h3 id="3-1-1-小文件拷贝"><a href="#3-1-1-小文件拷贝" class="headerlink" title="3.1.1 小文件拷贝"></a>3.1.1 小文件拷贝</h3><p>我们使用NodeJS内置的fs模块简单实现这个程序如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params">src, dst</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//使用 fs.readFileSync 从源路径读取文件内容，并使用 fs.writeFileSync 将文件内容写入目标路径</span></span><br><span class="line">    fs.writeFileSync(dst, fs.readFileSync(src));	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params">argv</span>) </span>&#123;</span><br><span class="line">    copy(argv[<span class="number">0</span>], argv[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main(process.argv.slice(<span class="number">2</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>process 对象是一个 global （全局变量），提供有关信息，控制当前 Node.js 进程，可通过<code>process.argv</code>获得命令行参数。由于argv[0]固定等于NodeJS执行程序的绝对路径，argv[1]固定等于主模块的绝对路径，因此第一个命令行参数从argv[2]这个位置开始。</p>
+</blockquote>
+<h3 id="3-1-2-大文件拷贝"><a href="#3-1-2-大文件拷贝" class="headerlink" title="3.1.2 大文件拷贝"></a>3.1.2 大文件拷贝</h3><p>上边的程序拷贝一些小文件没啥问题，但这种一次性把所有文件内容都读取到内存中后再一次性写入磁盘的方式不适合拷贝大文件，内存会溢出。对于大文件，我们只能读一点写一点，直到完成拷贝。</p>
+<a id="more"></a>
+<p>修改上面的程序如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">copy</span>(<span class="params">src, dst</span>) </span>&#123;</span><br><span class="line">    fs.createReadStream(src).pipe(fs.createWriteStream(dst));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params">argv</span>) </span>&#123;</span><br><span class="line">    copy(argv[<span class="number">0</span>], argv[<span class="number">1</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">main(process.argv.slice(<span class="number">2</span>));</span><br></pre></td></tr></table></figure></p>
+<p>以上程序使用<code>fs.createReadStream</code>创建了一个源文件的只读数据流，并使用<code>fs.createWriteStream</code>创建了一个目标文件的只写数据流，并且用<code>pipe</code>方法把两个数据流连接了起来。连接起来后发生的事情，说得抽象点的话，水顺着水管从一个桶流到了另一个桶。</p>
+<h2 id="3-2-相关API"><a href="#3-2-相关API" class="headerlink" title="3.2 相关API"></a>3.2 相关API</h2><p>这里只做简单的介绍，详细可以查阅<a href="https://nodejs.org/en/docs/" target="_blank" rel="noopener">官方文档</a></p>
+<h3 id="3-2-1-Buffer（数据块）"><a href="#3-2-1-Buffer（数据块）" class="headerlink" title="3.2.1 Buffer（数据块）"></a>3.2.1 Buffer（数据块）</h3><p>在 ECMAScript 2015 (ES6) 引入 TypedArray 之前，JavaScript 语言自身只有字符串数据类型，没有读取或操作二进制数据流的机制， 因此NodeJS提供了一个与String对等的全局构造函数Buffer来提供对二进制数据的操作。Buffer 类被引入作为 Node.js API 的一部分，使其可以在 TCP 流或文件系统操作等场景中处理二进制数据流。</p>
+<p>Buffer 类的实例类似于整数数组，但 Buffer 的大小是固定的、且在 V8 堆外分配物理内存。 Buffer 的大小在被创建时确定，且无法调整。Buffer 类在 Node.js 中是一个全局变量，因此无需使用 require(‘buffer’).Buffer。</p>
+<p><strong>（1）<code>Buffer.from()、Buffer.alloc()、和 Buffer.allocUnsafe()</code></strong></p>
+<p>为了使 Buffer 实例的创建更可靠、更不容易出错，各种<code>new Buffer()</code>构造函数已被 废弃，并由 <code>Buffer.from()、Buffer.alloc()、和 Buffer.allocUnsafe()</code>方法替代。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个长度为 10、且用 0 填充的 Buffer。</span></span><br><span class="line"><span class="keyword">const</span> buf1 = Buffer.alloc(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个长度为 10、且用 0x1 填充的 Buffer。 </span></span><br><span class="line"><span class="keyword">const</span> buf2 = Buffer.alloc(<span class="number">10</span>, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个长度为 10、且未初始化的 Buffer。这个方法比调用 Buffer.alloc() 更快</span></span><br><span class="line"><span class="comment">// 但返回的 Buffer 实例可能包含旧数据。</span></span><br><span class="line"><span class="comment">// 因此需要使用 fill() 或 write() 重写。</span></span><br><span class="line"><span class="keyword">const</span> buf3 = Buffer.allocUnsafe(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个包含 [0x1, 0x2, 0x3] 的 Buffer。</span></span><br><span class="line"><span class="keyword">const</span> buf4 = Buffer.from([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个包含 UTF-8 字节 [0x74, 0xc3, 0xa9, 0x73, 0x74] 的 Buffer。</span></span><br><span class="line"><span class="keyword">const</span> buf5 = Buffer.from(<span class="string">'tést'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个包含 Latin-1 字节 [0x74, 0xe9, 0x73, 0x74] 的 Buffer。</span></span><br><span class="line"><span class="keyword">const</span> buf6 = Buffer.from(<span class="string">'tést'</span>, <span class="string">'latin1'</span>);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Buffer.from(array)</code>返回一个新建的包含所提供的字节数组的副本的 Buffer。</li>
+<li><code>Buffer.from(arrayBuffer[, byteOffset [, length]])</code>返回一个新建的与给定的 ArrayBuffer 共享同一内存的 Buffer。</li>
+<li><code>Buffer.from(buffer)</code>返回一个新建的包含所提供的 Buffer 的内容的副本的 Buffer。</li>
+<li><p><code>Buffer.from(string[, encoding])</code>返回一个新建的包含所提供的字符串的副本的 Buffer。</p>
+</li>
+<li><p><code>Buffer.alloc(size[, fill[, encoding]])</code>返回一个指定大小的被填满的 Buffer 实例。 这个方法会明显地比 <code>Buffer.allocUnsafe(size)</code> 慢，但可确保新创建的 Buffer 实例绝不会包含旧的和潜在的敏感数据。</p>
+</li>
+<li><code>Buffer.allocUnsafe(size)</code> 与 <code>Buffer.allocUnsafeSlow(size)</code>返回一个新建的指定 size 的 Buffer，但它的内容必须被初始化，可以使用 <code>buf.fill(0)</code> 或完全写满。</li>
+<li>如果 size 小于或等于 <code>Buffer.poolSize</code>的一半，则 <code>Buffer.allocUnsafe()</code>返回的 Buffer 实例可能会被分配进一个共享的内部内存池。</li>
+</ul>
+<p><strong>（2）<code>Buffer.toString([encoding[, start[, end]]])</code></strong></p>
+<p>Buffer与字符串类似，除了可以用<code>.length</code>属性得到字节长度外，还可以用<code>[index]</code>方式读取指定位置的字节，例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bin = Buffer.from(<span class="string">'hello'</span>, <span class="string">'utf-8'</span>); <span class="comment">// =&gt; &lt;Buffer 68 65 6c 6c 6f&gt;</span></span><br><span class="line">bin[<span class="number">0</span>]; <span class="comment">// =&gt; 0x68;</span></span><br></pre></td></tr></table></figure></p>
+<p>根据 encoding 指定的字符编码解码 buf 成一个字符串。 start 和 end 可传入用于只解码 buf 的一部分。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> buf1 = Buffer.allocUnsafe(<span class="number">26</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// 97 是 'a' 的十进制 ASCII 值</span></span><br><span class="line">  buf1[i] = i + <span class="number">97</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line"><span class="built_in">console</span>.log(buf1.toString(<span class="string">'ascii'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: abcde</span></span><br><span class="line"><span class="built_in">console</span>.log(buf1.toString(<span class="string">'ascii'</span>, <span class="number">0</span>, <span class="number">5</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buf2 = Buffer.from(<span class="string">'tést'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: 74c3a97374</span></span><br><span class="line"><span class="built_in">console</span>.log(buf2.toString(<span class="string">'hex'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: té</span></span><br><span class="line"><span class="built_in">console</span>.log(buf2.toString(<span class="string">'utf8'</span>, <span class="number">0</span>, <span class="number">3</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: té</span></span><br><span class="line"><span class="built_in">console</span>.log(buf2.toString(<span class="literal">undefined</span>, <span class="number">0</span>, <span class="number">3</span>));</span><br></pre></td></tr></table></figure></p>
+<p>Buffer与字符串有一个重要区别。字符串是只读的，并且对字符串的任何修改得到的都是一个新字符串，原字符串保持不变。至于Buffer，更像是可以做指针操作的C语言数组。例如，可以用<code>[index]</code>方式直接修改某个位置的字节。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin[0] = 0x48;</span><br></pre></td></tr></table></figure></p>
+<p>而.slice方法也不是返回一个新的Buffer，而更像是返回了指向原Buffer中间的某个位置的指针，如下所示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ 0x68, 0x65, 0x6c, 0x6c, 0x6f ]</span><br><span class="line">    ^           ^</span><br><span class="line">    |           |</span><br><span class="line">   bin     bin.slice(2)</span><br></pre></td></tr></table></figure></p>
+<p>因此对.slice方法返回的Buffer的修改会作用于原Buffer，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> bin = Buffer.from([ <span class="number">0x68</span>, <span class="number">0x65</span>, <span class="number">0x6c</span>, <span class="number">0x6c</span>, <span class="number">0x6f</span> ]);</span><br><span class="line"><span class="keyword">var</span> sub = bin.slice(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">sub[<span class="number">0</span>] = <span class="number">0x65</span>;</span><br><span class="line"><span class="built_in">console</span>.log(bin); <span class="comment">// =&gt; &lt;Buffer 68 65 65 6c 6f&gt;</span></span><br></pre></td></tr></table></figure>
+<p>也因此，如果想要拷贝一份Buffer，得首先创建一个新的Buffer，并通过.copy方法把原Buffer中的数据复制过去。这个类似于申请一块新的内存，并把已有内存中的数据复制过去。以下是一个例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建两个 Buffer 实例 buf1 与 buf2 ，并拷贝 buf1 中第 16 个至第 19 个字节到 buf2 第 8 个字节起。</span></span><br><span class="line"><span class="keyword">const</span> buf1 = Buffer.allocUnsafe(<span class="number">26</span>);</span><br><span class="line"><span class="keyword">const</span> buf2 = Buffer.allocUnsafe(<span class="number">26</span>).fill(<span class="string">'!'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">  <span class="comment">// 97 是 'a' 的十进制 ASCII 值</span></span><br><span class="line">  buf1[i] = i + <span class="number">97</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">buf1.copy(buf2, <span class="number">8</span>, <span class="number">16</span>, <span class="number">20</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出: !!!!!!!!qrst!!!!!!!!!!!!!</span></span><br><span class="line"><span class="built_in">console</span>.log(buf2.toString(<span class="string">'ascii'</span>, <span class="number">0</span>, <span class="number">25</span>));</span><br></pre></td></tr></table></figure>
+<p>总之，Buffer将JS的数据处理能力从字符串扩展到了任意二进制数据。</p>
+<h3 id="3-2-2-Stream（数据流）"><a href="#3-2-2-Stream（数据流）" class="headerlink" title="3.2.2 Stream（数据流）"></a>3.2.2 Stream（数据流）</h3><p>流（stream）在 Node.js 中是处理流数据的抽象接口（abstract interface）。流可以是可读的、可写的，或是可读写的。Stream基于事件机制工作，所有的流都是 EventEmitter 的实例。</p>
+<p>当内存中无法一次装下需要处理的数据时，或者一边读取一边处理更加高效时，我们就需要用到数据流。</p>
+<p>以上边的大文件拷贝程序为例，我们可以为数据来源创建一个只读数据流，示例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rs = fs.createReadStream(pathname);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">    doSomething(chunk);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    cleanUp();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上边的代码中data事件会源源不断地被触发，不管doSomething函数是否处理得过来。代码可以继续做如下改造，以解决这个问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rs = fs.createReadStream(src);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">    rs.pause();</span><br><span class="line">    doSomething(chunk, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        rs.resume();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    cleanUp();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>以上代码给doSomething函数加上了回调，因此我们可以在处理数据前暂停数据读取，并在处理数据后继续读取数据。</p>
+<p>此外，我们也可以为数据目标创建一个只写数据流，示例如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rs = fs.createReadStream(src);</span><br><span class="line"><span class="keyword">var</span> ws = fs.createWriteStream(dst);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">    ws.write(chunk);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    ws.end();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>我们把doSomething换成了往只写数据流里写入数据后，以上代码看起来就像是一个文件拷贝程序了。但是以上代码存在上边提到的问题，如果写入速度跟不上读取速度的话，只写数据流内部的缓存会溢出。我们可以根据<code>.write</code>方法的返回值来判断传入的数据是写入目标了，还是临时放在了缓存了，并根据<code>drain</code>事件来判断什么时候只写数据流已经将缓存中的数据写入目标，可以传入下一个待写数据了。因此代码可以改造如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> rs = fs.createReadStream(src);</span><br><span class="line"><span class="keyword">var</span> ws = fs.createWriteStream(dst);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ws.write(chunk) === <span class="literal">false</span>) &#123;</span><br><span class="line">        rs.pause();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rs.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    ws.end();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ws.on(<span class="string">'drain'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    rs.resume();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>以上代码实现了数据从只读数据流到只写数据流的搬运，并包括了防溢出控制。因为这种使用场景很多，例如上边的大文件拷贝程序，NodeJS直接提供了<code>.pipe</code>方法来做这件事情，其内部实现方式与上边的代码类似。</p>
+<p>几乎所有的 Node.js 应用，不管多么简单，都在某种程度上使用了流。 下面是在 Node.js 应用中使用流实现的一个简单的 HTTP 服务器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> server = http.createServer(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// req 是 http.IncomingMessage 的实例，这是一个 Readable Stream</span></span><br><span class="line">  <span class="comment">// res 是 http.ServerResponse 的实例，这是一个 Writable Stream</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> body = <span class="string">''</span>;</span><br><span class="line">  <span class="comment">// 接收数据为 utf8 字符串，</span></span><br><span class="line">  <span class="comment">// 如果没有设置字符编码，将接收到 Buffer 对象。</span></span><br><span class="line">  req.setEncoding(<span class="string">'utf8'</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果监听了 'data' 事件，Readable streams 触发 'data' 事件 </span></span><br><span class="line">  req.on(<span class="string">'data'</span>, (chunk) =&gt; &#123;</span><br><span class="line">    body += chunk;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// end 事件表明整个 body 都接收完毕了 </span></span><br><span class="line">  req.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> data = <span class="built_in">JSON</span>.parse(body);</span><br><span class="line">      <span class="comment">// 发送一些信息给用户</span></span><br><span class="line">      res.write(<span class="keyword">typeof</span> data);</span><br><span class="line">      res.end();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (er) &#123;</span><br><span class="line">      <span class="comment">// json 数据解析失败 </span></span><br><span class="line">      res.statusCode = <span class="number">400</span>;</span><br><span class="line">      <span class="keyword">return</span> res.end(<span class="string">`error: <span class="subst">$&#123;er.message&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.listen(<span class="number">1337</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-3-File-System（文件系统）"><a href="#3-2-3-File-System（文件系统）" class="headerlink" title="3.2.3 File System（文件系统）"></a>3.2.3 File System（文件系统）</h3><p>NodeJS通过fs内置模块提供对文件的操作。通过 require(‘fs’) 使用该模块。 所有的方法都有异步和同步的形式。fs模块提供的API基本上可以分为以下三类：</p>
+<ul>
+<li>文件属性读写。<br>其中常用的有<code>fs.stat、fs.chmod、fs.chown</code>等等。</li>
+<li>文件内容读写。<br>其中常用的有<code>fs.readFile、fs.readdir、fs.writeFile、fs.mkdir</code>等等。</li>
+<li>底层文件操作。<br>其中常用的有<code>fs.open、fs.read、fs.write、fs.close</code>等等。</li>
+</ul>
+<p>NodeJS最精华的异步IO模型在fs模块里有着充分的体现，例如上边提到的这些API都通过回调函数传递结果。以fs.readFile为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fs.readFile(pathname, (err, data)=&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="comment">// Deal with error.</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Deal with data.</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>如上边代码所示，基本上所有fs模块API的回调参数都有两个。第一个参数在有错误发生时等于异常对象，第二个参数始终用于返回API方法执行结果。</p>
+<p>此外，fs模块的所有异步API都有对应的同步版本，用于无法使用异步操作时，或者同步操作更方便时的情况。同步API除了方法名的末尾多了一个Sync之外，异常对象与执行结果的传递方式也有相应变化。同样以fs.readFileSync为例：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> data = fs.readFileSync(pathname);</span><br><span class="line">    <span class="comment">// Deal with data.</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="comment">// Deal with error.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-4-Path（路径）"><a href="#3-2-4-Path（路径）" class="headerlink" title="3.2.4 Path（路径）"></a>3.2.4 Path（路径）</h3><p>path 模块提供了一些工具函数，用于处理文件与目录的路径。下面介绍几个常用的API。</p>
+<p><strong>（1）path.normalize</strong></p>
+<p>将传入的路径转换为标准路径，具体讲的话，除了解析路径中的<code>.</code>与<code>..</code>外，还能去掉多余的斜杠\。如果有程序需要使用路径作为某些数据的索引，但又允许用户随意输入路径时，就需要使用该方法保证路径的唯一性。以下是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>)</span><br><span class="line"><span class="keyword">var</span> cache = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">store</span>(<span class="params">key, value</span>) </span>&#123;</span><br><span class="line">    cache[path.normalize(key)] = value;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store(<span class="string">'foo/bar'</span>, <span class="number">1</span>);</span><br><span class="line">store(<span class="string">'foo//baz//../bar'</span>, <span class="number">2</span>);</span><br><span class="line"><span class="built_in">console</span>.log(cache);  <span class="comment">// =&gt; &#123; "foo/bar": 2 &#125;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>标准化之后的路径里的斜杠在Windows系统下是\，而在Linux系统下是/。如果想保证任何系统下都使用/作为路径分隔符的话，需要用.replace(/\/g, ‘/‘)再替换一下标准路径。</p>
+</blockquote>
+<p><strong>（2）path.join</strong></p>
+<p>将传入的多个路径拼接为标准路径。该方法可避免手工拼接路径字符串的繁琐，并且能在不同系统下正确使用相应的路径分隔符。以下是一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">path.join(<span class="string">'/foo'</span>, <span class="string">'bar'</span>, <span class="string">'baz/asdf'</span>, <span class="string">'quux'</span>, <span class="string">'..'</span>);</span><br><span class="line"><span class="comment">// 返回: '/foo/bar/baz/asdf'</span></span><br><span class="line"></span><br><span class="line">path.join(<span class="string">'foo'</span>, &#123;&#125;, <span class="string">'bar'</span>);</span><br><span class="line"><span class="comment">// 抛出 'TypeError: Path must be a string. Received &#123;&#125;'</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>（3）path.extname</strong></p>
+<p>path.extname() 方法返回 path 的扩展名，即从 path 的最后一部分中的最后一个 <code>.</code>（句号）字符到字符串结束。 如果 path 的最后一部分没有<code>.</code>或 path 的文件名（见 path.basename()）的第一个字符是<code>.</code>，则返回一个空字符串。</p>
+<p>当我们需要根据不同文件扩展名做不同操作时，该方法就显得很好用。以下是一个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">path.extname(<span class="string">'index.html'</span>);</span><br><span class="line"><span class="comment">// 返回: '.html'</span></span><br><span class="line"></span><br><span class="line">path.extname(<span class="string">'index.coffee.md'</span>);</span><br><span class="line"><span class="comment">// 返回: '.md'</span></span><br><span class="line"></span><br><span class="line">path.extname(<span class="string">'index.'</span>);</span><br><span class="line"><span class="comment">// 返回: '.'</span></span><br><span class="line"></span><br><span class="line">path.extname(<span class="string">'index'</span>);</span><br><span class="line"><span class="comment">// 返回: ''</span></span><br><span class="line"></span><br><span class="line">path.extname(<span class="string">'.index'</span>);</span><br><span class="line"><span class="comment">// 返回: ''</span></span><br><span class="line">如果 path 不是一个字符串，则抛出 <span class="built_in">TypeError</span>。</span><br></pre></td></tr></table></figure></p>
+<h2 id="3-3-遍历目录"><a href="#3-3-遍历目录" class="headerlink" title="3.3 遍历目录"></a>3.3 遍历目录</h2><p>遍历目录是操作文件时的一个常见需求。比如写一个程序，需要找到并处理指定目录下的所有JS文件时，就需要遍历整个目录。</p>
+<h3 id="3-3-1-递归算法"><a href="#3-3-1-递归算法" class="headerlink" title="3.3.1 递归算法"></a>3.3.1 递归算法</h3><p>遍历目录时一般使用递归算法，否则就难以编写出简洁的代码。递归算法与数学归纳法类似，通过不断缩小问题的规模来解决问题。以下示例说明了这种方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上边的函数用于计算N的阶乘（N!）。可以看到，当N大于1时，问题简化为计算N乘以N-1的阶乘。当N等于1时，问题达到最小规模，不需要再简化，因此直接返回1。</p>
+<blockquote>
+<p>使用递归算法编写的代码虽然简洁，但由于每递归一次就产生一次函数调用，在需要优先考虑性能时，需要把递归算法转换为循环算法，以减少函数调用次数。</p>
+</blockquote>
+<h3 id="3-3-2-遍历算法"><a href="#3-3-2-遍历算法" class="headerlink" title="3.3.2 遍历算法"></a>3.3.2 遍历算法</h3><p>目录是一个树状结构，在遍历时一般使用<strong>深度优先+先序遍历算法</strong>。深度优先，意味着到达一个节点后，首先接着遍历子节点而不是邻居节点。先序遍历，意味着首次到达了某节点就算遍历完成，而不是最后一次返回某节点才算数。因此使用这种遍历方式时，下边这棵树的遍历顺序是A &gt; B &gt; D &gt; E &gt; C &gt; F。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    A</span><br><span class="line">   / \</span><br><span class="line">  B   C</span><br><span class="line"> / \   \</span><br><span class="line">D   E   F</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-3-3同步遍历"><a href="#3-3-3同步遍历" class="headerlink" title="3.3.3同步遍历"></a>3.3.3同步遍历</h3><p>了解了必要的算法后，我们可以简单地实现以下目录遍历函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">travel</span>(<span class="params">dir, callback</span>) </span>&#123;</span><br><span class="line">    fs.readdirSync(dir).forEach(<span class="function">(<span class="params">file</span>)=&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> pathname = path.join(dir, file);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (fs.statSync(pathname).isDirectory()) &#123;</span><br><span class="line">            travel(pathname, callback);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            callback(pathname);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，该函数以某个目录作为遍历的起点。遇到一个子目录时，就先接着遍历子目录。遇到一个文件时，就把文件的绝对路径传给回调函数。回调函数拿到文件路径后，就可以做各种判断和处理。因此假设有以下目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- /home/user/</span><br><span class="line">    - foo/</span><br><span class="line">        x.js</span><br><span class="line">    - bar/</span><br><span class="line">        y.js</span><br><span class="line">    z.css</span><br></pre></td></tr></table></figure>
+<p>使用以下代码遍历该目录时，得到的输入如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">travel(<span class="string">'/home/user'</span>, (pathname)=&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(pathname);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">------------------------</span><br><span class="line">/home/user/foo/x.js</span><br><span class="line">/home/user/bar/y.js</span><br><span class="line">/home/user/z.css</span><br></pre></td></tr></table></figure>
+<h3 id="3-3-4-异步遍历"><a href="#3-3-4-异步遍历" class="headerlink" title="3.3.4 异步遍历"></a>3.3.4 异步遍历</h3><p>如果读取目录或读取文件状态时使用的是异步API，目录遍历函数实现起来会有些复杂，但原理完全相同。travel函数的异步版本如下。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">travel</span>(<span class="params">dir, callback, finish</span>) </span>&#123;</span><br><span class="line">    fs.readdir(dir, (err, files) =&gt; &#123;</span><br><span class="line">        (<span class="function"><span class="keyword">function</span> <span class="title">next</span>(<span class="params">i</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; files.length) &#123;</span><br><span class="line">                <span class="keyword">var</span> pathname = path.join(dir, files[i]);</span><br><span class="line"></span><br><span class="line">                fs.stat(pathname, (err, stats) =&gt; &#123;</span><br><span class="line">                    <span class="keyword">if</span> (stats.isDirectory()) &#123;</span><br><span class="line">                        travel(pathname, callback, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                            next(i + <span class="number">1</span>);</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        callback(pathname, () =&gt; &#123;</span><br><span class="line">                            next(i + <span class="number">1</span>);</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                finish &amp;&amp; finish();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;(<span class="number">0</span>));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/07/21/NodeJS入门（三）文件操作/" title="NodeJS入门（三）文件操作">http://yoursite.com/2017/07/21/NodeJS入门（三）文件操作/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NodeJS/" rel="tag"># NodeJS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/20/NodeJS入门（二）代码的组织和部署/" rel="next" title="NodeJS入门（二）代码的组织和部署">
+                <i class="fa fa-chevron-left"></i> NodeJS入门（二）代码的组织和部署
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/24/NodeJS入门（四）网络操作/" rel="prev" title="NodeJS入门（四）网络操作">
+                NodeJS入门（四）网络操作 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-文件拷贝示例"><span class="nav-text">3.1 文件拷贝示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-1-小文件拷贝"><span class="nav-text">3.1.1 小文件拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-2-大文件拷贝"><span class="nav-text">3.1.2 大文件拷贝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-相关API"><span class="nav-text">3.2 相关API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-Buffer（数据块）"><span class="nav-text">3.2.1 Buffer（数据块）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-Stream（数据流）"><span class="nav-text">3.2.2 Stream（数据流）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-File-System（文件系统）"><span class="nav-text">3.2.3 File System（文件系统）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-4-Path（路径）"><span class="nav-text">3.2.4 Path（路径）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-遍历目录"><span class="nav-text">3.3 遍历目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-1-递归算法"><span class="nav-text">3.3.1 递归算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-2-遍历算法"><span class="nav-text">3.3.2 遍历算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-3同步遍历"><span class="nav-text">3.3.3同步遍历</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-4-异步遍历"><span class="nav-text">3.3.4 异步遍历</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

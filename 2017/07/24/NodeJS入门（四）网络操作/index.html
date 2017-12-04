@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NodeJS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="4.1 计算机网络基础知识4.1.1 HTTP协议超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。HTTP是一个客户端和服务器端请求和应答的标准（TCP）。 HTTPS HTTPS（全称：Hyper Text Transfer Protocol o">
+<meta name="keywords" content="NodeJS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NodeJS入门（四）网络操作">
+<meta property="og:url" content="http://yoursite.com/2017/07/24/NodeJS入门（四）网络操作/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="4.1 计算机网络基础知识4.1.1 HTTP协议超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。HTTP是一个客户端和服务器端请求和应答的标准（TCP）。 HTTPS HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i1.buimg.com/594495/ece01b8645d59112.png">
+<meta property="og:image" content="http://i1.buimg.com/594495/718668e68a8222e6.png">
+<meta property="og:image" content="http://i1.buimg.com/594495/a7894a0c6c3044d0.png">
+<meta property="og:image" content="http://i1.buimg.com/594495/2ef03b7c5e14652e.png">
+<meta property="og:image" content="http://i1.ciimg.com/594495/9d2fc56abe6fefa6.png">
+<meta property="og:updated_time" content="2017-07-26T10:59:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NodeJS入门（四）网络操作">
+<meta name="twitter:description" content="4.1 计算机网络基础知识4.1.1 HTTP协议超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。HTTP是一个客户端和服务器端请求和应答的标准（TCP）。 HTTPS HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，">
+<meta name="twitter:image" content="http://i1.buimg.com/594495/ece01b8645d59112.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/24/NodeJS入门（四）网络操作/"/>
+
+
+
+
+
+  <title>NodeJS入门（四）网络操作 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/24/NodeJS入门（四）网络操作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">NodeJS入门（四）网络操作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-24T18:45:00+08:00">
+                2017-07-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/全栈入门/" itemprop="url" rel="index">
+                    <span itemprop="name">全栈入门</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/07/24/NodeJS入门（四）网络操作/" class="leancloud_visitors" data-flag-title="NodeJS入门（四）网络操作">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="4-1-计算机网络基础知识"><a href="#4-1-计算机网络基础知识" class="headerlink" title="4.1 计算机网络基础知识"></a>4.1 计算机网络基础知识</h2><h3 id="4-1-1-HTTP协议"><a href="#4-1-1-HTTP协议" class="headerlink" title="4.1.1 HTTP协议"></a>4.1.1 HTTP协议</h3><p>超文本传输协议（HTTP，HyperText Transfer Protocol)是互联网上应用最为广泛的一种网络协议。HTTP是一个客户端和服务器端请求和应答的标准（TCP）。</p>
+<p><strong>HTTPS</strong></p>
+<p>HTTPS（全称：Hyper Text Transfer Protocol over Secure Socket Layer），是以安全为目标的HTTP通道，简单来说就是安全版的http。</p>
+<p>HTTPS和HTTP的区别主要为以下四点：</p>
+<ul>
+<li>https协议需要到ca申请证书，一般免费证书很少，需要交费。</li>
+<li>http是超文本传输协议，信息是明文传输，https 则是具有安全性的ssl加密传输协议。</li>
+<li>http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</li>
+<li>http的连接很简单，是无状态的；HTTPS协议是由SSL+HTTP协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。</li>
+</ul>
+<p><strong>HTTP2.0</strong></p>
+<p>HTTP 2.0即超文本传输协议 2.0，是下一代HTTP协议。<br>新特性如下：</p>
+<ul>
+<li>多路复用 (Multiplexing)：多路复用允许同时通过单一的 HTTP/2 连接发起多重的请求-响应消息。</li>
+<li>二进制分帧：在不改动 HTTP/1.x 的语义、方法、状态码、URI 以及首部字段….. 的情况下,在应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。HTTP/2 会将所有传输的信息分割为更小的消息和帧（frame）,并对它们采用二进制格式的编码。</li>
+<li>首部压缩（Header Compression）：HTTP/2 则使用了专门为首部压缩而设计的 HPACK 算法。</li>
+<li>服务端推送（Server Push）服务端推送是一种在客户端请求之前发送数据的机制。在 HTTP/2 中，服务器可以对客户端的一个请求发送多个响应。</li>
+</ul>
+<p><strong>HTTP内容</strong></p>
+<p>HTTP头：发送的是一些附加的信息：内容类型服务器发送响应的日期，HTTP状态码。<br>正文信息：用户提交的表单信息。<br><a id="more"></a></p>
+<h3 id="4-1-2-打开一个网站的流程（example-com为例）"><a href="#4-1-2-打开一个网站的流程（example-com为例）" class="headerlink" title="4.1.2 打开一个网站的流程（example.com为例）"></a>4.1.2 打开一个网站的流程（example.com为例）</h3><p><strong>协议通信流程</strong></p>
+<blockquote>
+<p>http客户端发起请求，创建端口<br>http服务器在端口监听客户请求<br>http服务器向客户端返回状态和内容</p>
+</blockquote>
+<p>1.域名解析</p>
+<p>①浏览器搜索浏览器自身的DNS缓存。<br>②如果浏览器没有找到自身的DNS缓存或之前的缓存已失效，那么浏览器会搜索操作系统自身的DNS缓存。<br>③如果操作系统的DNS缓存也没有找到，那么系统会尝试在本地的HOST文件去找。<br>④如果在HOST里依然没有找到，浏览器会发起一个DNS的系统调用，即一般向本地的宽带运营商发起<strong>域名解析请求</strong>。</p>
+<p>2.域名解析请求：</p>
+<p>①宽带运营商服务器会首先查看自身的缓存，看是否有结果<br>②如果没有，那么运营商服务器会发起一个<strong>迭代DNS解析请求</strong>（根域，顶级域，域名注册商），最终会返回对DNS解析的结果。<br>③运营商服务器然后把结果返回给操作系统内核（同时也缓存在自己的缓存区），然后操作系统把结果返回给浏览器。</p>
+<p>以上的最终结果，是让浏览器拿到example.com的IP地址，DNS解析完成。</p>
+<p>3.三次握手：建立TCP/IP连接。</p>
+<p>4.在TCP/IP连接建立起来后，浏览器就可以向服务器发送HTTP请求了。比如，用HTTP的GET方法请求一个根域里的某个域名，协议可以采用HTTP 1.0 。</p>
+<p>5.服务器端接受这个请求，根据路径参数，经过后端的一些处理之后，把处理后的一个结果以数据的形式返回给浏览器，如果是example.com网站的页面，服务器就会把完整的HTML页面代码返回给浏览器。</p>
+<p>6.浏览器拿到了example.com这个网站的完整HTML页面代码，在解析和渲染这个页面的时候，里面的Javascript、CSS、图片等静态资源，它们同样也是一个个HTTP请求，都需要经过上面的步骤来获取。</p>
+<p>7.浏览器根据拿到的资源对页面进行渲染，最终把一个完整的页面呈现出来。</p>
+<h2 id="4-2-网络监听（chrome浏览器）"><a href="#4-2-网络监听（chrome浏览器）" class="headerlink" title="4.2 网络监听（chrome浏览器）"></a>4.2 网络监听（chrome浏览器）</h2><p>通过开发者工具的网络监听，我们可以完成：</p>
+<ul>
+<li>查看页面全部资源网络请求，包括请求耗时、状态码、头信息</li>
+<li>Ajax请求返回Json数据格式化查看</li>
+<li>支持按请求类型分组过滤查看</li>
+<li>查看页面完全加载耗时，总请求个数</li>
+</ul>
+<h3 id="4-2-1-以新浪网为例"><a href="#4-2-1-以新浪网为例" class="headerlink" title="4.2.1 以新浪网为例"></a>4.2.1 以<a href="www.sina.com.cn">新浪网</a>为例</h3><p>F12打开开发者工具，点开网络监听，可以看到一系列信息。<br><img src="http://i1.buimg.com/594495/ece01b8645d59112.png" alt="Markdown"></p>
+<p><strong>Preview</strong></p>
+<p><img src="http://i1.buimg.com/594495/718668e68a8222e6.png" alt="Markdown"><br>预览查看，如果是json文件，可以看到Ajax请求的格式化，如果是图片，可以看到图片本身。</p>
+<p><strong>Timing</strong></p>
+<p><img src="http://i1.buimg.com/594495/a7894a0c6c3044d0.png" alt="Markdown"><br>Timing显示资源加载所要耗费的时间线。</p>
+<ul>
+<li>Stalled:等待时机，浏览器要发生请求，到能发出请求的时间。不包括DNS查询和连接建立时间</li>
+<li>Proxy negotiation：代理协商的时间</li>
+<li>Request sent：请求时间。从请求报文的第一个字节发出，到最后一个字节发送完毕的时间</li>
+<li>Waiting（TTFB）：请求发出后至收到第一个字节响应的时间</li>
+<li>Content Download：从接受到响应第一个字节开始到最后一个字节结束花费的时间</li>
+</ul>
+<p><strong>Headers</strong></p>
+<p><img src="http://i1.buimg.com/594495/2ef03b7c5e14652e.png" alt="Markdown"><br>简单作用说明：</p>
+<ul>
+<li>静态资源请求状态码可用于分析是否使用了缓存</li>
+<li>请求头信息可用于查看请求携带cookie信息</li>
+<li>响应头信息科用于分析服务器配置信息</li>
+<li>单个请求耗时与总请求耗时可用于网络优化</li>
+</ul>
+<p>headers查看全部的头信息，下面介绍一下常见的请求方法和状态码：</p>
+<ul>
+<li>http请求方法：</li>
+</ul>
+<p>Get:获取，读取数据<br>Post：提交资源<br>Put：更新<br>Delete：删除<br>Head 与get方法相同，但服务器不传回资源</p>
+<ul>
+<li>状态码（服务器端返回浏览器，告知浏览器请求成功或失败的信息）</li>
+</ul>
+<p>1XX：请求已经接受<br>2XX：请求成功并处理成功<br>3XX：重定向<br>4XX：客户端错误<br>5XX：服务器端错误</p>
+<p>200：OK，请求成功<br>400：客户端请求有语法错误<br>401：请求未经授权<br>403：收到请求，但不提供服务<br>404：资源未找到<br>500：服务器端未知错误<br>503：服务器端当前不能处理请求</p>
+<h2 id="4-3-网络操作"><a href="#4-3-网络操作" class="headerlink" title="4.3 网络操作"></a>4.3 网络操作</h2><p>不了解网络编程的程序员不是好前端，而NodeJS恰好提供了一扇了解网络编程的窗口。通过NodeJS，除了可以编写一些服务端程序来协助前端开发和测试外，还能够学习一些HTTP协议与Socket协议的相关知识，这些知识在优化前端性能和排查前端故障时说不定能派上用场。</p>
+<p>使用NodeJS内置的http模块简单实现一个HTTP服务器：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>);</span><br><span class="line"></span><br><span class="line">http.createServer( <span class="function">(<span class="params">request, response</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 发送 HTTP 头部 </span></span><br><span class="line">	<span class="comment">// HTTP 状态值: 200 : OK</span></span><br><span class="line">	<span class="comment">// 内容类型: text/plain</span></span><br><span class="line">	response.writeHead(<span class="number">200</span>, &#123;<span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>&#125;);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 发送响应数据 "Hello World"</span></span><br><span class="line">	response.end(<span class="string">'Hello World\n'</span>);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 终端打印如下信息</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'Server running at http://127.0.0.1:8888/'</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-3-1-HTTP"><a href="#4-3-1-HTTP" class="headerlink" title="4.3.1 HTTP"></a>4.3.1 HTTP</h3><p>http模块提供两种使用方式：</p>
+<ul>
+<li>作为服务端使用时，创建一个HTTP服务器，监听HTTP客户端请求并返回响应。</li>
+<li>作为客户端使用时，发起一个HTTP客户端请求，获取服务端响应。</li>
+</ul>
+<p>首先来看看服务端模式下如何工作。如前面的例子所示，首先需要使用<code>.createServer</code>方法创建一个服务器，然后调用<code>.listen</code>方法监听端口。之后，每当来了一个客户端请求，创建服务器时传入的回调函数就被调用一次。可以看出，这是一种<strong>事件机制</strong>。</p>
+<p>HTTP请求本质上是一个数据流，由请求头（headers）和请求体（body）组成。<br>完整的HTTP请求数据内容：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span> &#123;<span class="attr">host</span>: <span class="string">"127.0.0.1:8888"</span>, <span class="attr">connection</span>: <span class="string">"keep-alive"</span>, cache-control: <span class="string">"max-age=0"</span>, upgrade-insecure-requests: <span class="string">"1"</span>, user-agent: <span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/5…"</span>, …&#125;</span><br><span class="line">accept:<span class="string">"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"</span></span><br><span class="line">accept-encoding:<span class="string">"gzip, deflate, br"</span></span><br><span class="line">accept-language:<span class="string">"zh-CN,zh;q=0.8"</span></span><br><span class="line">cache-control:<span class="string">"max-age=0"</span></span><br><span class="line">connection:<span class="string">"keep-alive"</span></span><br><span class="line">host:<span class="string">"127.0.0.1:8888"</span></span><br><span class="line">upgrade-insecure-requests:<span class="string">"1"</span></span><br><span class="line">user-agent:<span class="string">"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"</span></span><br><span class="line">__proto__:<span class="built_in">Object</span> &#123;<span class="attr">__defineGetter__</span>: , <span class="attr">__defineSetter__</span>: , <span class="attr">hasOwnProperty</span>: , …&#125;</span><br></pre></td></tr></table></figure></p>
+<p>HTTP请求在发送给服务器时，可以认为是按照从头到尾的顺序一个字节一个字节地以数据流方式发送的。而http模块创建的HTTP服务器在接收到完整的请求头后，就会调用回调函数。在回调函数中，除了可以使用request对象访问请求头数据外，还能把request对象当作一个只读数据流来访问请求体数据。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">http.createServer( <span class="function">(<span class="params">request, response</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> body = [];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(request.method);</span><br><span class="line">    <span class="built_in">console</span>.log(request.headers);</span><br><span class="line"></span><br><span class="line">    request.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">        body.push(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        body = Buffer.concat(body);</span><br><span class="line">        <span class="built_in">console</span>.log(body.toString());</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure></p>
+<p>HTTP响应本质上也是一个数据流，同样由响应头（headers）和响应体（body）组成。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Connection:keep-alive</span><br><span class="line">Content-Type:text/plain</span><br><span class="line"><span class="built_in">Date</span>:Sun, <span class="number">23</span> Jul <span class="number">2017</span> <span class="number">13</span>:<span class="number">11</span>:<span class="number">54</span> GMT</span><br><span class="line">Transfer-Encoding:chunked</span><br></pre></td></tr></table></figure></p>
+<p>在回调函数中，除了可以使用response对象来写入响应头数据外，还能把response对象当作一个只写数据流来写入响应体数据。例如在以下例子中，服务端原样将客户端请求的请求体数据返回给客户端。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123; <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">        response.write(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    request.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        response.end();</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure></p>
+<p>接下来看看客户端模式下如何工作。为了发起一个客户端HTTP请求，我们需要指定目标服务器的位置并发送请求头和请求体.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">        hostname: <span class="string">'www.example.com'</span>,</span><br><span class="line">        port: <span class="number">8888</span>,</span><br><span class="line">        path: <span class="string">'/upload'</span>,</span><br><span class="line">        method: <span class="string">'POST'</span>,</span><br><span class="line">        headers: &#123;</span><br><span class="line">            <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> request = http.request(options, <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;&#125;);</span><br><span class="line"></span><br><span class="line">request.write(<span class="string">'Hello World'</span>);</span><br><span class="line">request.end();</span><br></pre></td></tr></table></figure>
+<p>因为大多数请求都是 GET 请求且不带请求主体，所以 Node.js 提供了该便捷方法。 该方法与 <code>http.request()</code>唯一的区别是它设置请求方法为<code>GET</code>且自动调用 <code>req.end()</code>。 </p>
+<blockquote>
+<p>注意，响应数据必须在回调中被消耗，原因详见 http.ClientRequest 。</p>
+</blockquote>
+<p>callback 被调用时只传入一个参数，该参数是 http.IncomingMessage 的一个实例。</p>
+<p>一个获取 JSON 的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">http.get(<span class="string">'http://nodejs.org/dist/index.json'</span>, (res) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; statusCode &#125; = res;</span><br><span class="line">  <span class="keyword">const</span> contentType = res.headers[<span class="string">'content-type'</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> error;</span><br><span class="line">  <span class="keyword">if</span> (statusCode !== <span class="number">200</span>) &#123;</span><br><span class="line">    error = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'请求失败。\n'</span> +</span><br><span class="line">                      <span class="string">`状态码: <span class="subst">$&#123;statusCode&#125;</span>`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="regexp">/^application\/json/</span>.test(contentType)) &#123;</span><br><span class="line">    error = <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'无效的 content-type.\n'</span> +</span><br><span class="line">                      <span class="string">`期望 application/json 但获取的是 <span class="subst">$&#123;contentType&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="built_in">console</span>.error(error.message);</span><br><span class="line">    <span class="comment">// 消耗响应数据以释放内存</span></span><br><span class="line">    res.resume();</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  res.setEncoding(<span class="string">'utf8'</span>);</span><br><span class="line">  <span class="keyword">let</span> rawData = <span class="string">''</span>;</span><br><span class="line">  res.on(<span class="string">'data'</span>, (chunk) =&gt; &#123; rawData += chunk; &#125;);</span><br><span class="line">  res.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> parsedData = <span class="built_in">JSON</span>.parse(rawData);</span><br><span class="line">      <span class="built_in">console</span>.log(parsedData);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="built_in">console</span>.error(e.message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;).on(<span class="string">'error'</span>, (e) =&gt; &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(<span class="string">`错误: <span class="subst">$&#123;e.message&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-3-2-HTTPS"><a href="#4-3-2-HTTPS" class="headerlink" title="4.3.2 HTTPS"></a>4.3.2 HTTPS</h3><p>HTTPS 是 HTTP 基于 TLS/SSL 的版本。在 Node.js 中，它被实现为一个独立的模块。</p>
+<p>在服务端模式下，创建一个HTTPS服务器的示例如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// curl -k https://localhost:8000/</span></span><br><span class="line"><span class="keyword">const</span> https = <span class="built_in">require</span>(<span class="string">'https'</span>);</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> options = &#123;</span><br><span class="line">  key: fs.readFileSync(<span class="string">'test/fixtures/keys/agent2-key.pem'</span>),</span><br><span class="line">  cert: fs.readFileSync(<span class="string">'test/fixtures/keys/agent2-cert.pem'</span>)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">https.createServer(options, (req, res) =&gt; &#123;</span><br><span class="line">  res.writeHead(<span class="number">200</span>);</span><br><span class="line">  res.end(<span class="string">'hello world\n'</span>);</span><br><span class="line">&#125;).listen(<span class="number">8000</span>);</span><br></pre></td></tr></table></figure>
+<p>可以看到，与创建HTTP服务器相比，多了一个options对象，通过key和cert字段指定了HTTPS服务器使用的私钥和公钥。</p>
+<p>另外，NodeJS支持SNI技术，可以根据HTTPS客户端请求使用的域名动态使用不同的证书，因此同一个HTTPS服务器可以使用多个域名提供服务。接着上例，可以使用以下方法为HTTPS服务器添加多组证书。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">server.addContext(<span class="string">'foo.com'</span>, &#123;</span><br><span class="line">    key: fs.readFileSync(<span class="string">'./ssl/foo.com.key'</span>),</span><br><span class="line">    cert: fs.readFileSync(<span class="string">'./ssl/foo.com.cer'</span>)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">server.addContext(<span class="string">'bar.com'</span>, &#123;</span><br><span class="line">    key: fs.readFileSync(<span class="string">'./ssl/bar.com.key'</span>),</span><br><span class="line">    cert: fs.readFileSync(<span class="string">'./ssl/bar.com.cer'</span>)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在客户端模式下，发起一个HTTPS客户端请求与http模块几乎相同，示例如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">        hostname: <span class="string">'www.example.com'</span>,</span><br><span class="line">        port: <span class="number">443</span>,</span><br><span class="line">        path: <span class="string">'/'</span>,</span><br><span class="line">        method: <span class="string">'GET'</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> request = https.request(options, <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;&#125;);</span><br><span class="line"></span><br><span class="line">request.end();</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-3-URL"><a href="#4-3-3-URL" class="headerlink" title="4.3.3 URL"></a>4.3.3 URL</h3><p>处理HTTP请求时url模块使用率超高，因为该模块允许解析URL、生成URL，以及拼接URL。首先来看看一个完整的URL的各组成部分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────────────────────────────────────┐</span><br><span class="line">│                                            href                                             │</span><br><span class="line">├──────────┬──┬─────────────────────┬─────────────────────┬───────────────────────────┬───────┤</span><br><span class="line">│ protocol │  │        auth         │        host         │           path            │ hash  │</span><br><span class="line">│          │  │                     ├──────────────┬──────┼──────────┬────────────────┤       │</span><br><span class="line">│          │  │                     │   hostname   │ port │ pathname │     search     │       │</span><br><span class="line">│          │  │                     │              │      │          ├─┬──────────────┤       │</span><br><span class="line">│          │  │                     │              │      │          │ │    query     │       │</span><br><span class="line"><span class="string">"  https:   //    user   :   pass   @ sub.host.com : 8080   /p/a/t/h  ?  query=string   #hash "</span></span><br><span class="line">│          │  │          │          │   hostname   │ port │          │                │       │</span><br><span class="line">│          │  │          │          ├──────────────┴──────┤          │                │       │</span><br><span class="line">│ protocol │  │ username │ password │        host         │          │                │       │</span><br><span class="line">├──────────┴──┼──────────┴──────────┼─────────────────────┤          │                │       │</span><br><span class="line">│   origin    │                     │       origin        │ pathname │     search     │ hash  │</span><br><span class="line">├─────────────┴─────────────────────┴─────────────────────┴──────────┴────────────────┴───────┤</span><br><span class="line">│                                            href                                             │</span><br><span class="line">└─────────────────────────────────────────────────────────────────────────────────────────────┘</span><br></pre></td></tr></table></figure>
+<p>我们可以使用new构造方法或<code>.parse</code>来将一个URL字符串转换为URL对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; URL &#125; = <span class="built_in">require</span>(<span class="string">'url'</span>);</span><br><span class="line"><span class="keyword">const</span> myURL = <span class="keyword">new</span> URL(<span class="string">'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash'</span>);</span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">const</span> myURL = url.parse(<span class="string">'https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash'</span>);</span><br><span class="line">  </span><br><span class="line"><span class="comment">/* =&gt;</span></span><br><span class="line"><span class="comment">&#123; protocol: 'https:',</span></span><br><span class="line"><span class="comment">  auth: 'user:pass',</span></span><br><span class="line"><span class="comment">  host: 'sub.host.com:8080',</span></span><br><span class="line"><span class="comment">  port: '8080',</span></span><br><span class="line"><span class="comment">  hostname: 'sub,host.com',</span></span><br><span class="line"><span class="comment">  hash: '#hash',</span></span><br><span class="line"><span class="comment">  search: '?query=string',</span></span><br><span class="line"><span class="comment">  query: 'query=string',</span></span><br><span class="line"><span class="comment">  pathname: '/p/a/t/h',</span></span><br><span class="line"><span class="comment">  path: '/p/a/t/h?query=string',</span></span><br><span class="line"><span class="comment">  href: 'http://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash' &#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>传给<code>.parse</code>方法的不一定要是一个完整的URL，例如在HTTP服务器回调函数中，<code>request.url</code>不包含协议头和域名，但同样可以用<code>.parse</code>方法解析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tmp = request.url; <span class="comment">// =&gt; "/foo/bar?a=b"</span></span><br><span class="line">    url.parse(tmp);</span><br><span class="line">    <span class="comment">/* =&gt;</span></span><br><span class="line"><span class="comment">    &#123; protocol: null,</span></span><br><span class="line"><span class="comment">      slashes: null,</span></span><br><span class="line"><span class="comment">      auth: null,</span></span><br><span class="line"><span class="comment">      host: null,</span></span><br><span class="line"><span class="comment">      port: null,</span></span><br><span class="line"><span class="comment">      hostname: null,</span></span><br><span class="line"><span class="comment">      hash: null,</span></span><br><span class="line"><span class="comment">      search: '?a=b',</span></span><br><span class="line"><span class="comment">      query: 'a=b',</span></span><br><span class="line"><span class="comment">      pathname: '/foo/bar',</span></span><br><span class="line"><span class="comment">      path: '/foo/bar?a=b',</span></span><br><span class="line"><span class="comment">      href: '/foo/bar?a=b' &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure>
+<p><code>.parse</code>方法还支持第二个和第三个布尔类型可选参数。第二个参数等于true时，该方法返回的URL对象中，query字段不再是一个字符串，而是一个经过querystring模块转换后的参数对象。第三个参数等于true时，该方法可以正确解析不带协议头的URL，例如<code>//www.example.com/foo/bar。</code></p>
+<p>反过来，format方法允许将一个URL对象转换为URL字符串，示例如下。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">url.format(&#123;</span><br><span class="line">    protocol: <span class="string">'http:'</span>,</span><br><span class="line">    host: <span class="string">'www.example.com'</span>,</span><br><span class="line">    pathname: <span class="string">'/p/a/t/h'</span>,</span><br><span class="line">    search: <span class="string">'query=string'</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/* =&gt;</span></span><br><span class="line"><span class="comment">'http://www.example.com/p/a/t/h?query=string'</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>另外，.resolve方法可以用于拼接URL，示例如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">url.resolve(&apos;http://www.example.com/foo/bar&apos;, &apos;../baz&apos;);</span><br><span class="line">/* =&gt;</span><br><span class="line">http://www.example.com/baz</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-4-Query-String"><a href="#4-3-4-Query-String" class="headerlink" title="4.3.4 Query String"></a>4.3.4 Query String</h3><p>querystring 模块提供了一些实用工具，用于解析与格式化 URL 查询字符串。</p>
+<p><code>querystring.parse()</code>方法能把一个 URL 查询字符串（str）解析成一个键值对的集合。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询字符串 'foo=bar&amp;abc=xyz&amp;abc=123' 被解析成：</span></span><br><span class="line">&#123;</span><br><span class="line">  foo: <span class="string">'bar'</span>,</span><br><span class="line">  abc: [<span class="string">'xyz'</span>, <span class="string">'123'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>querystring.stringify()</code> 方法通过遍历对象的自有属性，从一个给定的 obj 产生一个 URL 查询字符串。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">querystring.stringify(&#123; <span class="attr">foo</span>: <span class="string">'bar'</span>, <span class="attr">baz</span>: [<span class="string">'qux'</span>, <span class="string">'quux'</span>], <span class="attr">corge</span>: <span class="string">''</span> &#125;);</span><br><span class="line"><span class="comment">// 返回 'foo=bar&amp;baz=qux&amp;baz=quux&amp;corge='</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-3-5-Zlib"><a href="#4-3-5-Zlib" class="headerlink" title="4.3.5 Zlib"></a>4.3.5 Zlib</h3><p>zlib模块提供通过 Gzip 和 Deflate/Inflate 实现的压缩功能。当我们处理HTTP请求和响应时，可能需要用到这个模块。</p>
+<p>压缩或者解压数据流(例如一个文件)通过zlib流将源数据流传输到目标流中来完成。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> gzip = zlib.createGzip();</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">const</span> inp = fs.createReadStream(<span class="string">'input.txt'</span>);</span><br><span class="line"><span class="keyword">const</span> out = fs.createWriteStream(<span class="string">'input.txt.gz'</span>);</span><br><span class="line"></span><br><span class="line">inp.pipe(gzip).pipe(out);</span><br></pre></td></tr></table></figure>
+<p>数据的压缩或解压缩也可以只用一个步骤完成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> input = <span class="string">'.................................'</span>;</span><br><span class="line">zlib.deflate(input, (err, buffer) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(buffer.toString(<span class="string">'base64'</span>));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 错误处理</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> buffer = Buffer.from(<span class="string">'eJzT0yMAAGTvBe8='</span>, <span class="string">'base64'</span>);</span><br><span class="line">zlib.unzip(buffer, (err, buffer) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(buffer.toString());</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// 错误处理</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>再看看一个使用zlib模块压缩HTTP响应体数据的例子。这个例子中，判断了客户端是否支持gzip，并在支持的情况下使用zlib模块返回gzip之后的响应体数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">1024</span>,</span><br><span class="line">        data = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i--) &#123;</span><br><span class="line">        data += <span class="string">'.'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ((request.headers[<span class="string">'accept-encoding'</span>] || <span class="string">''</span>).indexOf(<span class="string">'gzip'</span>) !== <span class="number">-1</span>) &#123;</span><br><span class="line">        zlib.gzip(data, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">            response.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">                <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>,</span><br><span class="line">                <span class="string">'Content-Encoding'</span>: <span class="string">'gzip'</span></span><br><span class="line">            &#125;);</span><br><span class="line">            response.end(data);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        response.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">            <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span></span><br><span class="line">        &#125;);</span><br><span class="line">        response.end(data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure>
+<p>接着我们看一个使用zlib模块解压HTTP响应体数据的例子。这个例子中，判断了服务端响应是否使用gzip压缩，并在压缩的情况下使用zlib模块解压响应体数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">        hostname: <span class="string">'www.example.com'</span>,</span><br><span class="line">        port: <span class="number">80</span>,</span><br><span class="line">        path: <span class="string">'/'</span>,</span><br><span class="line">        method: <span class="string">'GET'</span>,</span><br><span class="line">        headers: &#123;</span><br><span class="line">            <span class="string">'Accept-Encoding'</span>: <span class="string">'gzip, deflate'</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">http.request(options, <span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> body = [];</span><br><span class="line"></span><br><span class="line">    response.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">        body.push(chunk);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    response.on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        body = Buffer.concat(body);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (response.headers[<span class="string">'content-encoding'</span>] === <span class="string">'gzip'</span>) &#123;</span><br><span class="line">            zlib.gunzip(body, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">                <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).end();</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-6-Net"><a href="#4-3-6-Net" class="headerlink" title="4.3.6 Net"></a>4.3.6 Net</h3><p>net模块可用于创建Socket服务器或Socket客户端。由于Socket在前端领域的使用范围还不是很广，这里只简单演示一下如何从Socket层面来实现HTTP请求和响应。</p>
+<p>首先我们来看一个使用Socket搭建一个很不严谨的HTTP服务器的例子。这个HTTP服务器不管收到啥请求，都固定返回相同的响应。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">net.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">conn</span>) </span>&#123;</span><br><span class="line">    conn.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">        conn.write([</span><br><span class="line">            <span class="string">'HTTP/1.1 200 OK'</span>,</span><br><span class="line">            <span class="string">'Content-Type: text/plain'</span>,</span><br><span class="line">            <span class="string">'Content-Length: 11'</span>,</span><br><span class="line">            <span class="string">''</span>,</span><br><span class="line">            <span class="string">'Hello World'</span></span><br><span class="line">        ].join(<span class="string">'\n'</span>));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(<span class="number">8888</span>);</span><br></pre></td></tr></table></figure>
+<p>接着我们来看一个使用Socket发起HTTP客户端请求的例子。这个例子中，Socket客户端在建立连接后发送了一个HTTP GET请求，并通过data事件监听函数来获取服务器响应。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> options = &#123;</span><br><span class="line">        port: <span class="number">8888</span>,</span><br><span class="line">        host: <span class="string">'www.example.com'</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> client = net.connect(options, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        client.write([</span><br><span class="line">            <span class="string">'GET / HTTP/1.1'</span>,</span><br><span class="line">            <span class="string">'User-Agent: curl/7.26.0'</span>,</span><br><span class="line">            <span class="string">'Host: www.baidu.com'</span>,</span><br><span class="line">            <span class="string">'Accept: */*'</span>,</span><br><span class="line">            <span class="string">''</span>,</span><br><span class="line">            <span class="string">''</span></span><br><span class="line">        ].join(<span class="string">'\n'</span>));</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">client.on(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(data.toString());</span><br><span class="line">    client.end();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="4-4-HTTP小爬虫"><a href="#4-4-HTTP小爬虫" class="headerlink" title="4.4 HTTP小爬虫"></a>4.4 HTTP小爬虫</h2><h3 id="4-4-1-初步获取"><a href="#4-4-1-初步获取" class="headerlink" title="4.4.1 初步获取"></a>4.4.1 初步获取</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>),</span><br><span class="line">    cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>),</span><br><span class="line">    url = <span class="string">'http://www.imooc.com/learn/348'</span></span><br><span class="line"></span><br><span class="line">http.get(url, (res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> html = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    res.on(<span class="string">'data'</span>, (data) =&gt; &#123;</span><br><span class="line">        html += data</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    res.on(<span class="string">'end'</span>,()=&gt;&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(html)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;).on(<span class="string">'error'</span>,()=&gt;&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Error!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>这样就已经可以获取到网页的源码，但是十分地凌乱，所以我们需要手动的进行筛选以及格式化输出。</p>
+<h3 id="4-4-2-小爬虫"><a href="#4-4-2-小爬虫" class="headerlink" title="4.4.2 小爬虫"></a>4.4.2 小爬虫</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</span><br><span class="line"><span class="keyword">const</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>)</span><br><span class="line"><span class="keyword">const</span> url = <span class="string">'http://www.imooc.com/learn/348'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 章节头有隐藏的章节解释，各小节后面还有时间，所以对输出做一下格式化</span></span><br><span class="line"><span class="keyword">var</span> formatPrint = <span class="function"><span class="keyword">function</span> (<span class="params">str</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> _str = str.trim().replace(<span class="regexp">/\s&#123;2,&#125;/g</span>, <span class="string">'%'</span>).split(<span class="string">'%'</span>);</span><br><span class="line">    <span class="keyword">var</span> len = _str.length - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (_str[len].indexOf(<span class="string">'开始'</span>) !== <span class="number">-1</span>) &#123;</span><br><span class="line">        _str.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _str.join(<span class="string">'---'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filterChapters</span>(<span class="params">html</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $ = cheerio.load(html),</span><br><span class="line">        chapters = $(<span class="string">'.chapter'</span>),</span><br><span class="line">        courseData = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> chapterTitle, videos, chapterData,</span><br><span class="line">        video, videoTitle, videoId</span><br><span class="line"></span><br><span class="line">    chapters.each(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> chapter = $(<span class="keyword">this</span>)</span><br><span class="line">        chapterTitle = chapter.find(<span class="string">'strong'</span>).text()</span><br><span class="line">        videos = chapter.find(<span class="string">'.video'</span>).find(<span class="string">'li'</span>)</span><br><span class="line">        chapterData = &#123;</span><br><span class="line">            chapterTitle: chapterTitle,</span><br><span class="line">            videos: []</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        videos.each(<span class="function"><span class="keyword">function</span> (<span class="params">item</span>) </span>&#123;</span><br><span class="line">            video = $(<span class="keyword">this</span>).find(<span class="string">'.J-media-item'</span>)</span><br><span class="line">            videoTitle = video.text()</span><br><span class="line">            videoId = video.attr(<span class="string">'href'</span>).split(<span class="string">'video/'</span>)[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">            chapterData.videos.push(&#123;</span><br><span class="line">                title: videoTitle,</span><br><span class="line">                id: videoId</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">        courseData.push(chapterData)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> courseData</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printCourseInfo</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    data.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (index !== <span class="number">0</span>) <span class="built_in">console</span>.log(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="built_in">console</span>.log(formatPrint(item.chapterTitle) + <span class="string">'\n'</span>)</span><br><span class="line">        item.videos.forEach(<span class="function">(<span class="params">video</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`[ <span class="subst">$&#123;formatPrint(video.id)&#125;</span> ] <span class="subst">$&#123;formatPrint(video.title)&#125;</span>`</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http.get(url, (res) =&gt; &#123;</span><br><span class="line">    <span class="keyword">var</span> html = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    res.on(<span class="string">'data'</span>, (data) =&gt; &#123;</span><br><span class="line">        html += data</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    res.on(<span class="string">'end'</span>, () =&gt; &#123;</span><br><span class="line">        <span class="keyword">var</span> courseData = filterChapters(html)</span><br><span class="line">        printCourseInfo(courseData)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;).on(<span class="string">'error'</span>, () =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'获取课程数据出错!'</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="http://i1.ciimg.com/594495/9d2fc56abe6fefa6.png" alt="Markdown"></p>
+<p>运行一下，我们就可以看到清晰的课程列表</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/07/24/NodeJS入门（四）网络操作/" title="NodeJS入门（四）网络操作">http://yoursite.com/2017/07/24/NodeJS入门（四）网络操作/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NodeJS/" rel="tag"># NodeJS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/21/NodeJS入门（三）文件操作/" rel="next" title="NodeJS入门（三）文件操作">
+                <i class="fa fa-chevron-left"></i> NodeJS入门（三）文件操作
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/24/NodeJS入门（五）异步编程/" rel="prev" title="NodeJS入门（五）异步编程">
+                NodeJS入门（五）异步编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-计算机网络基础知识"><span class="nav-text">4.1 计算机网络基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-HTTP协议"><span class="nav-text">4.1.1 HTTP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-打开一个网站的流程（example-com为例）"><span class="nav-text">4.1.2 打开一个网站的流程（example.com为例）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-网络监听（chrome浏览器）"><span class="nav-text">4.2 网络监听（chrome浏览器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-以新浪网为例"><span class="nav-text">4.2.1 以新浪网为例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-网络操作"><span class="nav-text">4.3 网络操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-1-HTTP"><span class="nav-text">4.3.1 HTTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-2-HTTPS"><span class="nav-text">4.3.2 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-3-URL"><span class="nav-text">4.3.3 URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-4-Query-String"><span class="nav-text">4.3.4 Query String</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-5-Zlib"><span class="nav-text">4.3.5 Zlib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-6-Net"><span class="nav-text">4.3.6 Net</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-HTTP小爬虫"><span class="nav-text">4.4 HTTP小爬虫</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-1-初步获取"><span class="nav-text">4.4.1 初步获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-2-小爬虫"><span class="nav-text">4.4.2 小爬虫</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

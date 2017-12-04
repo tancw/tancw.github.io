@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="<<你不知道的Javascript>>," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="5.1 类型类型：是值的内部特征，它定义了值的行为，以使其区别于其他值。 5.1.1 内置类型JavaScript 有七种内置类型：• 空值（null）• 未定义（undefined）• 布尔值（ boolean）• 数字（number）• 字符串（string）• 对象（object）• 符号（symbol，ES6 ">
+<meta name="keywords" content="&lt;&lt;你不知道的Javascript&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的JavaScript学习笔记（五）类型、值">
+<meta property="og:url" content="http://yoursite.com/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="5.1 类型类型：是值的内部特征，它定义了值的行为，以使其区别于其他值。 5.1.1 内置类型JavaScript 有七种内置类型：• 空值（null）• 未定义（undefined）• 布尔值（ boolean）• 数字（number）• 字符串（string）• 对象（object）• 符号（symbol，ES6 中新增）除对象之外，其他统称为“基本类型”。 可以用typeof运算符来查看值的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-06-06T09:24:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的JavaScript学习笔记（五）类型、值">
+<meta name="twitter:description" content="5.1 类型类型：是值的内部特征，它定义了值的行为，以使其区别于其他值。 5.1.1 内置类型JavaScript 有七种内置类型：• 空值（null）• 未定义（undefined）• 布尔值（ boolean）• 数字（number）• 字符串（string）• 对象（object）• 符号（symbol，ES6 中新增）除对象之外，其他统称为“基本类型”。 可以用typeof运算符来查看值的">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/"/>
+
+
+
+
+
+  <title>你不知道的JavaScript学习笔记（五）类型、值 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你不知道的JavaScript学习笔记（五）类型、值</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-22T00:00:00+08:00">
+                2017-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/" class="leancloud_visitors" data-flag-title="你不知道的JavaScript学习笔记（五）类型、值">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="5-1-类型"><a href="#5-1-类型" class="headerlink" title="5.1 类型"></a>5.1 类型</h2><p>类型：是值的内部特征，它定义了值的行为，以使其区别于其他值。</p>
+<h3 id="5-1-1-内置类型"><a href="#5-1-1-内置类型" class="headerlink" title="5.1.1 内置类型"></a>5.1.1 内置类型</h3><p>JavaScript 有七种内置类型：<br>• 空值（null）<br>• 未定义（undefined）<br>• 布尔值（ boolean）<br>• 数字（number）<br>• 字符串（string）<br>• 对象（object）<br>• 符号（symbol，ES6 中新增）<br>除对象之外，其他统称为“基本类型”。</p>
+<p>可以用<code>typeof</code>运算符来查看值的类型，它返回的是类型的字符串值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">undefined</span> === <span class="string">"undefined"</span>; <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">true</span> === <span class="string">"boolean"</span>;        <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="number">42</span> === <span class="string">"number"</span>;           <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">"42"</span> === <span class="string">"string"</span>;         <span class="comment">// true</span></span><br><span class="line"><span class="keyword">typeof</span> &#123; <span class="attr">life</span>: <span class="number">42</span> &#125; === <span class="string">"object"</span>; <span class="comment">// true</span></span><br><span class="line"><span class="comment">// ES6中新加入的类型</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="built_in">Symbol</span>() === <span class="string">"symbol"</span>;     <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>null 是基本类型中唯一的一个“假值”类型，typeof对它的返回值为”object”。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === <span class="string">"object"</span>; <span class="comment">// true</span></span><br><span class="line"><span class="comment">//需要使用复合条件来检测null 值的类型：</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="literal">null</span>;</span><br><span class="line">(!a &amp;&amp; <span class="keyword">typeof</span> a === <span class="string">"object"</span>); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>function（函数）也是JavaScript 的一个内置类型，它实际上是object 的一个“子类型”，具体来说，函数是“可调用对象”，它有一个内部属性[[Call]]，该属性使其可以被调用。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123; <span class="comment">/* .. */</span> &#125; === <span class="string">"function"</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>函数不仅是对象，还可以拥有属性。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params">b,c</span>) </span>&#123;</span><br><span class="line">	<span class="comment">/* .. */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数对象的length 属性是其声明的参数的个数：<code>a.length; // 2</code>，因为该函数声明了两个命名参数，b 和c，所以其length 值为2。</p>
+<p>数组也是对象，也是object 的一个“子类型”，数组的元素按数字顺序来进行索引（而非普通像对象那样通过字符串键值），其length 属性是元素的个数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] === <span class="string">"object"</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="5-1-2-值和类型"><a href="#5-1-2-值和类型" class="headerlink" title="5.1.2 值和类型"></a>5.1.2 值和类型</h3><p>JavaScript 中的变量是没有类型的，只有值才有。变量可以随时持有任何类型的值。换个角度来理解就是，JavaScript 不做“类型强制”；也就是说，语言引擎不要求变量总是持有与其初始值同类型的值。一个变量可以现在被赋值为字符串类型值，随后又被赋值为数字类型值。</p>
+<p>在对变量执行typeof 操作时，得到的结果并不是该变量的类型，而是该变量持有的值的类型，因为<strong>JavaScript 中的变量没有类型。</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">typeof</span> a; <span class="comment">// "number"</span></span><br><span class="line">a = <span class="literal">true</span>;</span><br><span class="line"><span class="keyword">typeof</span> a; <span class="comment">// "boolean"</span></span><br></pre></td></tr></table></figure>
+<p>typeof 运算符总是会返回一个字符串：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="keyword">typeof</span> <span class="number">42</span>; <span class="comment">// "string"</span></span><br></pre></td></tr></table></figure></p>
+<p>typeof 42 首先返回字符串”number”，然后typeof “number” 返回”string”。</p>
+<p><strong>1. undefined 和undeclared</strong></p>
+<p>变量在未持有值的时候为undefined。此时typeof 返回”undefined”：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="keyword">typeof</span> a; <span class="comment">// "undefined"</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> c;</span><br><span class="line"><span class="comment">// later</span></span><br><span class="line">b = c;</span><br><span class="line"><span class="keyword">typeof</span> b; <span class="comment">// "undefined"</span></span><br><span class="line"><span class="keyword">typeof</span> c; <span class="comment">// "undefined"</span></span><br></pre></td></tr></table></figure></p>
+<p>已在作用域中声明但还没有赋值的变量，是<code>undefined</code> 的。相反，还没有在作用域中声明过的变量，是<code>undeclared</code> 的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line">a; <span class="comment">// undefined</span></span><br><span class="line">b; <span class="comment">// ReferenceError: b is not defined</span></span><br></pre></td></tr></table></figure>
+<p>“<code>undefined</code>”和“<code>is not defined</code>”是两码事！</p>
+<p>更要注意typeof 处理undeclared 变量的方式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a;</span><br><span class="line"><span class="keyword">typeof</span> a; <span class="comment">// "undefined"</span></span><br><span class="line"><span class="keyword">typeof</span> b; <span class="comment">// "undefined"</span></span><br></pre></td></tr></table></figure></p>
+<p>对于undeclared（或者not defined）变量，typeof 照样返回”undefined”。请注意虽然b 是一个undeclared 变量，但typeof b 并没有报错。这是因为typeof 有一个特殊的安全防范机制。</p>
+<p><strong>2. typeof Undeclared</strong></p>
+<p>该安全防范机制对在浏览器中运行的JavaScript 代码来说还是很有帮助的，因为<strong>多个脚本文件会在共享的全局命名空间中加载变量</strong>。</p>
+<p>举个简单的例子，在程序中使用全局变量DEBUG 作为“调试模式”的开关。在输出调试信息到控制台之前，我们会检查DEBUG 变量是否已被声明。顶层的全局变量声明var DEBUG = true 只在debug.js 文件中才有，而该文件只在开发和测试时才被加载到浏览器，在生产环境中不予加载。</p>
+<p>问题是如何在程序中检查全局变量DEBUG 才不会出现ReferenceError 错误？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这样会抛出错误</span></span><br><span class="line"><span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"Debugging is starting"</span> );</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这样是安全的</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> DEBUG !== <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="string">"Debugging is starting"</span> );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这不仅对用户定义的变量（比如DEBUG）有用，对内建的API 也有帮助：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> atob === <span class="string">"undefined"</span>) &#123;</span><br><span class="line">    atob = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*..*/</span> &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有一种不用通过typeof 的安全防范机制的方法，就是检查所有全局变量是否是全局对象的属性，浏览器中的全局对象是<code>window</code>。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.DEBUG) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (!<span class="built_in">window</span>.atob) &#123;</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>与undeclared变量不同，访问不存在的对象属性（甚至是在全局对象window 上）不会产生ReferenceError 错误。</p>
+<p>如果想让别人在他们的程序或模块中复制粘贴你的代码，就需要检查你用到的变量是否已经在宿主程序中定义过：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomethingCool</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> helper =</span><br><span class="line">        (<span class="keyword">typeof</span> FeatureXYZ !== <span class="string">"undefined"</span>) ?</span><br><span class="line">            FeatureXYZ :</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*.. default feature ..*/</span> &#125;;</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">var</span> val = helper();</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其他模块和程序引入doSomethingCool() 时，doSomethingCool() 会检查FeatureXYZ 变量是否已经在宿主程序中定义过；如果是，就用现成的，否则就自己定义：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">FeatureXYZ</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*.. my XYZ feature ..*/</span> &#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 包含doSomethingCool(..)</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">doSomethingCool</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> helper =</span><br><span class="line">            (<span class="keyword">typeof</span> FeatureXYZ !== <span class="string">"undefined"</span>) ?</span><br><span class="line">            FeatureXYZ :</span><br><span class="line">            <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*.. default feature ..*/</span> &#125;; </span><br><span class="line">		</span><br><span class="line">        <span class="keyword">var</span> val = helper();</span><br><span class="line">        <span class="comment">// ..</span></span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">	doSomethingCool();</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>还有一种“依赖注入”（dependency injection）设计模式，就是将依赖通过参数显式地传递到函数中，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomethingCool</span>(<span class="params">FeatureXYZ</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> helper = FeatureXYZ ||</span><br><span class="line">        <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*.. default feature ..*/</span> &#125;;</span><br><span class="line">    <span class="keyword">var</span> val = helper();</span><br><span class="line">    <span class="comment">// ..</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-2-值"><a href="#5-2-值" class="headerlink" title="5.2 值"></a>5.2 值</h2><h3 id="5-2-1-数组"><a href="#5-2-1-数组" class="headerlink" title="5.2.1 数组"></a>5.2.1 数组</h3><p>在JavaScript 中，数组可以容纳任何类型的值，可以是字符串、数字、对象（object），甚至是其他数组（多维数组就是通过这种方式来实现的）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ <span class="number">1</span>, <span class="string">"2"</span>, [<span class="number">3</span>] ];</span><br><span class="line">a.length; <span class="comment">// 3</span></span><br><span class="line">a[<span class="number">0</span>] === <span class="number">1</span>; <span class="comment">// true</span></span><br><span class="line">a[<span class="number">2</span>][<span class="number">0</span>] === <span class="number">3</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>对数组声明后即可向其中加入值，不需要预先设定大小：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ ];</span><br><span class="line">a.length; <span class="comment">// 0</span></span><br><span class="line">a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">a[<span class="number">1</span>] = <span class="string">"2"</span>;</span><br><span class="line">a[<span class="number">2</span>] = [ <span class="number">3</span> ];</span><br><span class="line">a.length; <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
+<p>（使用delete 运算符可以将单元从数组中删除，但是请注意，单元删除后，数组的length 属性并不会发生变化。）</p>
+<p>在创建“稀疏”数组（sparse array，即含有空白或空缺单元的数组）时要特别注意：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ ];</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// 此处没有设置a[1]单元</span></span><br><span class="line">a[<span class="number">2</span>] = [ <span class="number">3</span> ];</span><br><span class="line">a[<span class="number">1</span>]; <span class="comment">// undefined</span></span><br><span class="line">a.length; <span class="comment">// 3</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的代码可以正常运行，但其中的“空白单元”（empty slot）可能会导致出人意料的结果。a[1] 的值为undefined，但这与将其显式赋值为undefined（a[1] = undefined）还是有所区别。</p>
+<p>数组通过数字进行索引，但它们也是对象，所以也可以包含字符串键值和属性（但这些并不计算在数组长度内）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ ];</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">a[<span class="string">"foobar"</span>] = <span class="number">2</span>;</span><br><span class="line">a.length; <span class="comment">// 1</span></span><br><span class="line">a[<span class="string">"foobar"</span>]; <span class="comment">// 2</span></span><br><span class="line">a.foobar; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>如果字符串键值能够被强制类型转换为十进制数字的话，它就会被当作数字索引来处理。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [ ];</span><br><span class="line">a[<span class="string">"13"</span>] = <span class="number">42</span>;</span><br><span class="line">a.length; <span class="comment">// 14</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>建议尽量使用对象来存放键值/ 属性值，用数组来存放数字索引值。</strong></p>
+<h4 id="类数组"><a href="#类数组" class="headerlink" title="类数组"></a>类数组</h4><p>有时需要将类数组（一组通过数字索引的值）转换为真正的数组，这一般通过数组工具函数（如<code>indexOf(..)、concat(..)、forEach(..)</code> 等）来实现。</p>
+<p>一些DOM 查询操作会返回DOM 元素列表，它们并非真正意义上的数组，但十分类似。另一个例子是通过arguments 对象（类数组）将函数的参数当作列表来访问（从ES6 开始已废止）。</p>
+<p>工具函数slice(..) 经常被用于这类转换：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">Array</span>.prototype.slice.call( <span class="built_in">arguments</span> );</span><br><span class="line">    arr.push( <span class="string">"bam"</span> );</span><br><span class="line">    <span class="built_in">console</span>.log( arr );</span><br><span class="line">&#125;</span><br><span class="line">foo( <span class="string">"bar"</span>, <span class="string">"baz"</span> ); <span class="comment">// ["bar","baz","bam"]</span></span><br></pre></td></tr></table></figure></p>
+<p>如上所示，<code>slice()</code>返回参数列表（上例中是一个类数组）的一个数组复本。</p>
+<p>用ES6 中的内置工具函数Array.from(..) 也能实现同样的功能：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">var</span> arr = <span class="built_in">Array</span>.from( <span class="built_in">arguments</span> );</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-2-2-字符串"><a href="#5-2-2-字符串" class="headerlink" title="5.2.2 字符串"></a>5.2.2 字符串</h3><p>JavaScript 中的字符串和字符数组并不是一回事，只是看上去相似而已。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = [<span class="string">"f"</span>,<span class="string">"o"</span>,<span class="string">"o"</span>];</span><br></pre></td></tr></table></figure></p>
+<p>字符串和数组的确很相似，它们都是类数组，都有length 属性以及<code>indexOf(..)</code>（从ES5开始数组支持此方法）和<code>concat(..)</code> 方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">a.length;	<span class="comment">// 3</span></span><br><span class="line">b.length;	<span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line">a.indexOf( <span class="string">"o"</span> );	<span class="comment">// 1</span></span><br><span class="line">b.indexOf( <span class="string">"o"</span> );	<span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = a.concat( <span class="string">"bar"</span> );		<span class="comment">// "foobar"</span></span><br><span class="line"><span class="keyword">var</span> d = b.concat( [<span class="string">"b"</span>,<span class="string">"a"</span>,<span class="string">"r"</span>] );	<span class="comment">// ["f","o","o","b","a","r"]</span></span><br><span class="line"></span><br><span class="line">a === c;	<span class="comment">// false</span></span><br><span class="line">b === d;	<span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">a;	<span class="comment">// "foo"</span></span><br><span class="line">b;	<span class="comment">// ["f","o","o"]</span></span><br></pre></td></tr></table></figure></p>
+<p>但这并不意味着它们都是“字符的数组”，比如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a[<span class="number">1</span>] = <span class="string">"O"</span>;</span><br><span class="line">b[<span class="number">1</span>] = <span class="string">"O"</span>;</span><br><span class="line">a; <span class="comment">// "foo"</span></span><br><span class="line">b; <span class="comment">// ["f","O","o"]</span></span><br></pre></td></tr></table></figure></p>
+<p>JavaScript 中字符串是不可变的，而数组是可变的。，正确的方法应该是：<code>a.charAt(1)</code></p>
+<p>字符串不可变是指字符串的成员函数不会改变其原始值，而是创建并返回一个新的字符串。而数组的成员函数都是在其原始值上进行操作。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">c = a.toUpperCase();</span><br><span class="line">a === c; 	<span class="comment">// false</span></span><br><span class="line">a; 		<span class="comment">// "foo"</span></span><br><span class="line">c; 		<span class="comment">// "FOO"</span></span><br><span class="line">b.push( <span class="string">"!"</span> );</span><br><span class="line">b; 		<span class="comment">// ["f","O","o","!"]</span></span><br></pre></td></tr></table></figure>
+<p>许多数组函数用来处理字符串很方便。虽然字符串没有这些函数，但可以通过“借用”数组的非变更方法来处理字符串：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a.join;			<span class="comment">// undefined</span></span><br><span class="line">a.map;			<span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> c = <span class="built_in">Array</span>.prototype.join.call( a, <span class="string">"-"</span> );</span><br><span class="line"><span class="keyword">var</span> d = <span class="built_in">Array</span>.prototype.map.call( a, <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> v.toUpperCase() + <span class="string">"."</span>;</span><br><span class="line">&#125; ).join( <span class="string">""</span> );</span><br><span class="line"></span><br><span class="line">c;	<span class="comment">// "f-o-o"</span></span><br><span class="line">d;	<span class="comment">// "F.O.O."</span></span><br></pre></td></tr></table></figure></p>
+<p>另一个不同点在于字符串反转。数组有一个字符串没有的可变更成员函数<code>reverse()</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.reverse;	<span class="comment">// undefined</span></span><br><span class="line">b.reverse();	<span class="comment">// ["!","o","O","f"]</span></span><br><span class="line">b;	<span class="comment">// ["f","O","o","!"]</span></span><br></pre></td></tr></table></figure></p>
+<p>可惜我们无法“借用”数组的可变更成员函数，因为字符串是不可变的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Array</span>.prototype.reverse.call( a );</span><br><span class="line"><span class="comment">// 返回值仍然是字符串"foo"的一个封装对象</span></span><br></pre></td></tr></table></figure></p>
+<p>一个变通（破解）的办法是先将字符串转换为数组，待处理完后再将结果转换回字符串：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> c = a</span><br><span class="line">    <span class="comment">// 将a的值转换为字符数组</span></span><br><span class="line">    .split( <span class="string">""</span> )</span><br><span class="line">    <span class="comment">// 将数组中的字符进行倒转</span></span><br><span class="line">   .reverse()</span><br><span class="line">   <span class="comment">// 将数组中的字符拼接回字符串</span></span><br><span class="line">   .join( <span class="string">""</span> );</span><br><span class="line">    </span><br><span class="line">c; <span class="comment">// "oof"</span></span><br></pre></td></tr></table></figure></p>
+<p>这种方法对简单的字符串完全适用，对于包含复杂字符（Unicode，如星号、多字节字符等）的字符串并不适用。</p>
+<h3 id="5-2-3-数字"><a href="#5-2-3-数字" class="headerlink" title="5.2.3 数字"></a>5.2.3 数字</h3><p>JavaScript 只有一种数值类型：<strong>number（数字）</strong>，包括“整数”和带小数的十进制数。此处“整数”之所以加引号是因为和其他语言不同，JavaScript 没有真正意义上的整数。JavaScript 中的“整数”就是没有小数的十进制数。所以42.0 即等同于“整数”42。</p>
+<p>JavaScript 中的数字类型是基于IEEE 754 标准来实现的，该标准通常也被称为“浮点数”。JavaScript 使用的是“双精度”格式（即64 位二进制）。</p>
+<p><strong>1. 数字的语法</strong></p>
+<p>JavaScript 中的数字常量一般用十进制表示。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42.3</span>;</span><br></pre></td></tr></table></figure></p>
+<p>数字前面的0 可以省略：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0.42</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">.42</span>;</span><br></pre></td></tr></table></figure></p>
+<p>小数点后小数部分最后面的0 也可以省略：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.0</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42.</span>;  <span class="comment">//不建议这样写</span></span><br></pre></td></tr></table></figure></p>
+<p>默认情况下大部分数字都以十进制显示，小数部分最后面的0 被省略，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.300</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">42.0</span>;</span><br><span class="line">a; <span class="comment">// 42.3</span></span><br><span class="line">b; <span class="comment">// 42</span></span><br></pre></td></tr></table></figure></p>
+<p>特别大和特别小的数字默认用指数格式显示，与<code>toExponential()</code>函数的输出结果相同。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">5E10</span>;</span><br><span class="line">a; 	<span class="comment">//50000000000</span></span><br><span class="line">a.toExponential(); <span class="comment">// "5e+10"</span></span><br><span class="line"><span class="keyword">var</span> b = a * a;</span><br><span class="line">b; <span class="comment">// 2.5e+21</span></span><br><span class="line"><span class="keyword">var</span> c = <span class="number">1</span> / a;</span><br><span class="line">c; <span class="comment">// 2e-11</span></span><br></pre></td></tr></table></figure></p>
+<p>由于数字值可以使用Number 对象进行封装，因此数字值可以调用<code>Number.prototype</code>中的方法。例如，<code>tofixed(..)</code>方法可指定小数部分的显示位数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.59</span>;</span><br><span class="line">a.toFixed( <span class="number">0</span> ); <span class="comment">// "43"</span></span><br><span class="line">a.toFixed( <span class="number">1</span> ); <span class="comment">// "42.6"</span></span><br><span class="line">a.toFixed( <span class="number">2</span> ); <span class="comment">// "42.59"</span></span><br><span class="line">a.toFixed( <span class="number">3</span> ); <span class="comment">// "42.590"</span></span><br><span class="line">a.toFixed( <span class="number">4</span> ); <span class="comment">// "42.5900"</span></span><br></pre></td></tr></table></figure></p>
+<p>上例中的输出结果实际上是给定数字的字符串形式。</p>
+<p><code>toPrecision(..)</code>方法用来指定有效数位的显示位数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42.59</span>;</span><br><span class="line">a.toPrecision( <span class="number">1</span> ); <span class="comment">// "4e+1"</span></span><br><span class="line">a.toPrecision( <span class="number">2</span> ); <span class="comment">// "43"</span></span><br><span class="line">a.toPrecision( <span class="number">3</span> ); <span class="comment">// "42.6"</span></span><br><span class="line">a.toPrecision( <span class="number">4</span> ); <span class="comment">// "42.59"</span></span><br><span class="line">a.toPrecision( <span class="number">5</span> ); <span class="comment">// "42.590"</span></span><br><span class="line">a.toPrecision( <span class="number">6</span> ); <span class="comment">// "42.5900"</span></span><br></pre></td></tr></table></figure></p>
+<p>上面的方法不仅适用于数字变量，也适用于数字常量。不过对于<code>. 运算符</code>需要给予特别注意，因为它是一个有效的数字字符，会被优先识别为数字常量的一部分，然后才是对象属性访问运算符。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 无效语法：</span></span><br><span class="line"><span class="number">42.</span>toFixed( <span class="number">3</span> ); <span class="comment">// SyntaxError</span></span><br><span class="line"><span class="comment">// 下面的语法都有效：</span></span><br><span class="line">(<span class="number">42</span>).toFixed( <span class="number">3</span> ); <span class="comment">// "42.000"</span></span><br><span class="line"><span class="number">0.42</span>.toFixed( <span class="number">3</span> ); <span class="comment">// "0.420"</span></span><br><span class="line"><span class="number">42.</span>.toFixed( <span class="number">3</span> ); <span class="comment">// "42.000"</span></span><br></pre></td></tr></table></figure></p>
+<p>下面的语法也是有效的（请注意其中的空格）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">42</span> .toFixed(<span class="number">3</span>); <span class="comment">// "42.000" ，不建议使用</span></span><br></pre></td></tr></table></figure></p>
+<p>还可以用指数形式来表示较大的数字，如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> onethousand = <span class="number">1E3</span>; <span class="comment">// 即 1 * 10^3</span></span><br><span class="line"><span class="keyword">var</span> onemilliononehundredthousand = <span class="number">1.1E6</span>; <span class="comment">// 即 1.1 * 10^6</span></span><br></pre></td></tr></table></figure></p>
+<p>数字常量还可以用其他格式来表示，如二进制、八进制和十六进制。当前的JavaScript 版本都支持这些格式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0xf3</span>; <span class="comment">// 243的十六进制</span></span><br><span class="line"><span class="number">0Xf3</span>; <span class="comment">// 同上</span></span><br><span class="line"><span class="number">0363</span>; <span class="comment">// 243的八进制</span></span><br></pre></td></tr></table></figure></p>
+<p>从ES6 开始，严格模式（strict mode）不再支持0363 八进制格式（新格式如下）。0363 格式在非严格模式（non-strict mode）中仍然受支持，但是考虑到将来的兼容性，最好不要再使用。<br>ES6 支持以下新格式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0o363</span>; <span class="comment">// 243的八进制</span></span><br><span class="line"><span class="number">0O363</span>; <span class="comment">// 同上</span></span><br><span class="line"><span class="number">0b11110011</span>; <span class="comment">// 243的二进制</span></span><br><span class="line"><span class="number">0B11110011</span>; <span class="comment">// 同上</span></span><br></pre></td></tr></table></figure></p>
+<p>考虑到代码的易读性，不推荐使用0O363 格式，因为<code>0</code> 和大写字母<code>O</code> 在一起容易混淆。建议尽量使用小写的0x、0b 和0o。</p>
+<p><strong>2. 较小的值</strong></p>
+<p>二进制浮点数最大的问题是会出现如下情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.1</span> + <span class="number">0.2</span> === <span class="number">0.3</span>; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>简单来说，二进制浮点数中的0.1 和0.2 并不是十分精确，它们相加的结果并非刚好等于0.3，而是一个比较接近的数字0.30000000000000004，所以条件判断结果为false。</p>
+<p>那么应该怎样来判断0.1 + 0.2 和0.3 是否相等呢？<br>最常见的方法是设置一个误差范围值，通常称为“机器精度”（machine epsilon）， 对JavaScript 的数字来说，这个值通常是2^-52 (2.220446049250313e-16)。<br>从ES6 开始，该值定义在<code>Number.EPSILON</code> 中，我们可以直接拿来用，也可以为ES6 之前的版本写polyfill：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Number</span>.EPSILON) &#123;</span><br><span class="line">	<span class="built_in">Number</span>.EPSILON = <span class="built_in">Math</span>.pow(<span class="number">2</span>,<span class="number">-52</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以使用Number.EPSILON 来比较两个数字是否相等（在指定的误差范围内）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">numbersCloseEnoughToEqual</span>(<span class="params">n1,n2</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.abs( n1 - n2 ) &lt; <span class="built_in">Number</span>.EPSILON;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="number">0.1</span> + <span class="number">0.2</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">0.3</span>;</span><br><span class="line">numbersCloseEnoughToEqual( a, b ); <span class="comment">// true</span></span><br><span class="line">numbersCloseEnoughToEqual( <span class="number">0.0000001</span>, <span class="number">0.0000002</span> ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>能够呈现的最大浮点数大约是1.798e+308（这是一个相当大的数字），它定义在<code>Number.MAX_VALUE</code> 中。最小浮点数定义在<code>Number.MIN_VALUE</code> 中，大约是5e-324，它不是负数，但无限接近于0 ！</p>
+<p><strong>3. 整数的安全范围</strong></p>
+<p>数字的呈现方式决定了“整数”的安全值范围远远小于<code>Number.MAX_VALUE</code>。能够被“安全”呈现的最大整数是2^53 - 1，即9007199254740991，在ES6 中被定义为<code>Number.MAX_SAFE_INTEGER</code>。最小整数是-9007199254740991，在ES6 中被定义为<code>Number.MIN_SAFE_INTEGER</code>。</p>
+<p>有时JavaScript 程序需要处理一些比较大的数字， 如数据库中的64 位ID 等。由于JavaScript 的数字类型无法精确呈现64 位数值，所以必须将它们保存（转换）为字符串。好在大数值操作并不常见（它们的比较操作可以通过字符串来实现）。如果确实需要对大数值进行数学运算，目前还是需要借助相关的工具库。</p>
+<p><strong>4. 整数检测</strong><br>要检测一个值是否是整数，可以使用ES6 中的Number.isInteger(..) 方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isInteger( <span class="number">42</span> ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isInteger( <span class="number">42.000</span> ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isInteger( <span class="number">42.3</span> ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>也可以为ES6 之前的版本polyfill Number.isInteger(..) 方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Number</span>.isInteger) &#123;</span><br><span class="line">    <span class="built_in">Number</span>.isInteger = <span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> num == <span class="string">"number"</span> &amp;&amp; num % <span class="number">1</span> == <span class="number">0</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要检测一个值是否是安全的整数，可以使用ES6 中的<code>Number.isSafeInteger(..)</code>方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Number</span>.isSafeInteger( <span class="built_in">Number</span>.MAX_SAFE_INTEGER ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isSafeInteger( <span class="built_in">Math</span>.pow( <span class="number">2</span>, <span class="number">53</span> ) ); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">Number</span>.isSafeInteger( <span class="built_in">Math</span>.pow( <span class="number">2</span>, <span class="number">53</span> ) - <span class="number">1</span> ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>可以为ES6 之前的版本polyfill Number.isSafeInteger(..) 方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Number</span>.isSafeInteger) &#123;</span><br><span class="line">    <span class="built_in">Number</span>.isSafeInteger = <span class="function"><span class="keyword">function</span>(<span class="params">num</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Number</span>.isInteger( num ) &amp;&amp;</span><br><span class="line">            <span class="built_in">Math</span>.abs( num ) &lt;= <span class="built_in">Number</span>.MAX_SAFE_INTEGER;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>5. 32位有符号整数</strong></p>
+<p>虽然整数最大能够达到53 位，但是有些数字操作（如数位操作）只适用于32 位数字，所以这些操作中数字的安全范围就要小很多，变成从Math.pow(-2,31)（-2147483648，约－21 亿）到Math.pow(2,31) - 1（2147483647，约21 亿）。</p>
+<p><code>a | 0</code>可以将变量a 中的数值转换为32 位有符号整数，因为<code>数位运算符|</code>只适用于32 位整数（它只关心32 位以内的值，其他的数位将被忽略）。因此与0 进行操作即可截取a 中的32 位数位。</p>
+<p>某些特殊的值并不是32 位安全范围的，如<code>NaN</code>和<code>Infinity</code>，此时会对它们执行虚拟操作（abstract operation）<code>ToInt32</code>，以便转换为符合数位运算符要求的<code>+0</code>值。</p>
+<h3 id="5-2-4-特殊的值"><a href="#5-2-4-特殊的值" class="headerlink" title="5.2.4 特殊的值"></a>5.2.4 特殊的值</h3><p><strong>1. 不是值的值</strong></p>
+<p>undefined 类型只有一个值，即undefined。null 类型也只有一个值，即null。它们的名称既是类型也是值。<br>undefined 和null 常被用来表示“空的”值或“不是值”的值。二者之间有一些细微的差别。例如：<br>• null 指空值（empty value）<br>• undefined 指没有值（missing value）<br>或者：<br>• undefined 指从未赋值<br>• null 指曾赋过值，但是目前没有值</p>
+<p><code>null</code> 是一个特殊关键字，不是标识符，不能将其当作变量来使用和赋值。然而<code>undefined</code>却是一个标识符，可以被当作变量来使用和赋值。</p>
+<p><strong>2. undefined</strong></p>
+<p>在非严格模式下，可以为全局标识符undefined 赋值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="literal">undefined</span> = <span class="number">2</span>; <span class="comment">// 非常糟糕的做法！</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    "use strict"</span>;</span><br><span class="line">    <span class="literal">undefined</span> = <span class="number">2</span>; <span class="comment">// TypeError!</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p>在非严格和严格两种模式下，我们可以声明一个名为undefined 的局部变量。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="meta">    "use strict"</span>;</span><br><span class="line">    <span class="keyword">var</span> <span class="literal">undefined</span> = <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">console</span>.log( <span class="literal">undefined</span> ); <span class="comment">// 2</span></span><br><span class="line">&#125;</span><br><span class="line">foo();</span><br></pre></td></tr></table></figure></p>
+<p><strong>永远不要重新定义undefined！</strong></p>
+<h4 id="void运算符"><a href="#void运算符" class="headerlink" title="void运算符"></a>void运算符</h4><p>undefined 是一个内置标识符（除非被重新定义），它的值为undefined，通过<code>void 运算符</code>即可得到该值。<br>表达式<code>void ___</code>没有返回值，因此返回结果是undefined。void 并不改变表达式的结果，只是让表达式不返回值：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</span><br><span class="line"><span class="built_in">console</span>.log( <span class="keyword">void</span> a, a ); <span class="comment">// undefined 42</span></span><br></pre></td></tr></table></figure>
+<p>按惯例我们用<code>void 0</code> 来获得<code>undefined</code>。<code>void 0、void 1</code> 和 <code>undefined</code>之间并没有实质上的区别。<br>void 运算符在其他地方也能派上用场，比如不让表达式返回任何结果（即使其有副作用）。</p>
+<p>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 注： APP.ready 由程序自己定义</span></span><br><span class="line">    <span class="keyword">if</span> (!APP.ready) &#123;</span><br><span class="line">        <span class="comment">// 稍后再试</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">void</span> setTimeout( doSomething,<span class="number">100</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> result;</span><br><span class="line">    <span class="comment">// 其他</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在可以了吗？</span></span><br><span class="line"><span class="keyword">if</span> (doSomething()) &#123;</span><br><span class="line">    <span class="comment">// 立即执行下一个任务</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这里<code>setTimeout(..)</code>函数返回一个数值（计时器间隔的唯一标识符，用来取消计时），但是为了确保if 语句不产生误报（false positive），要void 掉它。</p>
+<p>分开操作效果一样，只是没有使用void 运算符：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!APP.ready) &#123;</span><br><span class="line">    <span class="comment">// 稍后再试</span></span><br><span class="line">    setTimeout( doSomething,<span class="number">100</span> );</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>总之，如果要将代码中的值（如表达式的返回值）设为undefined，就可以使用void。这种做法并不多见，但在某些情况下却很有用。</p>
+<p><strong>3. 特殊的数字</strong></p>
+<ul>
+<li>（1）不是数字的数字</li>
+</ul>
+<p>如果数学运算的操作数不是数字类型（或者无法解析为常规的十进制或十六进制数字），就无法返回一个有效的数字，这种情况下返回值为<code>NaN</code>。NaN 意指“不是一个数字”（not a number），将它理解为“无效数值”“失败数值”或者“坏数值”可能更准确些。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>; <span class="comment">// NaN</span></span><br><span class="line"><span class="keyword">typeof</span> a === <span class="string">"number"</span>; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>换句话说，“不是数字的数字”仍然是数字类型。<br>NaN 是一个“警戒值”（sentinel value，有特殊用途的常规值），用于指出数字类型中的错误情况，即“执行数学运算没有成功，这是失败后返回的结果”。</p>
+<p>NaN 是一个特殊值，它和自身不相等，是唯一一个非自反（自反，reflexive，即x === x 不成立）的值，而<code>NaN != NaN 为true</code>。<br>因此，我们无法对NaN进行比较（结果永远为false）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line">a == <span class="literal">NaN</span>; <span class="comment">// false</span></span><br><span class="line">a === <span class="literal">NaN</span>; <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>但可以使用内建的全局工具函数<code>isNaN(..)</code>来判断一个值是否是NaN。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="built_in">isNaN</span>( a ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>isNaN(..) 有一个严重的缺陷，它的检查方式过于死板，就是“检查参数是否不是NaN，也不是数字”。但是这样做的结果并不太准确：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"foo"</span>;</span><br><span class="line">a; <span class="comment">// NaN</span></span><br><span class="line">b; <span class="string">"foo"</span></span><br><span class="line"><span class="built_in">window</span>.isNaN( a ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">window</span>.isNaN( b ); <span class="comment">// true！</span></span><br></pre></td></tr></table></figure></p>
+<p>从ES6 开始我们可以使用工具函数Number.isNaN(..)。ES6 之前的浏览器的polyfill 如下：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Number</span>.isNaN) &#123;</span><br><span class="line">    <span class="built_in">Number</span>.isNaN = <span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="keyword">typeof</span> n === <span class="string">"number"</span> &amp;&amp;</span><br><span class="line">            <span class="built_in">window</span>.isNaN( n )</span><br><span class="line">        );</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="string">"foo"</span>;</span><br><span class="line"><span class="built_in">Number</span>.isNaN( a ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Number</span>.isNaN( b ); <span class="comment">// false！</span></span><br></pre></td></tr></table></figure></p>
+<p>实际上还有一个更简单的方法，即利用NaN 不等于自身这个特点。NaN 是JavaScript 中<strong>唯一</strong>一个不等于自身的值。<br>于是我们可以这样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Number</span>.isNaN) &#123;</span><br><span class="line">    <span class="built_in">Number</span>.isNaN = <span class="function"><span class="keyword">function</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n !== n;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>很多JavaScript 程序都可能存在NaN 方面的问题，所以应该尽量使用<code>Number.isNaN(..)</code>这样可靠的方法，无论是系统内置还是polyfill。</p>
+<ul>
+<li>（2）无穷数</li>
+</ul>
+<p>熟悉传统编译型语言（如C）的开发人员可能都遇到过编译错误（compiler error）或者运行时错误（runtime exception），例如“除以0”：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span> / <span class="number">0</span>;</span><br></pre></td></tr></table></figure></p>
+<p>然而在JavaScript 中上例的结果为<code>Infinity</code>（即<code>Number.POSITIVE_INfiNITY</code>）。同样：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">1</span> / <span class="number">0</span>; <span class="comment">// Infinity</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">-1</span> / <span class="number">0</span>; <span class="comment">// -Infinity</span></span><br></pre></td></tr></table></figure></p>
+<p>如果除法运算中的一个操作数为负数， 则结果为-Infinity（ 即<code>Number.NEGATIVE_INfiNITY</code>）。<br>JavaScript 使用有限数字表示法（finite numeric representation），所以和纯粹的数学运算不同，JavaScript 的运算结果有可能溢出，此时结果为Infinity 或者-Infinity。<br>例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="built_in">Number</span>.MAX_VALUE; <span class="comment">// 1.7976931348623157e+308</span></span><br><span class="line">a + a; <span class="comment">// Infinity</span></span><br><span class="line">a + <span class="built_in">Math</span>.pow( <span class="number">2</span>, <span class="number">970</span> ); <span class="comment">// Infinity</span></span><br><span class="line">a + <span class="built_in">Math</span>.pow( <span class="number">2</span>, <span class="number">969</span> ); <span class="comment">// 1.7976931348623157e+308</span></span><br></pre></td></tr></table></figure></p>
+<p>计算结果一旦溢出为无穷数（infinity）就无法再得到有穷数。换句话说，就是可以从有穷走向无穷，但无法从无穷回到有穷。</p>
+<p>从数学运算和JavaScript 语言的角度来说，<code>Infinity/Infinity</code> 是一个未定义操作，结果为<code>NaN</code>。有穷正数除以Infinity 结果是0。</p>
+<ul>
+<li>（3）零值</li>
+</ul>
+<p>JavaScript 有一个常规的0（也叫作+0）和一个-0。<br>-0 除了可以用作常量以外，也可以是某些数学运算的返回值。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span> / <span class="number">-3</span>; <span class="comment">// -0</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">0</span> * <span class="number">-3</span>; <span class="comment">// -0</span></span><br></pre></td></tr></table></figure></p>
+<p>加法和减法运算不会得到负零（negative zero）。<br>负零在开发调试控制台中通常显示为-0，但在一些老版本的浏览器中仍然会显示为0。根据规范，对负零进行字符串化会返回”0”：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span> / <span class="number">-3</span>;</span><br><span class="line">a; 		<span class="comment">// -0</span></span><br><span class="line"><span class="comment">// 但是规范定义的返回结果是这样！</span></span><br><span class="line">a.toString();		 <span class="comment">// "0"</span></span><br><span class="line">a + <span class="string">""</span>; 			  <span class="comment">// "0"</span></span><br><span class="line"><span class="built_in">String</span>( a ); 		 <span class="comment">// "0"</span></span><br><span class="line"><span class="comment">// JSON也如此，很奇怪</span></span><br><span class="line"><span class="built_in">JSON</span>.stringify( a ); 	<span class="comment">// "0"</span></span><br></pre></td></tr></table></figure></p>
+<p>有意思的是，如果反过来将其从字符串转换为数字，得到的结果是准确的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+<span class="string">"-0"</span>; 			 <span class="comment">// -0</span></span><br><span class="line"><span class="built_in">Number</span>( <span class="string">"-0"</span> ); 	<span class="comment">// -0</span></span><br><span class="line"><span class="built_in">JSON</span>.parse( <span class="string">"-0"</span> ); <span class="comment">// -0</span></span><br></pre></td></tr></table></figure></p>
+<p>负零转换为字符串的结果令人费解，它的比较操作也是如此：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">0</span> / <span class="number">-3</span>;</span><br><span class="line">a == b; 	<span class="comment">// true</span></span><br><span class="line"><span class="number">-0</span> == <span class="number">0</span>;    <span class="comment">// true</span></span><br><span class="line">a === b;    <span class="comment">// true</span></span><br><span class="line"><span class="number">-0</span> === <span class="number">0</span>;   <span class="comment">// true</span></span><br><span class="line"><span class="number">0</span> &gt; <span class="number">-0</span>; 	<span class="comment">// false</span></span><br><span class="line">a &gt; b; 	 <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>要区分-0 和0，不能仅仅依赖开发调试窗口的显示结果，还需要做一些特殊处理：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isNegZero</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    n = <span class="built_in">Number</span>( n );</span><br><span class="line">    <span class="keyword">return</span> (n === <span class="number">0</span>) &amp;&amp; (<span class="number">1</span> / n === -<span class="literal">Infinity</span>);</span><br><span class="line">&#125;</span><br><span class="line">isNegZero( <span class="number">-0</span> ); <span class="comment">// true</span></span><br><span class="line">isNegZero( <span class="number">0</span> / <span class="number">-3</span> ); <span class="comment">// true</span></span><br><span class="line">isNegZero( <span class="number">0</span> ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>4. 特殊等式</strong><br>ES6 中新加入了一个工具方法Object.is(..) 来判断两个值是否绝对相等：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span> / <span class="string">"foo"</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">-3</span> * <span class="number">0</span>;</span><br><span class="line"><span class="built_in">Object</span>.is( a, <span class="literal">NaN</span> ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is( b, <span class="number">-0</span> ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.is( b, <span class="number">0</span> ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure></p>
+<p>对于ES6 之前的版本，Object.is(..) 有一个简单的polyfill：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Object</span>.is) &#123;</span><br><span class="line">    <span class="built_in">Object</span>.is = <span class="function"><span class="keyword">function</span>(<span class="params">v1, v2</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 判断是否是-0</span></span><br><span class="line">        <span class="keyword">if</span> (v1 === <span class="number">0</span> &amp;&amp; v2 === <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span> / v1 === <span class="number">1</span> / v2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否是NaN</span></span><br><span class="line">        <span class="keyword">if</span> (v1 !== v1) &#123;</span><br><span class="line">            <span class="keyword">return</span> v2 !== v2;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 其他情况</span></span><br><span class="line">        <span class="keyword">return</span> v1 === v2;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>能使用<code>==</code> 和<code>===</code>时就尽量不要使用Object.is(..)，因为前者效率更高、更为通用。<code>Object.is(..)</code>主要用来处理那些特殊的相等比较。</p>
+<h3 id="5-2-5-值和引用"><a href="#5-2-5-值和引用" class="headerlink" title="5.2.5 值和引用"></a>5.2.5 值和引用</h3><p>JavaScript 中<strong>没有指针</strong>，引用的工作机制也不尽相同。在JavaScript 中变量不可能成为指向另一个变量的引用。</p>
+<p>JavaScript 引用指向的是值。如果一个值有10 个引用，这些引用指向的都是同一个值，它们<strong>相互之间没有引用/ 指向关系</strong>。</p>
+<p>JavaScript 对值和引用的赋值/ 传递在语法上没有区别，完全根据值的类型来决定。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> b = a; <span class="comment">// b是a的值的一个副本</span></span><br><span class="line">b++;</span><br><span class="line">a; <span class="comment">// 2</span></span><br><span class="line">b; <span class="comment">// 3</span></span><br><span class="line"><span class="keyword">var</span> c = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> d = c; <span class="comment">// d是[1,2,3]的一个引用</span></span><br><span class="line">d.push( <span class="number">4</span> );</span><br><span class="line">c; <span class="comment">// [1,2,3,4]</span></span><br><span class="line">d; <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
+<p><strong>简单值</strong>（即标量基本类型值，scalar primitive）总是通过值复制的方式来赋值/ 传递，包括null、undefined、字符串、数字、布尔和ES6 中的symbol。</p>
+<p><strong>复合值</strong>（compound value）——对象（包括数组和封装对象）和函数，则总是通过引用复制的方式来赋值/ 传递。</p>
+<p>由于引用指向的是值本身而非变量，所以一个引用无法更改另一个引用的指向。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">var</span> b = a;</span><br><span class="line">a; <span class="comment">// [1,2,3]</span></span><br><span class="line">b; <span class="comment">// [1,2,3]</span></span><br><span class="line"><span class="comment">// 然后</span></span><br><span class="line">b = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</span><br><span class="line">a; <span class="comment">// [1,2,3]</span></span><br><span class="line">b; <span class="comment">// [4,5,6]</span></span><br></pre></td></tr></table></figure></p>
+<p>b=[4,5,6] 并不影响a 指向值[1,2,3]，除非b 不是指向数组的引用，而是指向a 的指针，但在JavaScript 中不存在这种情况！</p>
+<p>函数参数就经常让人产生这样的困惑：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    x.push( <span class="number">4</span> );</span><br><span class="line">    x; <span class="comment">// [1,2,3,4]</span></span><br><span class="line">    <span class="comment">// 然后</span></span><br><span class="line">    x = [<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>];</span><br><span class="line">    x.push( <span class="number">7</span> );</span><br><span class="line">    x; <span class="comment">// [4,5,6,7]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">foo( a );</span><br><span class="line">a; <span class="comment">// 是[1,2,3,4]，不是[4,5,6,7]</span></span><br></pre></td></tr></table></figure></p>
+<p>向函数传递a 的时候，实际是将引用a 的一个副本赋值给x，而a 仍然指向[1,2,3]。在函数中我们可以通过引用x 来更改数组的值（push(4) 之后变为[1,2,3,4]）。但x =[4,5,6] 并不影响a 的指向，所以a 仍然指向[1,2,3,4]。</p>
+<p>如果要将a 的值变为[4,5,6,7]，必须更改x 指向的数组，而不是为x 赋值一个新的数组。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    x.push( <span class="number">4</span> );</span><br><span class="line">    x; <span class="comment">// [1,2,3,4]</span></span><br><span class="line">    <span class="comment">// 然后</span></span><br><span class="line">    x.length = <span class="number">0</span>; <span class="comment">// 清空数组</span></span><br><span class="line">    x.push( <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span> );</span><br><span class="line">    x; <span class="comment">// [4,5,6,7]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line">foo( a );</span><br><span class="line">a; <span class="comment">// 是[4,5,6,7]，不是[1,2,3,4]</span></span><br></pre></td></tr></table></figure></p>
+<p>如果通过值复制的方式来传递复合值（如数组），就需要为其创建一个副本，这样传递的就不再是原始值。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo( a.slice() );</span><br></pre></td></tr></table></figure></p>
+<p><code>slice(..)</code>不带参数会返回当前数组的一个浅复本（shallow copy）。由于传递给函数的是指向该复本的引用，所以foo(..) 中的操作不会影响a 指向的数组。</p>
+<p>相反，如果要将标量基本类型值传递到函数内并进行更改，就需要将该值封装到一个复合值（对象、数组等）中，然后通过引用复制的方式传递。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">wrapper</span>) </span>&#123;</span><br><span class="line">    wrapper.a = <span class="number">42</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    a: <span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line">foo( obj );</span><br><span class="line">obj.a; <span class="comment">// 42</span></span><br></pre></td></tr></table></figure></p>
+<p>这里obj 是一个封装了标量基本类型值a 的封装对象。obj 引用的一个副本作为参数wrapper 被传递到foo(..) 中。这样就可以通过wrapper 来访问该对象并更改它的属性。函数执行结束后obj.a 将变成42。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/" title="你不知道的JavaScript学习笔记（五）类型、值">http://yoursite.com/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/你不知道的Javascript/" rel="tag"># <<你不知道的Javascript>></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/19/你不知道的Javascript学习笔记（四）原型/" rel="next" title="你不知道的JavaScript学习笔记（四）原型">
+                <i class="fa fa-chevron-left"></i> 你不知道的JavaScript学习笔记（四）原型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/25/ES6入门（一）let和const命令/" rel="prev" title="ES6学习笔记（一）let和const命令">
+                ES6学习笔记（一）let和const命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-类型"><span class="nav-text">5.1 类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-1-内置类型"><span class="nav-text">5.1.1 内置类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-2-值和类型"><span class="nav-text">5.1.2 值和类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-值"><span class="nav-text">5.2 值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-1-数组"><span class="nav-text">5.2.1 数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#类数组"><span class="nav-text">类数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-2-字符串"><span class="nav-text">5.2.2 字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-3-数字"><span class="nav-text">5.2.3 数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-4-特殊的值"><span class="nav-text">5.2.4 特殊的值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#void运算符"><span class="nav-text">void运算符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-5-值和引用"><span class="nav-text">5.2.5 值和引用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

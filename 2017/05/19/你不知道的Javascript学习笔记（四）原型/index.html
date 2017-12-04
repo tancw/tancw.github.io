@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="<<你不知道的Javascript>>," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="4.1 原型4.1.1 [[Prototype]]JavaScript 中的对象有一个特殊的[[Prototype]] 内置属性，其实就是对于其他对象的引用。几乎所有的对象在创建时[[Prototype]] 属性都会被赋予一个非空的值。 1234var myObject = &amp;#123;	a:2&amp;#12">
+<meta name="keywords" content="&lt;&lt;你不知道的Javascript&gt;&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你不知道的JavaScript学习笔记（四）原型">
+<meta property="og:url" content="http://yoursite.com/2017/05/19/你不知道的Javascript学习笔记（四）原型/index.html">
+<meta property="og:site_name" content="IVANBlog">
+<meta property="og:description" content="4.1 原型4.1.1 [[Prototype]]JavaScript 中的对象有一个特殊的[[Prototype]] 内置属性，其实就是对于其他对象的引用。几乎所有的对象在创建时[[Prototype]] 属性都会被赋予一个非空的值。 1234var myObject = &amp;#123;	a:2&amp;#125;;myObject.a; // 2 [[Prototype]] 引用有什么用呢？">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://i1.piimg.com/594495/5c76556d87e76e85.png">
+<meta property="og:image" content="http://i1.piimg.com/594495/2821c9b8b0a15060.png">
+<meta property="og:image" content="http://i1.piimg.com/594495/2780de37ba8c79b9.png">
+<meta property="og:image" content="http://i1.piimg.com/594495/b0e9166f4d68f02f.png">
+<meta property="og:updated_time" content="2017-06-06T09:24:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="你不知道的JavaScript学习笔记（四）原型">
+<meta name="twitter:description" content="4.1 原型4.1.1 [[Prototype]]JavaScript 中的对象有一个特殊的[[Prototype]] 内置属性，其实就是对于其他对象的引用。几乎所有的对象在创建时[[Prototype]] 属性都会被赋予一个非空的值。 1234var myObject = &amp;#123;	a:2&amp;#125;;myObject.a; // 2 [[Prototype]] 引用有什么用呢？">
+<meta name="twitter:image" content="http://i1.piimg.com/594495/5c76556d87e76e85.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"always","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/19/你不知道的Javascript学习笔记（四）原型/"/>
+
+
+
+
+
+  <title>你不知道的JavaScript学习笔记（四）原型 | IVANBlog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9ac7ad7f8552c5b2a0150a33e023429e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">IVANBlog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/19/你不知道的Javascript学习笔记（四）原型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">你不知道的JavaScript学习笔记（四）原型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-19T00:00:00+08:00">
+                2017-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/05/19/你不知道的Javascript学习笔记（四）原型/" class="leancloud_visitors" data-flag-title="你不知道的JavaScript学习笔记（四）原型">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="4-1-原型"><a href="#4-1-原型" class="headerlink" title="4.1 原型"></a>4.1 原型</h2><h3 id="4-1-1-Prototype"><a href="#4-1-1-Prototype" class="headerlink" title="4.1.1 [[Prototype]]"></a>4.1.1 [[Prototype]]</h3><p>JavaScript 中的对象有一个特殊的<code>[[Prototype]]</code> 内置属性，其实就是<strong>对于其他对象的引用</strong>。几乎所有的对象在创建时[[Prototype]] 属性都会被赋予一个非空的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myObject = &#123;</span><br><span class="line">	a:<span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line">myObject.a; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>[[Prototype]] 引用有什么用呢？<br><a id="more"></a><br>当你试图引用对象的属性时会触发<code>[[Get]]</code> 操作，比如<code>myObject.a</code>。对于默认的<code>[[Get]]</code> 操作来说，第一步是检查对象本身是否有这个属性，如果有的话就使用它。</p>
+<p>但是如果a 不在myObject 中，就需要使用对象的[[Prototype]] 链了。对于默认的[[Get]] 操作来说，如果无法在对象本身找到需要的属性，就会继续访问对象的[[Prototype]] 链：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	a:<span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 创建一个关联到anotherObject 的对象</span></span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject );</span><br><span class="line">myObject.a; <span class="comment">// 2</span></span><br></pre></td></tr></table></figure></p>
+<p>现在myObject 对象的[[Prototype]] 关联到了anotherObject。显然myObject.a 并不存在，但是尽管如此，属性访问仍然成功地（在anotherObject 中）找到了值2。</p>
+<p>但是，如果anotherObject 中也找不到a 并且[[Prototype]] 链不为空的话，就会继续查找下去。这个过程会持续到找到匹配的属性名或者查找完整条[[Prototype]] 链。如果是后者的话，[[Get]] 操作的返回值是<code>undefined</code>。</p>
+<p>使用<code>for..in</code> 遍历对象时原理和查找[[Prototype]] 链类似，任何可以通过原型链访问到（并且是enumerable）的属性都会被枚举。使用<code>in</code>操作符来检查属性在对象中是否存在时，同样会查找对象的整条原型链（无论属性是否可枚举）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	a:<span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 创建一个关联到anotherObject 的对象</span></span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject );</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> k <span class="keyword">in</span> myObject) &#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"found: "</span> + k);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// found: a</span></span><br><span class="line">(<span class="string">"a"</span> <span class="keyword">in</span> myObject); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>因此，当你通过各种语法进行属性查找时都会查找[[Prototype]] 链，直到<strong>找到属性或者查找完整条原型链</strong>。</p>
+<p><strong>1. Object.prototype</strong></p>
+<p>所有普通的<code>[[Prototype]]</code>链最终都会指向内置的<code>Object.prototype</code>。由于所有的“普通”（内置，不是特定主机的扩展）对象都“源于”（或者说把[[Prototype]] 链的顶端设置为）这个<code>Object.prototype</code> 对象，所以它包含JavaScript 中许多通用的功能。比如说<code>.toString()</code> , <code>.valueOf()</code> , <code>.hasOwnProperty(..)</code> 和下面介绍的<code>.isPrototypeOf(..)</code>。</p>
+<p><strong>2. 属性设置和屏蔽</strong></p>
+<p><code>4.3</code>说过，给一个对象设置属性并不仅仅是添加一个新属性或者修改已有的属性值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myObject.foo = <span class="string">"bar"</span>;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>如果myObject 对象中包含名为foo 的普通数据访问属性，这条赋值语句只会修改已有的属性值。</li>
+<li>如果foo 不是直接存在于myObject 中，[[Prototype]] 链就会被遍历，类似[[Get]] 操作。如果原型链上找不到foo，foo 就会被直接添加到myObject 上。（如果foo 存在于原型链上层，赋值语句my<code>Object.foo = &quot;bar&quot;</code>的行为就会有些不同）</li>
+<li>如果属性名foo 既出现在myObject 中也出现在myObject 的[[Prototype]] 链上层， 那么就会发生<strong>屏蔽</strong>。myObject 中包含的foo 属性会屏蔽原型链上层的所有foo 属性，因为myObject.foo 总是会选择原型链中最底层的foo 属性。</li>
+</ul>
+<p>下面分析一下如果foo 不直接存在于myObject 中而是存在于原型链上层时myObject.foo = “bar” 会出现的三种情况。</p>
+<ul>
+<li>1）如果在<code>[[Prototype]]</code>链上层存在名为<code>foo</code>的普通数据访问属性并且没有被标记为只读（<code>writable:false</code>），那就会<strong>直接</strong>在<code>myObject</code> 中添加一个名为<code>foo</code> 的新属性，它是<strong>屏蔽</strong>属性。</li>
+<li>2）如果在<code>[[Prototype]]</code> 链上层存在<code>foo</code>，但是它被标记为只读（<code>writable:false</code>），那么无法修改已有属性或者在myObject 上创建屏蔽属性。如果运行在严格模式下，代码会抛出一个错误。否则，这条赋值语句会被忽略。总之，<strong>不会发生屏蔽</strong>。</li>
+<li>3）如果在<code>[[Prototype]]</code> 链上层存在<code>foo</code> 并且它是一个<code>setter</code>，那就一定会调用这个<code>setter</code>。<code>foo</code>不会被添加到（或者说屏蔽于）<code>myObject</code>，也不会重新定义<code>foo</code> 这个<code>setter</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">如果你希望在第二种和第三种情况下也屏蔽foo，那就不能使用= 操作符来赋值，</span><br><span class="line">而是使用<span class="built_in">Object</span>.defineProperty(..)来向myObject 添加foo。</span><br><span class="line"></span><br><span class="line">如果需要对屏蔽方法进行委托的话就不得不使用丑陋的显式伪多态。通常来说，使用屏蔽得不偿失，所以应当尽量避免使用。</span><br></pre></td></tr></table></figure>
+<p>有些情况下会<strong>隐式产生屏蔽</strong>，一定要当心。思考下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	a:<span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject );</span><br><span class="line"></span><br><span class="line">anotherObject.a; <span class="comment">// 2</span></span><br><span class="line">myObject.a; <span class="comment">// 2</span></span><br><span class="line"></span><br><span class="line">anotherObject.hasOwnProperty( <span class="string">"a"</span> ); <span class="comment">// true</span></span><br><span class="line">myObject.hasOwnProperty( <span class="string">"a"</span> ); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">myObject.a++; <span class="comment">// 隐式屏蔽！</span></span><br><span class="line"></span><br><span class="line">anotherObject.a; <span class="comment">// 2</span></span><br><span class="line">myObject.a; <span class="comment">// 3</span></span><br><span class="line">myObject.hasOwnProperty( <span class="string">"a"</span> ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>尽管<code>myObject.a++</code> 看起来应该（通过委托）查找并增加<code>anotherObject.a</code>属性，但是别忘了++ 操作相当于<code>myObject.a = myObject.a + 1</code>。因此++ 操作首先会通过[[Prototype]]查找属性a 并从anotherObject.a 获取当前属性值2，然后给这个值加1，接着用<strong><code>[[Put]]</code></strong>将值3 赋给myObject 中新建的屏蔽属性a。</p>
+<p>修改委托属性时一定要小心。如果想让anotherObject.a 的值增加，<strong>唯一</strong>的办法是<code>anotherObject.a++</code>。</p>
+<h3 id="4-1-2-“类”"><a href="#4-1-2-“类”" class="headerlink" title="4.1.2 “类”"></a>4.1.2 “类”</h3><p>在JavaScript 中，类无法描述对象的行，（因为根本就不存在类！）对象直接定义自己的行为。<strong>JavaScript 中只有对象。</strong></p>
+<p><strong>1. “类”函数</strong></p>
+<p>JavaScript 中有一种奇怪的行为一直在被无耻地滥用，那就是<strong>模仿类</strong>。“类似类”的行为利用了函数的一种特殊特性：所有的函数默认都会拥有一个名为<code>prototype</code> 的公有并且不可枚举的属性，它会指向另一个对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line">Foo.prototype; <span class="comment">// &#123; &#125;</span></span><br></pre></td></tr></table></figure>
+<p>这个对象通常被称为<code>Foo</code> 的<strong>原型</strong>，因为我们通过名为<code>Foo.prototype</code>的属性引用来访问它。</p>
+<p><code>Foo</code> 的原型这个对象是在调用new Foo()时创建的，最后会被（有点武断地）关联到这个“Foo 点prototype”对象上。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( a ) === Foo.prototype; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>调用new Foo() 时会创建a，其中的一步就是给a 一个内部的<code>[[Prototype]]</code> 链接，关联到Foo.prototype 指向的那个对象。</p>
+<p>在面向类的语言中，类可以被复制（或者说实例化）多次，是因为实例化（或者继承）一个类就意味着“把类的行为复制到物理对象中”，对于每一个新实例来说都会重复这个过程。但是在JavaScript 中，并<strong>没有类似的复制机制</strong>。你不能创建一个类的多个实例，只能创建多个对象，它们[[Prototype]] 关联的是同一个对象。但是在默认情况下并<strong>不会进行复制</strong>，因此这些对象之间并不会完全失去联系，它们是<strong>互相关联</strong>的。</p>
+<p>new Foo() 会生成一个新对象（我们称之为a），这个新对象的内部链接[[Prototype]] 关联的是Foo.prototype 对象。最后我们得到了两个对象，它们之间互相关联，就是这样。我们并没有初始化一个类，实际上我们并没有从“类”中复制任何行为到一个对象中，只是让两个对象互相关联。</p>
+<p>new Foo() 这个函数调用实际上并没有直接创建关联，这个关联只是一个意外的副作用。new Foo() 只是间接完成了我们的目<br>标：<strong>一个关联到其他对象的新对象</strong>。</p>
+<h4 id="关于名称"><a href="#关于名称" class="headerlink" title="关于名称"></a>关于名称</h4><p>在JavaScript 中，我们并不会将一个对象（“类”）复制到另一个对象（“实例”），只是将它们关联起来。<br><img src="http://i1.piimg.com/594495/5c76556d87e76e85.png" alt="Markdown"></p>
+<p>这个机制通常被称为<strong>原型继承</strong>，它常常被视为动态语言版本的类继承。这个名称主要是为了对应面向类的世界中“继承”的意义，但是违背（推翻）了动态脚本中对应的语义。</p>
+<p><strong>继承</strong>意味着复制操作，JavaScript（默认）并不会复制对象属性。相反，JavaScript 会在两个对象之间创建一个关联，这样一个对象就可以通过<strong>委托</strong>访问另一个对象的属性和函数。<strong>委托</strong>这个术语可以更加准确地描述JavaScript 中对象的关联机制。</p>
+<p><strong>2. “构造函数”</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Foo();</span><br></pre></td></tr></table></figure></p>
+<p>到底是什么让我们认为Foo 是一个“类”呢？</p>
+<ul>
+<li><p>关键字<code>new</code>，在面向类的语言中构造类实例时也会用到它。看起来我们执行了类的构造函数方法，Foo() 的调用方式很像初始化类时类构造函数的调用方式。</p>
+</li>
+<li><p>属性<code>.constructor</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype.constructor === Foo; <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Foo();</span><br><span class="line">a.constructor === Foo; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>Foo.prototype 默认（在代码中第一行声明时！）有一个公有并且不可枚举的属性<code>.constructor</code>，这个属性引用的是对象关联的函数（本例中是Foo）。此外，我们可以看到通过“构造函数”调用<code>new Foo()</code>创建的对象也有一个<code>.constructor</code>属性，指向“创建这个对象的函数”。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">实际上a 本身并没有.constructor 属性。而且，虽然a.constructor 确实指向Foo 函数，但是这个属性并不是表示a 由Foo“构造”。</span><br></pre></td></tr></table></figure></p>
+<h4 id="构造函数还是调用"><a href="#构造函数还是调用" class="headerlink" title="构造函数还是调用"></a>构造函数还是调用</h4><p>实际上，Foo 和程序中的其他函数没有任何区别。函数本身并不是构造函数，然而，当在普通的函数调用前面加上new 关键字之后，就会把这个函数调用变成一个“构造函数调用”。实际上，new 会劫持所有普通函数并用构造对象的形式来调用它。<br>举例来说：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">NothingSpecial</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log( <span class="string">"Don't mind me!"</span> );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> NothingSpecial();</span><br><span class="line"><span class="comment">// "Don't mind me!"</span></span><br><span class="line"></span><br><span class="line">a; <span class="comment">// &#123;&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>NothingSpecial</code>只是一个普通的函数，但是使用new 调用时，它就会构造一个对象并赋值给a，这看起来像是new 的一个副作用（无论如何都会构造一个对象）。这个调用是一个构造函数调用，但是NothingSpecial 本身并不是一个构造函数。换句话说，在JavaScript 中对于“构造函数”最准确的解释是，所有带new 的函数调用。函数不是构造函数，但是当且仅当使用new 时，函数调用会变成“<strong>构造函数调用</strong>”。</p>
+<p><strong>3. 技术</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype.myName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Foo( <span class="string">"a"</span> );</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> Foo( <span class="string">"b"</span> );</span><br><span class="line">a.myName(); <span class="comment">// "a"</span></span><br><span class="line">b.myName(); <span class="comment">// "b"</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码展示了另外两种“面向类”的技巧：</p>
+<ul>
+<li>1）<code>this.name = name</code>给每个对象（也就是a 和b）都添加了.name 属性，有点像类实例封装的数据值。</li>
+<li>2）<code>Foo.prototype.myName = ...</code>，它会给Foo.prototype 对象添加一个属性（函数）。</li>
+</ul>
+<p>在这段代码中，看起来似乎创建a 和b 时会把Foo.prototype 对象复制到这两个对象中，然而事实并不是这样。在创建的过程中，a 和b 的内部[[Prototype]] 都会关联到Foo.prototype 上。当a和b 中无法找到myName 时，它会（通过委托）在Foo.prototype 上找到。</p>
+<h4 id="回顾“构造函数”"><a href="#回顾“构造函数”" class="headerlink" title="回顾“构造函数”"></a>回顾“构造函数”</h4><p>之前讨论<code>.constructor</code> 属性时，看起来<code>a.constructor === Foo</code>为真意味着a 确实有一个指向<code>Foo 的.constructor</code> 属性，但是事实不是这样。实际上，<code>.constructor</code> 引用同样被<strong>委托</strong>给了<code>Foo.prototype</code>，而<code>Foo.prototype.constructor</code> 默认指向Foo。</p>
+<p>举例来说，<code>Foo.prototype</code> 的<code>.constructor</code> 属性只是Foo 函数在声明时的默认属性。如果你创建了一个新对象并替换了函数默认的.prototype 对象引用，那么新对象并不会自动获得.constructor 属性。<br>思考下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123; <span class="comment">/* .. */</span> &#125;</span><br><span class="line">Foo.prototype = &#123; <span class="comment">/* .. */</span> &#125;; <span class="comment">// 创建一个新原型对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a1 = <span class="keyword">new</span> Foo();</span><br><span class="line">a1.constructor === Foo; <span class="comment">// false!</span></span><br><span class="line">a1.constructor === <span class="built_in">Object</span>; <span class="comment">// true!</span></span><br></pre></td></tr></table></figure></p>
+<p>a1 并没有<code>.constructor</code> 属性，所以它会委托[[Prototype]] 链上的<code>Foo.prototype</code>。但是这个对象也没有.constructor 属性（不过默认的Foo.prototype 对象有这个属性！），所以它会继续委托，这次会委托给委托链顶端的<code>Object.prototype</code>。这个对象有<code>.constructor</code>属性，指向内置的<code>Object(..)</code>函数。</p>
+<p>当然，你可以给<code>Foo.prototype</code> 添加一个<code>.constructor</code> 属性，不过这需要手动添加一个符合正常行为的不可枚举属性。</p>
+<p>举例来说：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123; <span class="comment">/* .. */</span> &#125;</span><br><span class="line">Foo.prototype = &#123; <span class="comment">/* .. */</span> &#125;; <span class="comment">// 创建一个新原型对象</span></span><br><span class="line"><span class="comment">// 需要在Foo.prototype 上“修复”丢失的.constructor 属性</span></span><br><span class="line"><span class="comment">// 新对象属性起到Foo.prototype 的作用</span></span><br><span class="line"><span class="comment">// 关于defineProperty(..)，参见第3 章</span></span><br><span class="line"><span class="built_in">Object</span>.defineProperty( Foo.prototype, <span class="string">"constructor"</span> , &#123;</span><br><span class="line">	enumerable: <span class="literal">false</span>,</span><br><span class="line">	writable: <span class="literal">true</span>,</span><br><span class="line">	configurable: <span class="literal">true</span>,</span><br><span class="line">	value: Foo <span class="comment">// 让.constructor 指向Foo</span></span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p><strong>修复.constructor 需要很多手动操作。所有这些工作都是源于把“constructor”错误地理解为“由……构造”！</strong></p>
+<h3 id="4-1-3（原型）继承"><a href="#4-1-3（原型）继承" class="headerlink" title="4.1.3（原型）继承"></a>4.1.3（原型）继承</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Foo.prototype.myName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params">name,label</span>) </span>&#123;</span><br><span class="line">	Foo.call( <span class="keyword">this</span>, name );</span><br><span class="line">	<span class="keyword">this</span>.label = label;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们创建了一个新的Bar.prototype 对象并关联到Foo.prototype</span></span><br><span class="line">Bar.prototype = <span class="built_in">Object</span>.create( Foo.prototype );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意！现在没有Bar.prototype.constructor 了</span></span><br><span class="line"><span class="comment">// 如果你需要这个属性的话可能需要手动修复一下它</span></span><br><span class="line">Bar.prototype.myLabel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.label;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Bar( <span class="string">"a"</span>, <span class="string">"obj a"</span> );</span><br><span class="line">a.myName(); <span class="comment">// "a"</span></span><br><span class="line">a.myLabel(); <span class="comment">// "obj a"</span></span><br></pre></td></tr></table></figure>
+<p>这段代码的核心部分就是语句<code>Bar.prototype = Object.create( Foo.prototype )</code>。调用<code>Object.create(..)</code> 会凭空创建一个“新”对象并把新对象内部的<code>[[Prototype]]</code> 关联到你指定的对象（本例中是Foo.prototype）。即<strong>创建一个新的Bar.prototype 对象并把它关联到Foo.prototype”</strong>。</p>
+<p>声明function Bar() { .. } 时，和其他函数一样，Bar 会有一个.prototype 关联到默认的对象，但是这个对象并不是我们想要的Foo.prototype。因此我们创建了一个新对象并把它关联到我们希望的对象上，直接把原始的关联对象抛弃掉。</p>
+<p>注意，下面这两种方式是常见的错误做法，实际上它们都存在一些问题：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 和你想要的机制不一样！</span></span><br><span class="line">Bar.prototype = Foo.prototype;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 基本上满足你的需求，但是可能会产生一些副作用 :(</span></span><br><span class="line">Bar.prototype = <span class="keyword">new</span> Foo();</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>Bar.prototype = Foo.prototype 并不会创建一个关联到Bar.prototype 的新对象，它只是让Bar.prototype 直接引用Foo.prototype 对象。因此当你执行类似<code>Bar.prototype.myLabel = ...</code> 的赋值语句时会直接修改<code>Foo.prototype</code> 对象本身。显然这不是你想要的结果，否则你根本不需要Bar 对象，直接使用Foo 就可以了，这样代码也会更简单一些。</p>
+</li>
+<li><p><code>Bar.prototype = new Foo()</code> 的确会创建一个关联到<code>Bar.prototype</code> 的新对象。但是它使用了<code>Foo(..)</code>的“构造函数调用”，如果函数Foo 有一些副作用（比如写日志、修改状态、注册到其他对象、给this 添加数据属性，等等）的话，就会影响到Bar() 的“后代”，后果不堪设想。</p>
+</li>
+</ul>
+<p>ES6 添加了辅助函数Object.setPrototypeOf(..)，可以用标准并且可靠的方法来修改关联。</p>
+<p>我们来对比一下两种把Bar.prototype 关联到Foo.prototype 的方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES6 之前需要抛弃默认的Bar.prototype</span></span><br><span class="line">Bar.ptototype = <span class="built_in">Object</span>.create( Foo.prototype );</span><br><span class="line"></span><br><span class="line"><span class="comment">// ES6 开始可以直接修改现有的Bar.prototype</span></span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf( Bar.prototype, Foo.prototype );</span><br></pre></td></tr></table></figure></p>
+<p>如果忽略掉Object.create(..) 方法带来的轻微性能损失（抛弃的对象需要进行垃圾回收），它实际上比ES6 及其之后的方法更短而且可读性更高。不过无论如何，这是两种完全不同的语法。</p>
+<h4 id="检查“类”关系"><a href="#检查“类”关系" class="headerlink" title="检查“类”关系"></a>检查“类”关系</h4><p>假设有对象a，如何寻找对象a 委托的对象（如果存在的话）呢？在传统的面向类环境中，检查一个实例（JavaScript 中的对象）的继承祖先（JavaScript 中的委托关联）通常被称为<strong>内省（或者反射）</strong>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Foo.prototype.blah = ...;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Foo();</span><br></pre></td></tr></table></figure>
+<p>如何通过内省找出a 的“祖先”（委托关联）呢？</p>
+<ul>
+<li>第一种方法，站在“类”的角度来判断：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a <span class="keyword">instanceof</span> Foo; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>instanceof</code>操作符的左操作数是一个普通的对象，右操作数是一个函数。instanceof 回答的问题是：在a 的整条[[Prototype]] 链中是否有指向Foo.prototype 的对象？</p>
+<p>可惜，这个方法只能处理对象（a）和函数（带.prototype 引用的Foo）之间的关系。如果你想判断两个对象（比如a 和b）之间是否通过[[Prototype]] 链关联，只用instanceof无法实现。</p>
+<ul>
+<li>第二种方法<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Foo.prototype.isPrototypeOf( a ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在本例中，我们实际上并不关心（甚至不需要）Foo，我们只需要一个可以用来判断的对象（本例中是Foo.prototype）就行。isPrototypeOf(..) 回答的问题是：在a 的整条[[Prototype]] 链中是否出现过Foo.prototype ？</p>
+<p>第二种方法中并不需要间接引用函数（Foo），它的<code>.prototype</code> 属性会被自动访问。我们只需要两个对象就可以判断它们之间的关系。举例来说：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非常简单：b 是否出现在c 的[[Prototype]] 链中？</span></span><br><span class="line">b.isPrototypeOf( c );</span><br></pre></td></tr></table></figure></p>
+<p>注意，这个方法并不需要使用函数（“类”），它直接使用b 和c 之间的对象引用来判断它们的关系。</p>
+<p>我们也可以直接获取一个对象的[[Prototype]] 链。在ES5 中，标准的方法是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.getPrototypeOf( a );</span><br><span class="line">-------------------------------------------------------</span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( a ) === Foo.prototype; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p>绝大多数浏览器也支持一种非标准的方法来访问内部[[Prototype]] 属性：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">a.__proto__ === Foo.prototype; <span class="comment">// true</span></span><br></pre></td></tr></table></figure></p>
+<p><code>.__proto__</code>（ 在ES6 之前并不是标准） 属性引用了内部的<code>[[Prototype]]</code> 对象，如果你想直接查找（甚至可以通过<code>.__proto__.__ptoto__...</code>来遍历）原型链的话，这个方法非常有用。和之前说过的<code>.constructor</code> 一样，<code>.__proto__</code> 实际上并不存在于你正在使用的对象中（本例中是a）。实际上，它和其他的常用函数（.toString()、.isPrototypeOf(..)，等等）一样，存在于内置的Object.prototype 中。（而且是不可枚举的）</p>
+<p><code>.__proto__</code>看起来很像一个属性，但是实际上它更像一个<code>getter/setter</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty( <span class="built_in">Object</span>.prototype, <span class="string">"__proto__"</span>, &#123;</span><br><span class="line">	get: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.getPrototypeOf( <span class="keyword">this</span> );</span><br><span class="line">	&#125;,</span><br><span class="line">	set: <span class="function"><span class="keyword">function</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">		<span class="comment">// ES6 中的setPrototypeOf(..)</span></span><br><span class="line">		<span class="built_in">Object</span>.setPrototypeOf( <span class="keyword">this</span>, o );</span><br><span class="line">		<span class="keyword">return</span> o;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>因此，访问（获取值）<code>a.__proto__</code>时，实际上是调用了<code>a.__proto__()</code>（调用getter 函数）。虽然<code>getter</code> 函数存在于<code>Object.prototype</code> 对象中，但是它的this 指向对象a，所以和<code>Object.getPrototypeOf( a )</code> 结果相同。</p>
+<h3 id="4-1-4-对象关联"><a href="#4-1-4-对象关联" class="headerlink" title="4.1.4 对象关联"></a>4.1.4 对象关联</h3><p><code>[[Prototype]]</code> 机制就是存在于对象中的一个内部链接，它会引用其他对象。</p>
+<p>通常来说，这个链接的作用是：如果在对象上没有找到需要的属性或者方法引用，引擎就会继续在[[Prototype]] 关联的对象上进行查找。同理，如果在后者中也没有找到需要的引用就会继续查找它的[[Prototype]]，以此类推。这一系列对象的链接被称为<strong>“原型链”</strong>。</p>
+<p><strong>1. 创建关联</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> foo = &#123;</span><br><span class="line">	something: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log( <span class="string">"Tell me something good..."</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bar = <span class="built_in">Object</span>.create( foo );</span><br><span class="line">bar.something(); <span class="comment">// Tell me something good...</span></span><br></pre></td></tr></table></figure></p>
+<p><code>Object.create(..)</code>会创建一个新对象（bar）并把它关联到我们指定的对象（foo），这样我们就可以充分发挥<code>[[Prototype]]</code> 机制的威力（委托）并且避免不必要的麻烦（比如使用new 的构造函数调用会生成.prototype 和.constructor 引用）。</p>
+<p><strong>Object.create()的polyfill代码</strong><br>Object.create(..) 是在ES5 中新增的函数，所以在ES5 之前的环境中（比如旧IE）如果要支持这个功能的话就需要使用一段简单的polyfill 代码， 它部分实现了Object.create(..) 的功能：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">Object</span>.create) &#123;</span><br><span class="line">	<span class="built_in">Object</span>.create = <span class="function"><span class="keyword">function</span>(<span class="params">o</span>) </span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">		F.prototype = o;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> F();</span><br><span class="line">	&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这段polyfill 代码使用了一个一次性函数F，我们通过改写它的.prototype 属性使其指向想要关联的对象，然后再使用new F() 来构造一个新对象进行关联。</p>
+<p>标准ES5 中内置的Object.create(..) 函数还提供了一系列附加功能：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	a:<span class="number">2</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject, &#123;</span><br><span class="line">	b: &#123;</span><br><span class="line">		enumerable: <span class="literal">false</span>,</span><br><span class="line">		writable: <span class="literal">true</span>,</span><br><span class="line">		configurable: <span class="literal">false</span>,</span><br><span class="line">		value: <span class="number">3</span></span><br><span class="line">	&#125;,</span><br><span class="line">	c: &#123;</span><br><span class="line">		enumerable: <span class="literal">true</span>,</span><br><span class="line">		writable: <span class="literal">false</span>,</span><br><span class="line">		configurable: <span class="literal">false</span>,</span><br><span class="line">		value: <span class="number">4</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">myObject.hasOwnProperty( <span class="string">"a"</span> ); <span class="comment">// false</span></span><br><span class="line">myObject.hasOwnProperty( <span class="string">"b"</span> ); <span class="comment">// true</span></span><br><span class="line">myObject.hasOwnProperty( <span class="string">"c"</span> ); <span class="comment">// true</span></span><br><span class="line">myObject.a; <span class="comment">// 2</span></span><br><span class="line">myObject.b; <span class="comment">// 3</span></span><br><span class="line">myObject.c; <span class="comment">// 4</span></span><br></pre></td></tr></table></figure></p>
+<p>Object.create(..) 的第二个参数指定了需要添加到新对象中的属性名以及这些属性的属性描述符。因为ES5 之前的版本无法模拟属性操作符，所以polyfill 代码无法实现这个附加功能。</p>
+<p><strong>2. 关联关系是备用</strong><br>看起来对象之间的关联关系是处理“缺失”属性或者方法时的一种备用选项。但这种说法不是<code>[[Prototype]]</code>的本质。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	cool: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log( <span class="string">"cool!"</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject );</span><br><span class="line">myObject.cool(); <span class="comment">// "cool!"</span></span><br></pre></td></tr></table></figure></p>
+<p>由于存在[[Prototype]] 机制，这段代码可以正常工作。但是如果你这样写只是为了让myObject 在无法处理属性或者方法时可以使用备用的anotherObject，那么你的软件就会变得有点“神奇”，而且很难理解和维护。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> anotherObject = &#123;</span><br><span class="line">	cool: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log( <span class="string">"cool!"</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> myObject = <span class="built_in">Object</span>.create( anotherObject );</span><br><span class="line"></span><br><span class="line">myObject.doCool = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.cool(); <span class="comment">// 内部委托！</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">myObject.doCool(); <span class="comment">// "cool!"</span></span><br></pre></td></tr></table></figure>
+<p>这里我们调用的myObject.doCool() 是实际存在于myObject 中的，这可以让我们的API 设计更加清晰（不那么“神奇”）。从内部来说，我们的实现遵循的是<strong>委托设计模式</strong>，通过<code>[[Prototype]]</code>委托到<code>anotherObject.cool()。</code><br>换句话说，内部委托比起直接委托可以让API 接口设计更加清晰。</p>
+<h2 id="4-2-行为委托"><a href="#4-2-行为委托" class="headerlink" title="4.2 行为委托"></a>4.2 行为委托</h2><h3 id="4-2-1-面向委托的设计"><a href="#4-2-1-面向委托的设计" class="headerlink" title="4.2.1 面向委托的设计"></a>4.2.1 面向委托的设计</h3><p><strong>1. 类理论</strong></p>
+<p>假设我们需要在软件中建模一些类似的任务（“XYZ”、“ABC”等）。<br>如果使用类，那设计方法可能是这样的：定义一个通用父（基）类，可以将其命名为Task，在Task 类中定义所有任务都有的行为。接着定义子类XYZ 和ABC，它们都继承自Task 并且会添加一些特殊的行为来处理对应的任务。</p>
+<p>类设计模式鼓励你在继承时使用方法重写（和多态），比如说在XYZ 任务中重写Task 中定义的一些通用方法，甚至在添加新行为时通过super 调用这个方法的原始版本。你会发现许多行为可以先“抽象”到父类然后再用子类进行特殊化（重写）。<br>下面是对应的伪代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Task</span> </span>&#123;</span><br><span class="line">	id;</span><br><span class="line">    </span><br><span class="line">	<span class="comment">// 构造函数Task()</span></span><br><span class="line">	Task(ID) &#123; id = ID; &#125;</span><br><span class="line">	outputTask() &#123; output( id ); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">XYZ</span> <span class="title">inherits</span> <span class="title">Task</span> </span>&#123;</span><br><span class="line">	label;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 构造函数XYZ()</span></span><br><span class="line">	XYZ(ID,Label) &#123; <span class="keyword">super</span>( ID ); label = Label; &#125;</span><br><span class="line">	outputTask() &#123; <span class="keyword">super</span>(); output( label ); &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ABC</span> <span class="title">inherits</span> <span class="title">Task</span> </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>2. 委托理论</strong></p>
+<p>首先你会定义一个名为Task 的对象（既不是类也不是函数），它会包含所有任务都可以使用（委托）的具体行为。接着，对于每个任务（“XYZ”、“ABC”）你都会定义一个对象来存储对应的数据和行为。你会把特定的任务对象都关联到Task 功能对象上，让它们在需要的时候可以进行委托。</p>
+<p>基本上你可以想象成，执行任务“XYZ”需要两个兄弟对象（XYZ 和Task）协作完成。但是我们并不需要把这些行为放在一起，通过类的复制，我们可以把它们分别放在各自独立的对象中，需要时可以允许XYZ 对象委托给Task。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Task = &#123;</span><br><span class="line">	setID: <span class="function"><span class="keyword">function</span>(<span class="params">ID</span>) </span>&#123; <span class="keyword">this</span>.id = ID; &#125;,</span><br><span class="line">	outputID: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="built_in">console</span>.log( <span class="keyword">this</span>.id ); &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 让XYZ 委托Task</span></span><br><span class="line">XYZ = <span class="built_in">Object</span>.create( Task );</span><br><span class="line">XYZ.prepareTask = <span class="function"><span class="keyword">function</span>(<span class="params">ID,Label</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.setID( ID );</span><br><span class="line">	<span class="keyword">this</span>.label = Label;</span><br><span class="line">&#125;;</span><br><span class="line">XYZ.outputTaskDetails = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.outputID();</span><br><span class="line">	<span class="built_in">console</span>.log( <span class="keyword">this</span>.label );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ABC = Object.create( Task );</span></span><br><span class="line"><span class="comment">// ABC ... = ...</span></span><br></pre></td></tr></table></figure>
+<p>在这段代码中，Task 和XYZ 并不是类（ 或者函数）， 它们是对象。XYZ 通过<code>Object.create(..)</code> 创建，它的[[Prototype]] 委托了Task 对象。相比于面向类（或者说面向对象），这种编码风格应称为“对象关联”（OLOO，objects linked to other objects）。我们真正关心的只是XYZ 对象（和ABC 对象）委托了Task 对象。</p>
+<p>对象关联风格的代码还有一些不同之处。</p>
+<ul>
+<li><p>1）在上面的代码中，id 和label 数据成员都是直接存储在XYZ 上（而不是Task）。通常来说，在[[Prototype]] 委托中最好把状态保存在委托者（XYZ、ABC）而不是委托目标（Task）上。</p>
+</li>
+<li><p>2） 在类设计模式中，我们故意让父类（Task）和子类（XYZ）中都有outputTask 方法，这样就可以利用重写（多态）的优势。在委托行为中则恰好相反：我们会尽量避免在<code>[[Prototype]]</code>链的不同级别中使用相同的命名，否则就需要使用笨拙并且脆弱的语法来消除引用歧义。</p>
+</li>
+</ul>
+<p>　这个设计模式要求尽量少使用容易被重写的通用方法名，提倡使用更有描述性的方法名，尤其是要写清相应对象行为的类型。这样做实际上可以创建出更容易理解和维护的代码，因为方法名（不仅在定义的位置，而是贯穿整个代码）更加清晰（自文档）。</p>
+<ul>
+<li>3） <code>this.setID(ID)</code>；XYZ 中的方法首先会寻找XYZ 自身是否有setID(..)，但是XYZ 中并没有这个方法名，因此会通过[[Prototype]] 委托关联到Task 继续寻找，这时就可以找到setID(..) 方法。此外，由于调用位置触发了this 的隐式绑定规则，因此虽然setID(..) 方法在Task 中，运行时this 仍然会绑定到XYZ，这正是我们想要的。后面的this.outputID()，原理相同。</li>
+</ul>
+<p><strong>委托行为</strong>意味着某些对象（XYZ）在找不到属性或者方法引用时会把这个请求委托给另一个对象（Task）。</p>
+<h4 id="互相委托（禁止）"><a href="#互相委托（禁止）" class="headerlink" title="互相委托（禁止）"></a><strong>互相委托（禁止）</strong></h4><p>你无法在两个或两个以上互相（双向）委托的对象之间创建循环委托。如果你把B 关联到A 然后试着把A 关联到B，就会出错。</p>
+<p>之所以要禁止互相委托，是因为引擎的开发者们发现在设置时检查（并禁止！）一次无限循环引用要更加高效，否则每次从对象中查找属性时都需要进行检查。</p>
+<h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a><strong>调试</strong></h4><p>通常来说，JavaScript 规范并不会控制浏览器中开发者工具对于特定值或者结构的表示方式，浏览器和引擎可以自己选择合适的方式来进行解析，因此浏览器和工具的解析结果并不一定相同。</p>
+<p>这段传统的“类构造函数”JavaScript 代码在Chrome 开发者工具的控制台中结果如下所示：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="keyword">var</span> a1 = <span class="keyword">new</span> Foo();</span><br><span class="line">a1; <span class="comment">// Foo &#123;&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>分析原理：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Foo = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> a1 = <span class="built_in">Object</span>.create( Foo );</span><br><span class="line">a1; <span class="comment">// Object &#123;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">Object</span>.defineProperty( Foo, <span class="string">"constructor"</span>, &#123;</span><br><span class="line">	enumerable: <span class="literal">false</span>,</span><br><span class="line">	value: <span class="function"><span class="keyword">function</span> <span class="title">Gotcha</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">&#125;);</span><br><span class="line">a1; <span class="comment">// Gotcha &#123;&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>本例中Chrome 的控制台确实使用了<code>.constructor.name</code>。Chrome 内部跟踪（只用于调试输出）“构造函数名称”的方法是Chrome自身的一种扩展行为，并不包含在JavaScript 的规范中。</p>
+<p>如果你并不是使用“构造函数”来生成对象，比如使用对象关联风格来编写代码，那Chrome 就无法跟踪对象内部的“构造函数名称”，这样的对象输出是<code>Object {}</code>，意思是“Object() 构造出的对象”。</p>
+<p>当然，这并不是对象关联风格代码的缺点。当你使用对象关联风格来编写代码并使用行为委托设计模式时，并不需要关注是谁“构造了”对象（就是使用new 调用的那个函数）。只有使用类风格来编写代码时Chrome 内部的“构造函数名称”跟踪才有意义，使用对象关联时这个功能不起任何作用。</p>
+<p><strong>3. 比较思维模型</strong></p>
+<p>下面是典型的（“原型”）面向对象风格：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.me = who;</span><br><span class="line">&#125;</span><br><span class="line">Foo.prototype.identify = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"I am "</span> + <span class="keyword">this</span>.me;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">	Foo.call( <span class="keyword">this</span>, who );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Bar.prototype = <span class="built_in">Object</span>.create( Foo.prototype );</span><br><span class="line"></span><br><span class="line">Bar.prototype.speak = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	alert( <span class="string">"Hello, "</span> + <span class="keyword">this</span>.identify() + <span class="string">"."</span> );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b1 = <span class="keyword">new</span> Bar( <span class="string">"b1"</span> );</span><br><span class="line"><span class="keyword">var</span> b2 = <span class="keyword">new</span> Bar( <span class="string">"b2"</span> );</span><br><span class="line"></span><br><span class="line">b1.speak();</span><br><span class="line">b2.speak();</span><br></pre></td></tr></table></figure></p>
+<p>子类Bar 继承了父类Foo，然后生成了b1 和b2 两个实例。b1 委托了Bar.prototype，后者委托了Foo.prototype。</p>
+<p>使用对象关联风格来编写功能完全相同的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Foo = &#123;</span><br><span class="line">	init: <span class="function"><span class="keyword">function</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.me = who;</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	identify: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"I am "</span> + <span class="keyword">this</span>.me;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Bar = <span class="built_in">Object</span>.create( Foo );</span><br><span class="line">Bar.speak = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	alert( <span class="string">"Hello, "</span> + <span class="keyword">this</span>.identify() + <span class="string">"."</span> );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b1 = <span class="built_in">Object</span>.create( Bar );</span><br><span class="line">b1.init( <span class="string">"b1"</span> );</span><br><span class="line"><span class="keyword">var</span> b2 = <span class="built_in">Object</span>.create( Bar );</span><br><span class="line">b2.init( <span class="string">"b2"</span> );</span><br><span class="line"></span><br><span class="line">b1.speak();</span><br><span class="line">b2.speak();</span><br></pre></td></tr></table></figure></p>
+<h4 id="两段代码对应的思维模型"><a href="#两段代码对应的思维模型" class="headerlink" title="两段代码对应的思维模型"></a><strong>两段代码对应的思维模型</strong></h4><p>首先，类风格代码的思维模型强调实体以及实体间的关系：<br><img src="http://i1.piimg.com/594495/2821c9b8b0a15060.png" alt="Markdown"></p>
+<p>从图中可以看出这是一张十分复杂的关系网。此外，如果你跟着图中的箭头走就会发现，JavaScript 机制有很强的内部连贯性。</p>
+<p>举例来说，JavaScript 中的函数之所以可以访问<code>call(..)、apply(..) 和bind(..)</code>，就是因为函数本身是对象。而函数对象同样有<code>[[Prototype]]</code> 属性并且关联到<code>Function.prototype</code> 对象，因此所有函数对象都可以通过委托调用这些默认方法。</p>
+<p>好，下面我们来看一张简化版的图，它更“清晰”一些——只展示了必要的对象和关系：<br><img src="http://i1.piimg.com/594495/2780de37ba8c79b9.png" alt="Markdown"></p>
+<p>虚线表示的是Bar.prototype 继承Foo.prototype 之后丢失的.constructor属性引用，它们还没有被修复。即使移除这些虚线，这个思维模型在你处理对象关联时仍然非常复杂。</p>
+<p>现在我们看看对象关联风格代码的思维模型：<br><img src="http://i1.piimg.com/594495/b0e9166f4d68f02f.png" alt="Markdown"></p>
+<p>这种代码只关注一件事：<strong>对象之间的关联关系</strong>。</p>
+<h3 id="4-2-2-类与对象"><a href="#4-2-2-类与对象" class="headerlink" title="4.2.2 类与对象"></a>4.2.2 类与对象</h3><p>真实场景应用“类”与“行为委托”<br><strong>1. 控件“类”</strong></p>
+<p>下面这段代码展示的是如何在不使用任何“类”辅助库或者语法的情况下，使用纯<br>JavaScript 实现类风格的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Widget</span>(<span class="params">width,height</span>) </span>&#123;</span><br><span class="line">	<span class="keyword">this</span>.width = width || <span class="number">50</span>;</span><br><span class="line">	<span class="keyword">this</span>.height = height || <span class="number">50</span>;</span><br><span class="line">	<span class="keyword">this</span>.$elem = <span class="literal">null</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Widget.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params">$where</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>.$elem) &#123;</span><br><span class="line">		<span class="keyword">this</span>.$elem.css( &#123;</span><br><span class="line">			width: <span class="keyword">this</span>.width + <span class="string">"px"</span>,</span><br><span class="line">			height: <span class="keyword">this</span>.height + <span class="string">"px"</span></span><br><span class="line">		&#125; ).appendTo( $where );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Button</span>(<span class="params">width,height,label</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 调用“super”构造函数</span></span><br><span class="line">	Widget.call( <span class="keyword">this</span>, width, height );</span><br><span class="line">	<span class="keyword">this</span>.label = label || <span class="string">"Default"</span>;</span><br><span class="line">	<span class="keyword">this</span>.$elem = $( <span class="string">"&lt;button&gt;"</span> ).text( <span class="keyword">this</span>.label );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 让Button“继承”Widget</span></span><br><span class="line">Button.prototype = <span class="built_in">Object</span>.create( Widget.prototype );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 重写render(..)</span></span><br><span class="line">Button.prototype.render = <span class="function"><span class="keyword">function</span>(<span class="params">$where</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// “super”调用</span></span><br><span class="line">	Widget.prototype.render.call( <span class="keyword">this</span>, $where );</span><br><span class="line">	<span class="keyword">this</span>.$elem.click( <span class="keyword">this</span>.onClick.bind( <span class="keyword">this</span> ) );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Button.prototype.onClick = <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log( <span class="string">"Button '"</span> + <span class="keyword">this</span>.label + <span class="string">"' clicked!"</span> );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">$( <span class="built_in">document</span> ).ready( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $body = $( <span class="built_in">document</span>.body );</span><br><span class="line">	<span class="keyword">var</span> btn1 = <span class="keyword">new</span> Button( <span class="number">125</span>, <span class="number">30</span>, <span class="string">"Hello"</span> );</span><br><span class="line">	<span class="keyword">var</span> btn2 = <span class="keyword">new</span> Button( <span class="number">150</span>, <span class="number">40</span>, <span class="string">"World"</span> );</span><br><span class="line">    </span><br><span class="line">	btn1.render( $body );</span><br><span class="line">	btn2.render( $body );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>在面向对象设计模式中我们需要先在父类中定义基础的render(..)，然后在子类中重写它。子类并不会替换基础的render(..)，只是添加一些按钮特有的行为。可以看到代码中出现了丑陋的显式伪多态，即通过<code>Widget.call</code> 和<code>Widget.prototype.render.call</code> 从“子类”方法中引用“父类”中的基础方法。</p>
+<h4 id="ES6的class语法糖"><a href="#ES6的class语法糖" class="headerlink" title="ES6的class语法糖"></a>ES6的class语法糖</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Widget</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(width,height) &#123;</span><br><span class="line">		<span class="keyword">this</span>.width = width || <span class="number">50</span>;</span><br><span class="line">		<span class="keyword">this</span>.height = height || <span class="number">50</span>;</span><br><span class="line">		<span class="keyword">this</span>.$elem = <span class="literal">null</span>;</span><br><span class="line">	&#125;	</span><br><span class="line">	render($where)&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.$elem) &#123;</span><br><span class="line">			<span class="keyword">this</span>.$elem.css( &#123;</span><br><span class="line">				width: <span class="keyword">this</span>.width + <span class="string">"px"</span>,</span><br><span class="line">				height: <span class="keyword">this</span>.height + <span class="string">"px"</span></span><br><span class="line">			&#125; ).appendTo( $where );</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Button</span> <span class="keyword">extends</span> <span class="title">Widget</span> </span>&#123;</span><br><span class="line">	<span class="keyword">constructor</span>(width,height,label) &#123;</span><br><span class="line">		<span class="keyword">super</span>( width, height );</span><br><span class="line">		<span class="keyword">this</span>.label = label || <span class="string">"Default"</span>;</span><br><span class="line">		<span class="keyword">this</span>.$elem = $( <span class="string">"&lt;button&gt;"</span> ).text( <span class="keyword">this</span>.label );</span><br><span class="line">	&#125;</span><br><span class="line">	render($where) &#123;</span><br><span class="line">		<span class="keyword">super</span>( $where );</span><br><span class="line">		<span class="keyword">this</span>.$elem.click( <span class="keyword">this</span>.onClick.bind( <span class="keyword">this</span> ) );</span><br><span class="line">	&#125;</span><br><span class="line">	onClick(evt) &#123;</span><br><span class="line">		<span class="built_in">console</span>.log( <span class="string">"Button '"</span> + <span class="keyword">this</span>.label + <span class="string">"' clicked!"</span> );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$( <span class="built_in">document</span> ).ready( <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> $body = $( <span class="built_in">document</span>.body );</span><br><span class="line">	<span class="keyword">var</span> btn1 = <span class="keyword">new</span> Button( <span class="number">125</span>, <span class="number">30</span>, <span class="string">"Hello"</span> );</span><br><span class="line">	<span class="keyword">var</span> btn2 = <span class="keyword">new</span> Button( <span class="number">150</span>, <span class="number">40</span>, <span class="string">"World"</span> );</span><br><span class="line">    </span><br><span class="line">	btn1.render( $body );</span><br><span class="line">	btn2.render( $body );</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure>
+<p>尽管语法上得到了改进，但实际上这里并没有真正的类，class 仍然是通过<code>[[Prototype]]</code>机制实现的。无论你使用的是传统的原型语法还是ES6 中的新语法糖，你仍然需要用“类”的概念来对问题（UI 控件）进行建模。</p>
+<p><strong>2. 委托控件对象</strong><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Widget = &#123;</span><br><span class="line">    init: <span class="function"><span class="keyword">function</span> (<span class="params">width, height</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.width = width || <span class="number">50</span>;</span><br><span class="line">        <span class="keyword">this</span>.height = height || <span class="number">50</span>;</span><br><span class="line">        <span class="keyword">this</span>.$elem = <span class="literal">null</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    insert: <span class="function"><span class="keyword">function</span> (<span class="params">$where</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.$elem) &#123;</span><br><span class="line">            <span class="keyword">this</span>.$elem.css(&#123;</span><br><span class="line">                width: <span class="keyword">this</span>.width + <span class="string">"px"</span>,</span><br><span class="line">                height: <span class="keyword">this</span>.height + <span class="string">"px"</span></span><br><span class="line">            &#125;).appendTo($where);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Button = <span class="built_in">Object</span>.create(Widget);</span><br><span class="line">Button.setup = <span class="function"><span class="keyword">function</span> (<span class="params">width, height, label</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 委托调用</span></span><br><span class="line">    <span class="keyword">this</span>.init(width, height);</span><br><span class="line">    <span class="keyword">this</span>.label = label || <span class="string">"Default"</span>;</span><br><span class="line">    <span class="keyword">this</span>.$elem = $(<span class="string">"&lt;button&gt;"</span>).text(<span class="keyword">this</span>.label);</span><br><span class="line">&#125;;</span><br><span class="line">Button.build = <span class="function"><span class="keyword">function</span> (<span class="params">$where</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 委托调用</span></span><br><span class="line">    <span class="keyword">this</span>.insert($where);</span><br><span class="line">    <span class="keyword">this</span>.$elem.click(<span class="keyword">this</span>.onClick.bind(<span class="keyword">this</span>));</span><br><span class="line">&#125;;</span><br><span class="line">Button.onClick = <span class="function"><span class="keyword">function</span> (<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"Button '"</span> + <span class="keyword">this</span>.label + <span class="string">"' clicked!"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">$(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $body = $(<span class="built_in">document</span>.body);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> btn1 = <span class="built_in">Object</span>.create(Button);</span><br><span class="line">    btn1.setup(<span class="number">125</span>, <span class="number">30</span>, <span class="string">"Hello"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> btn2 = <span class="built_in">Object</span>.create(Button);</span><br><span class="line">    btn2.setup(<span class="number">150</span>, <span class="number">40</span>, <span class="string">"World"</span>);</span><br><span class="line">    </span><br><span class="line">    btn1.build($body);</span><br><span class="line">    btn2.build($body);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>使用对象关联风格来编写代码时不需要把Widget 和Button 当作父类和子类。相反，Widget 只是一个对象，包含一组通用的函数，任何类型的控件都可以委托，Button 同样只是一个对象。</p>
+<p>从设计模式的角度来说， 我们并没有像类一样在两个对象中都定义相同的方法名render(..)，相反，我们定义了两个更具描述性的方法名（insert(..) 和build(..)）。同理，初始化方法分别叫作init(..) 和setup(..)。</p>
+<p>之前的一次调用（<code>var btn1 = new Button(..)</code>）现在变成了两次（<code>var btn1 = Object.create(Button) 和btn1.setup(..)</code>）使用类构造函数的话，你需要（并不是硬性要求，但是强烈建议）在同一个步骤中实现构造和初始化。然而，在许多情况下把这两步分开（就像对象关联代码一样）更灵活。</p>
+<p>举例来说，假如你在程序启动时创建了一个实例池，然后一直等到实例被取出并使用时才执行特定的初始化过程。这个过程中两个函数调用是挨着的，但是完全可以根据需要让它们出现在不同的位置。对象关联可以更好地支持关注分离（separation of concerns）原则，创建和初始化并不需要合并为一个步骤。</p>
+<h3 id="4-2-3-更简洁的设计"><a href="#4-2-3-更简洁的设计" class="headerlink" title="4.2.3 更简洁的设计"></a>4.2.3 更简洁的设计</h3><p>假定场景：我们有两个控制器对象，一个用来操作网页中的登录表单，另一个用来与服务器进行验证（通信）。</p>
+<p>我们需要一个辅助函数来创建Ajax 通信。我们使用的是jQuery，它不仅可以处理Ajax 并且会返回一个类Promise 的结果，因此我们可以使用<code>.then(..)</code>来监听响应。</p>
+<p>在传统的类设计模式中，我们会把基础的函数定义在名为Controller 的类中，然后派生两个子类LoginController 和AuthController，它们都继承自Controller 并且重写了一些基础行为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 父类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Controller</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.errors = [];</span><br><span class="line">&#125;</span><br><span class="line">Controller.prototype.showDialog(title, msg) &#123;</span><br><span class="line">    <span class="comment">// 给用户显示标题和消息</span></span><br><span class="line">&#125;;</span><br><span class="line">Controller.prototype.success = <span class="function"><span class="keyword">function</span> (<span class="params">msg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.showDialog(<span class="string">"Success"</span>, msg);</span><br><span class="line">&#125;;</span><br><span class="line">Controller.prototype.failure = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.errors.push(err);</span><br><span class="line">    <span class="keyword">this</span>.showDialog(<span class="string">"Error"</span>, err);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">LoginController</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    Controller.call(<span class="keyword">this</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把子类关联到父类</span></span><br><span class="line">LoginController.prototype =</span><br><span class="line">    <span class="built_in">Object</span>.create(Controller.prototype);</span><br><span class="line">LoginController.prototype.getUser = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(<span class="string">"login_username"</span>).value;</span><br><span class="line">&#125;;</span><br><span class="line">LoginController.prototype.getPassword = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(<span class="string">"login_password"</span>).value;</span><br><span class="line">&#125;;</span><br><span class="line">LoginController.prototype.validateEntry = <span class="function"><span class="keyword">function</span> (<span class="params">user, pw</span>) </span>&#123;</span><br><span class="line">    user = user || <span class="keyword">this</span>.getUser();</span><br><span class="line">    pw = pw || <span class="keyword">this</span>.getPassword();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (!(user &amp;&amp; pw)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.failure(</span><br><span class="line">            <span class="string">"Please enter a username &amp; password!"</span></span><br><span class="line">        );</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (user.length &lt; <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.failure(</span><br><span class="line">            <span class="string">"Password must be 5+ characters!"</span></span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 如果执行到这里说明通过验证</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 重写基础的failure()</span></span><br><span class="line">LoginController.prototype.failure = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// “super”调用</span></span><br><span class="line">    Controller.prototype.failure.call(</span><br><span class="line">        <span class="keyword">this</span>,</span><br><span class="line">        <span class="string">"Login invalid: "</span> + err</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 子类</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">AuthController</span>(<span class="params">login</span>) </span>&#123;</span><br><span class="line">    Controller.call(<span class="keyword">this</span>);</span><br><span class="line">    <span class="comment">// 合成</span></span><br><span class="line">    <span class="keyword">this</span>.login = login;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 把子类关联到父类</span></span><br><span class="line">AuthController.prototype =</span><br><span class="line">    <span class="built_in">Object</span>.create(Controller.prototype);</span><br><span class="line">AuthController.prototype.server = <span class="function"><span class="keyword">function</span> (<span class="params">url, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $.ajax(&#123;</span><br><span class="line">        url: url,</span><br><span class="line">        data: data</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">AuthController.prototype.checkAuth = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> user = <span class="keyword">this</span>.login.getUser();</span><br><span class="line">    <span class="keyword">var</span> pw = <span class="keyword">this</span>.login.getPassword();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.login.validateEntry(user, pw)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.server(<span class="string">"/check-auth"</span>, &#123;</span><br><span class="line">                user: user,</span><br><span class="line">                pw: pw</span><br><span class="line">            &#125;)</span><br><span class="line">            .then(<span class="keyword">this</span>.success.bind(<span class="keyword">this</span>))</span><br><span class="line">            .fail(<span class="keyword">this</span>.failure.bind(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 重写基础的success()</span></span><br><span class="line">AuthController.prototype.success = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// “super”调用</span></span><br><span class="line">    Controller.prototype.success.call(<span class="keyword">this</span>, <span class="string">"Authenticated!"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 重写基础的failure()</span></span><br><span class="line">AuthController.prototype.failure = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// “super”调用</span></span><br><span class="line">    Controller.prototype.failure.call(</span><br><span class="line">        <span class="keyword">this</span>,</span><br><span class="line">        <span class="string">"Auth Failed: "</span> + err</span><br><span class="line">    );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> auth = <span class="keyword">new</span> AuthController();</span><br><span class="line">auth.checkAuth(</span><br><span class="line">    <span class="comment">// 除了继承，我们还需要合成</span></span><br><span class="line">    <span class="keyword">new</span> LoginController()</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>所有控制器共享的基础行为是<code>success(..)、failure(..) 和showDialog(..)</code>。子类<code>LoginController</code> 和<code>AuthController</code> 通过重写failure(..) 和success(..) 来扩展默认基础类行为。此外，注意<code>AuthController</code> 需要一个<code>LoginController</code> 的实例来和登录表单进行交互，因此这个实例变成了一个数据属性。</p>
+<h4 id="反类"><a href="#反类" class="headerlink" title="反类"></a>反类</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> LoginController = &#123;</span><br><span class="line">    errors: [],</span><br><span class="line">    getUser: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(</span><br><span class="line">            <span class="string">"login_username"</span></span><br><span class="line">        ).value;</span><br><span class="line">    &#125;,</span><br><span class="line">    getPassword: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">document</span>.getElementById(</span><br><span class="line">            <span class="string">"login_password"</span></span><br><span class="line">        ).value;</span><br><span class="line">    &#125;,</span><br><span class="line">    validateEntry: <span class="function"><span class="keyword">function</span> (<span class="params">user, pw</span>) </span>&#123;</span><br><span class="line">        user = user || <span class="keyword">this</span>.getUser();</span><br><span class="line">        pw = pw || <span class="keyword">this</span>.getPassword();</span><br><span class="line">        <span class="keyword">if</span> (!(user &amp;&amp; pw)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.failure(</span><br><span class="line">                <span class="string">"Please enter a username &amp; password!"</span></span><br><span class="line">            );</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (user.length &lt; <span class="number">5</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.failure(</span><br><span class="line">                <span class="string">"Password must be 5+ characters!"</span></span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果执行到这里说明通过验证</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    showDialog: <span class="function"><span class="keyword">function</span> (<span class="params">title, msg</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 给用户显示标题和消息</span></span><br><span class="line">    &#125;,</span><br><span class="line">    failure: <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.errors.push(err);</span><br><span class="line">        <span class="keyword">this</span>.showDialog(<span class="string">"Error"</span>, <span class="string">"Login invalid: "</span> + err);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// 让AuthController 委托LoginController</span></span><br><span class="line"><span class="keyword">var</span> AuthController = <span class="built_in">Object</span>.create(LoginController);</span><br><span class="line"></span><br><span class="line">AuthController.errors = [];</span><br><span class="line">AuthController.checkAuth = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> user = <span class="keyword">this</span>.getUser();</span><br><span class="line">    <span class="keyword">var</span> pw = <span class="keyword">this</span>.getPassword();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.validateEntry(user, pw)) &#123;</span><br><span class="line">        <span class="keyword">this</span>.server(<span class="string">"/check-auth"</span>, &#123;</span><br><span class="line">                user: user,</span><br><span class="line">                pw: pw</span><br><span class="line">            &#125;)</span><br><span class="line">            .then(<span class="keyword">this</span>.accepted.bind(<span class="keyword">this</span>))</span><br><span class="line">            .fail(<span class="keyword">this</span>.rejected.bind(<span class="keyword">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">AuthController.server = <span class="function"><span class="keyword">function</span> (<span class="params">url, data</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $.ajax(&#123;</span><br><span class="line">        url: url,</span><br><span class="line">        data: data</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">AuthController.accepted = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.showDialog(<span class="string">"Success"</span>, <span class="string">"Authenticated!"</span>)</span><br><span class="line">&#125;;</span><br><span class="line">AuthController.rejected = <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.failure(<span class="string">"Auth Failed: "</span> + err);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>由于AuthController 只是一个对象（LoginController 也一样），因此不需要实例化（比如new AuthController()），只需要一行代码就行：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AuthController.checkAuth();</span><br></pre></td></tr></table></figure></p>
+<p>借助对象关联，你可以简单地向委托链上添加一个或多个对象，而且同样不需要实例化：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> controller1 = <span class="built_in">Object</span>.create( AuthController );</span><br><span class="line"><span class="keyword">var</span> controller2 = <span class="built_in">Object</span>.create( AuthController );</span><br></pre></td></tr></table></figure></p>
+<p>在行为委托模式中，AuthController 和LoginController 只是对象，它们之间是兄弟关系，并不是父类和子类的关系。代码中AuthController 委托了LoginController，反向委托也完全没问题。<br>这种模式的重点在于只需要两个实体（LoginController 和AuthController），而之前的模式需要三个。</p>
+<h3 id="4-2-4-更好的语法"><a href="#4-2-4-更好的语法" class="headerlink" title="4.2.4 更好的语法"></a>4.2.4 更好的语法</h3><p>ES6 的class 语法可以简洁地定义类方法，这个特性让class 乍看起来更有吸引力（但应小心使用）<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">	methodName() &#123; <span class="comment">/* .. */</span> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在ES6 中可以在任意对象的字面形式中使用简洁方法声明（concise methoddeclaration），所以对象关联风格的对象可以这样声明（和class 的语法糖一样）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> LoginController = &#123;</span><br><span class="line">	errors: [],</span><br><span class="line">	getUser() &#123; </span><br><span class="line">		<span class="comment">// ...</span></span><br><span class="line">	&#125;,</span><br><span class="line">	getPassword() &#123;</span><br><span class="line">		<span class="comment">// ...</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>唯一的区别是对象的字面形式仍然需要使用“,”来分隔元素，而class 语法不需要。</p>
+<p>此外，在ES6 中，你可以使用对象的字面形式来改写之前繁琐的属性赋值语法（ 比如AuthController 的定义）， 然后用<code>Object.setPrototypeOf(..)</code>来修改它的<code>[[Prototype]]</code>：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用更好的对象字面形式语法和简洁方法</span></span><br><span class="line"><span class="keyword">var</span> AuthController = &#123;</span><br><span class="line">	errors: [],</span><br><span class="line">	checkAuth() &#123;</span><br><span class="line">		<span class="comment">// ...</span></span><br><span class="line">	&#125;,</span><br><span class="line">	server(url,data) &#123;</span><br><span class="line">		<span class="comment">// ...</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在把AuthController 关联到LoginController</span></span><br><span class="line"><span class="built_in">Object</span>.setPrototypeOf( AuthController, LoginController );</span><br></pre></td></tr></table></figure></p>
+<h4 id="反词法"><a href="#反词法" class="headerlink" title="反词法"></a>反词法</h4><p>简洁方法有一个非常小但是非常重要的缺点。思考下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Foo = &#123;</span><br><span class="line">	bar() &#123; <span class="comment">/*..*/</span> &#125;,</span><br><span class="line">	baz: <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*..*/</span> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>去掉语法糖之后的代码如下所示：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Foo = &#123;</span><br><span class="line">	bar: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*..*/</span> &#125;,</span><br><span class="line">	baz: <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123; <span class="comment">/*..*/</span> &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>由于函数对象本身没有名称标识符， 所以bar() 的缩写形式（<code>function()..</code>）实际上会变成一个匿名函数表达式并赋值给bar 属性。相比之下，具名函数表达式（<code>function baz()..</code>）会额外给<code>.baz</code> 属性附加一个词法名称标识符baz。</p>
+<p>匿名函数没有name 标识符，这会导致：</p>
+<ul>
+<li>调试栈更难追踪；</li>
+<li>自我引用（递归、事件（解除）绑定，等等）更难；</li>
+<li>代码（稍微）更难理解。</li>
+</ul>
+<p>去掉语法糖的版本使用的是<strong>匿名函数表达式</strong>，通常来说并不会在追踪栈中添加name，但是简洁方法很特殊，会给对应的函数对象设置一个内部的name 属性，这样理论上可以用在追踪栈中。（但是追踪的具体实现是不同的，因此无法保证可以使用。）</p>
+<p>简洁方法无法避免第2 个缺点，它们不具备可以自我引用的词法标识符。思考下面的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Foo = &#123;</span><br><span class="line">	bar: <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(x&lt;<span class="number">10</span>)&#123;</span><br><span class="line">			<span class="keyword">return</span> Foo.bar( x * <span class="number">2</span> );</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125;,</span><br><span class="line">	baz: <span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(x &lt; <span class="number">10</span>)&#123;</span><br><span class="line">			<span class="keyword">return</span> baz( x * <span class="number">2</span> );</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>在本例中使用<code>Foo.bar(x*2)</code> 就足够了，但是在许多情况下无法使用这种方法，比如多个对象通过代理共享函数、使用this 绑定，等等。这种情况下最好的办法就是使用函数对象的name 标识符来进行真正的自我引用。使用简洁方法时一定要小心这一点。如果你需要自我引用的话，那最好使用传统的具名函数表达式来定义对应的函数（<code>baz: function baz(){..}</code>），不要使用简洁方法。</p>
+<h3 id="4-2-5-内省"><a href="#4-2-5-内省" class="headerlink" title="4.2.5 内省"></a>4.2.5 内省</h3><p><strong>自省</strong>就是检查实例的类型。类实例的自省主要目的是通过创建方式来判断对象的结构和功能。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line">Foo.prototype.something = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a1 = <span class="keyword">new</span> Foo();</span><br><span class="line"><span class="comment">// 之后</span></span><br><span class="line"><span class="keyword">if</span> (a1 <span class="keyword">instanceof</span> Foo) &#123;</span><br><span class="line">	a1.something();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为Foo.prototype（ 不是Foo ！） 在a1 的[[Prototype]] 链上， 所以instanceof 操作（会令人困惑地）告诉我们a1 是Foo“类”的一个实例。知道了这点后，我们就可以认为a1 有Foo“类”描述的功能。</p>
+<p>当然，Foo 类并不存在， 只有一个普通的函数Foo， 它引用了a1 委托的对象（Foo.prototype）。从语法角度来说，instanceof 似乎是检查a1 和Foo 的关系，但是实际上它想说的是<strong>a1 和Foo.prototype（引用的对象）是互相关联的。</strong></p>
+<p>之前介绍的抽象的Foo/Bar/b1 例子，简单来说是这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Foo</span>(<span class="params"></span>) </span>&#123; <span class="comment">/* .. */</span> &#125;</span><br><span class="line">Foo.prototype...</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params"></span>) </span>&#123; <span class="comment">/* .. */</span> &#125;</span><br><span class="line">Bar.prototype = <span class="built_in">Object</span>.create( Foo.prototype );</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b1 = <span class="keyword">new</span> Bar( <span class="string">"b1"</span> );</span><br></pre></td></tr></table></figure></p>
+<p>如果要使用<code>instanceof</code> 和<code>.prototype</code>语义来检查例子中实体的关系，那必须这样做：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让Foo 和Bar 互相关联</span></span><br><span class="line">Bar.prototype <span class="keyword">instanceof</span> Foo; <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( Bar.prototype )</span><br><span class="line">	=== Foo.prototype; <span class="comment">// true</span></span><br><span class="line">Foo.prototype.isPrototypeOf( Bar.prototype ); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 让b1 关联到Foo 和Bar</span></span><br><span class="line">b1 <span class="keyword">instanceof</span> Foo; <span class="comment">// true</span></span><br><span class="line">b1 <span class="keyword">instanceof</span> Bar; <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( b1 ) === Bar.prototype; <span class="comment">// true</span></span><br><span class="line">Foo.prototype.isPrototypeOf( b1 ); <span class="comment">// true</span></span><br><span class="line">Bar.prototype.isPrototypeOf( b1 ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>还有一种常见但是可能更加脆弱的内省模式，叫“<strong>鸭子类型</strong>”。</p>
+<p>举例来说：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (a1.something) &#123;</span><br><span class="line">	a1.something();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们并没有检查a1 和委托something() 函数的对象之间的关系，而是假设如果a1 通过了测试a1.something 的话，那a1 就一定能调用.something()（无论这个方法存在于a1 自身还是委托到其他对象）。这个假设的风险其实并不算很高。</p>
+<p>ES6 的Promise 就是典型的“鸭子类型”，出于各种各样的原因，我们需要判断一个对象引用是否是Promise，但是判断的方法是检查对象是否有then() 方法。换句话说，如果对象有then() 方法，ES6 的Promise 就会认为这个对象是“可持续”（thenable）的，因此会期望它具有Promise 的所有标准行为。（如果有一个不是Promise 但是具有then() 方法的对象，那你千万不要把它用在ES6 的Promise 机制中，否则会出错。）</p>
+<p>对象关联风格代码，其内省更加简洁。<br>之前的Foo/Bar/b1 对象关联例子（只包含关键代码）：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Foo = &#123; <span class="comment">/* .. */</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> Bar = <span class="built_in">Object</span>.create( Foo );</span><br><span class="line">Bar...</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b1 = <span class="built_in">Object</span>.create( Bar );</span><br></pre></td></tr></table></figure></p>
+<p>使用对象关联时，所有的对象都是通过[[Prototype]] 委托互相关联，下面是内省的方法，非常简单：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让Foo 和Bar 互相关联</span></span><br><span class="line">Foo.isPrototypeOf( Bar ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( Bar ) === Foo; <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 让b1 关联到Foo 和Bar</span></span><br><span class="line">Foo.isPrototypeOf( b1 ); <span class="comment">// true</span></span><br><span class="line">Bar.isPrototypeOf( b1 ); <span class="comment">// true</span></span><br><span class="line"><span class="built_in">Object</span>.getPrototypeOf( b1 ) === Bar; <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      IvanTan
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://yoursite.com/2017/05/19/你不知道的Javascript学习笔记（四）原型/" title="你不知道的JavaScript学习笔记（四）原型">http://yoursite.com/2017/05/19/你不知道的Javascript学习笔记（四）原型/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/你不知道的Javascript/" rel="tag"># <<你不知道的Javascript>></a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/18/你不知道的Javascript学习笔记（三）对象/" rel="next" title="你不知道的JavaScript学习笔记（三）对象">
+                <i class="fa fa-chevron-left"></i> 你不知道的JavaScript学习笔记（三）对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/05/22/你不知道的Javascript学习笔记（五）类型、值/" rel="prev" title="你不知道的JavaScript学习笔记（五）类型、值">
+                你不知道的JavaScript学习笔记（五）类型、值 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODgyNi81Mzk2"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/icon.jpg"
+               alt="IvanTan" />
+          <p class="site-author-name" itemprop="name">IvanTan</p>
+           
+              <p class="site-description motion-element" itemprop="description">学无止境</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/qq_18738333" title="zxCan" target="_blank">zxCan</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-原型"><span class="nav-text">4.1 原型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-1-Prototype"><span class="nav-text">4.1.1 [[Prototype]]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-2-“类”"><span class="nav-text">4.1.2 “类”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于名称"><span class="nav-text">关于名称</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造函数还是调用"><span class="nav-text">构造函数还是调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回顾“构造函数”"><span class="nav-text">回顾“构造函数”</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-3（原型）继承"><span class="nav-text">4.1.3（原型）继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#检查“类”关系"><span class="nav-text">检查“类”关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-4-对象关联"><span class="nav-text">4.1.4 对象关联</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-行为委托"><span class="nav-text">4.2 行为委托</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-1-面向委托的设计"><span class="nav-text">4.2.1 面向委托的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#互相委托（禁止）"><span class="nav-text">互相委托（禁止）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调试"><span class="nav-text">调试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#两段代码对应的思维模型"><span class="nav-text">两段代码对应的思维模型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-2-类与对象"><span class="nav-text">4.2.2 类与对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ES6的class语法糖"><span class="nav-text">ES6的class语法糖</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-3-更简洁的设计"><span class="nav-text">4.2.3 更简洁的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#反类"><span class="nav-text">反类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-4-更好的语法"><span class="nav-text">4.2.4 更好的语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#反词法"><span class="nav-text">反词法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-5-内省"><span class="nav-text">4.2.5 内省</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">IvanTan</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("N9XvoaFWsNzrxe98jy62HNhK-gzGzoHsz", "iW5jC6DTntOvlvVYRwySNYRB");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
