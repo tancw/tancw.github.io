@@ -1561,6 +1561,7 @@ pre .javascript .function {
 }
 .sidebar-inner {
   position: relative;
+  margin-top: 70px;
   padding: 20px 10px;
   color: #999;
   text-align: center;
@@ -1689,7 +1690,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fff490;
+  background: #a8f555;
 }
 .links-of-blogroll {
   font-size: 13px;
