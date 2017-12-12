@@ -311,6 +311,196 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/Javaweb修炼路径（一）JSP入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="IvanTan">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/icon.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="IVANBlog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/08/Javaweb修炼路径（一）JSP入门/" itemprop="url">Javaweb修炼路径(一)JSP入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T00:00:00+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/08/Javaweb修炼路径（一）JSP入门/" class="leancloud_visitors" data-flag-title="Javaweb修炼路径(一)JSP入门">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-JSP简介"><a href="#1-JSP简介" class="headerlink" title="1.JSP简介"></a>1.JSP简介</h2><p>JSP全称Java Server Pages，是一种动态网页开发技术。</p>
+<p>JSP在传统的网页HTML文件中插入Java程序段（Scriptlet）和JSP标记（tag），从而行程JSP文件，后缀名为（<code>*.jsp</code>）</p>
+<p>JSP通过网页表单获取用户输入数据、访问数据库及其他数据源，然后动态地创建网页。</p>
+<p><strong>JSP与Servlet的不同</strong><br>JSP在本质上就是Servlet，但JSP是Servlet的一种简化，JSP由HTML代码和JSP标签构成，可以方便地编写动态网页。</p>
+<p>Servlet完全是由Java程序代码构成流程控制和事务处理。</p>
+<p>Servlet的应用罗技是在Java文件中，并且完全从表示层中的HTML里文理开来。JSP侧重于视图，Servlet主要用于控制罗技。</p>
+<h2 id="2-创建JSP程序"><a href="#2-创建JSP程序" class="headerlink" title="2.创建JSP程序"></a>2.创建JSP程序</h2><p>关于开发环境的搭建这里就不多说了，网上很多教程，我的电脑环境是：IDEA2017.3+JDK_1.8.0_151(x64)+Tomcat9.0.1</p>
+<h3 id="2-1-项目结构"><a href="#2-1-项目结构" class="headerlink" title="2.1 项目结构"></a>2.1 项目结构</h3><p><img src="http://i2.bvimg.com/594495/928372c3509c75d4.png" alt="Markdown"><br>创建完的文件目录如下：<br><img src="http://i2.bvimg.com/594495/dba0802b391a6330.png" alt="Markdown"><br>src：包含项目的Java源代码。<br>web：所有web资源（包括HTML、JSP和图片等等）的指定位置。<br>WEB-INF：对于web应用程序，此目录包含支持的web资源，包含web.xml文件。</p>
+<h2 id="3-JSP的结构、处理与生命周期"><a href="#3-JSP的结构、处理与生命周期" class="headerlink" title="3.JSP的结构、处理与生命周期"></a>3.JSP的结构、处理与生命周期</h2><h3 id="3-1-JSP结构"><a href="#3-1-JSP结构" class="headerlink" title="3.1 JSP结构"></a>3.1 JSP结构</h3><p>网络服务器需要一个JSP引擎，也就是一个容器来处理JSP页面。容器负责截获对JSP页面的请求。本教程使用内嵌JSP容器的Apache来支持JSP开发。<br>JSP容器与Web服务器协同合作，为JSP的正常运行提供必要的运行环境和其他服务，并且能够正确识别专属于JSP网页的特殊元素。<br>下图显示了JSP容器和JSP文件在Web应用中所处的位置。<br><img src="http://i2.bvimg.com/594495/52c5a6b8e6d1c21d.png" alt="Markdown"><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/08/Javaweb修炼路径（一）JSP入门/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/25/Spring实战笔记（Ch01-Spring之旅）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2014,189 +2204,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/18/webpack入门（六）webpack之css、sass-loader示例/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="IvanTan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/icon.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="IVANBlog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/18/webpack入门（六）webpack之css、sass-loader示例/" itemprop="url">Webpack入门（六）webpack之css、sass-loader示例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T10:38:34+08:00">
-                2017-07-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具入门/" itemprop="url" rel="index">
-                    <span itemprop="name">工具入门</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/07/18/webpack入门（六）webpack之css、sass-loader示例/" class="leancloud_visitors" data-flag-title="Webpack入门（六）webpack之css、sass-loader示例">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                  <span class="post-meta-divider">|</span>
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计</span>
-                
-                <span title="字数统计">
-                  字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长</span>
-                
-                <span title="阅读时长">
-                  分钟
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="使用style-loader"><a href="#使用style-loader" class="headerlink" title="使用style-loader"></a>使用style-loader</h2><h3 id="1-新建文件目录"><a href="#1-新建文件目录" class="headerlink" title="1.新建文件目录"></a>1.新建文件目录</h3><p><img src="http://i4.piimg.com/594495/bbc8c5babacc6146.png" alt="Markdown"></p>
-<h3 id="2-配置webpack-config"><a href="#2-配置webpack-config" class="headerlink" title="2.配置webpack.config"></a>2.配置webpack.config</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">"path"</span>); <span class="comment">//webpack升级到2.0以后，路径需要引用这个模块</span></span><br><span class="line"><span class="keyword">var</span> htmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">'html-webpack-plugin'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        app: <span class="string">'./src/app.js'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, <span class="string">'./dist'</span>),</span><br><span class="line">        filename: <span class="string">'js/[name]-bundle.js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        rules: [&#123;</span><br><span class="line">                test: <span class="regexp">/\.js$/</span>, <span class="comment">//用正则匹配找到所有的js文件</span></span><br><span class="line">                include: path.resolve(__dirname, <span class="string">'src'</span>), <span class="comment">//指定babel-loaders寻找的文件路径，注意需是绝对路径</span></span><br><span class="line">                exclude: path.resolve(__dirname, <span class="string">'node_modules'</span>), <span class="comment">//排除node_modules文件下js，注意需是绝对路径</span></span><br><span class="line">                use: &#123;</span><br><span class="line">                    loader: <span class="string">'babel-loader'</span>, <span class="comment">//使用babel-loader处理找到的js文件</span></span><br><span class="line">                    options:&#123;</span><br><span class="line">                        presets: <span class="string">'es2015'</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.css$/</span>,</span><br><span class="line">                include: path.resolve(__dirname, <span class="string">'src'</span>), <span class="comment">//指定babel-loaders寻找的文件路径，注意需是绝对路径</span></span><br><span class="line">                exclude: path.resolve(__dirname, <span class="string">'node_modules'</span>), <span class="comment">//排除node_modules文件下js，注意需是绝对路径</span></span><br><span class="line">                use: [<span class="string">"style-loader"</span>, <span class="string">"css-loader"</span>]<span class="comment">//注意先后顺序，一般都要先用css-loader处理完然后用style-loader生成style标签,但webpack读取的顺序相反</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        <span class="keyword">new</span> htmlWebpackPlugin(&#123;</span><br><span class="line">            filename: <span class="string">'index.html'</span>,</span><br><span class="line">            template: <span class="string">'index.html'</span>,</span><br><span class="line">            inject: <span class="string">'body'</span>,</span><br><span class="line">            title: <span class="string">'This is my plugin title.'</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/18/webpack入门（六）webpack之css、sass-loader示例/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2247,7 +2254,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">33</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2269,7 +2276,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
