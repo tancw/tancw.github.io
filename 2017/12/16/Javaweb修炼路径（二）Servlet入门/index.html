@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="webpack," />
+  <meta name="keywords" content="Java,JavaWeb," />
 
 
 
@@ -93,18 +93,20 @@
 
 
 
-<meta name="description" content="入口(Entry)webpack 将创建所有应用程序的依赖关系图表(dependency graph)。图表的起点被称之为入口起点(entry point)。入口起点告诉 webpack 从哪里开始，并遵循着依赖关系图表知道要打包什么。可以将您应用程序的入口起点认为是根上下文(contextual root)或 app">
-<meta name="keywords" content="webpack">
+<meta name="description" content="1.Servlet简介Servlet(Server Applet)是Java Servlet的简称，称为小服务程序或服务连接器，是运行在 Web 服务器或应用服务器上的用Java编写的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层，主要功能在于交互地">
+<meta name="keywords" content="Java,JavaWeb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Webpack入门（三）入口与输出">
-<meta property="og:url" content="http://yoursite.com/2017/06/30/webpack入门（三）入口与输出/index.html">
+<meta property="og:title" content="Javaweb修炼路径(二)Servlet入门">
+<meta property="og:url" content="http://yoursite.com/2017/12/16/Javaweb修炼路径（二）Servlet入门/index.html">
 <meta property="og:site_name" content="IVANBlog">
-<meta property="og:description" content="入口(Entry)webpack 将创建所有应用程序的依赖关系图表(dependency graph)。图表的起点被称之为入口起点(entry point)。入口起点告诉 webpack 从哪里开始，并遵循着依赖关系图表知道要打包什么。可以将您应用程序的入口起点认为是根上下文(contextual root)或 app 第一个启动文件。 在 webpack 中，我们使用 webpack 配置对象(">
+<meta property="og:description" content="1.Servlet简介Servlet(Server Applet)是Java Servlet的简称，称为小服务程序或服务连接器，是运行在 Web 服务器或应用服务器上的用Java编写的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层，主要功能在于交互地浏览和修改数据，生成动态web内容。 上一篇说过JSP本质就是Servlet，J">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-07-19T04:16:30.000Z">
+<meta property="og:image" content="https://s1.ax1x.com/2017/12/16/L0ThD.jpg">
+<meta property="og:updated_time" content="2017-12-16T09:10:23.592Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Webpack入门（三）入口与输出">
-<meta name="twitter:description" content="入口(Entry)webpack 将创建所有应用程序的依赖关系图表(dependency graph)。图表的起点被称之为入口起点(entry point)。入口起点告诉 webpack 从哪里开始，并遵循着依赖关系图表知道要打包什么。可以将您应用程序的入口起点认为是根上下文(contextual root)或 app 第一个启动文件。 在 webpack 中，我们使用 webpack 配置对象(">
+<meta name="twitter:title" content="Javaweb修炼路径(二)Servlet入门">
+<meta name="twitter:description" content="1.Servlet简介Servlet(Server Applet)是Java Servlet的简称，称为小服务程序或服务连接器，是运行在 Web 服务器或应用服务器上的用Java编写的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层，主要功能在于交互地浏览和修改数据，生成动态web内容。 上一篇说过JSP本质就是Servlet，J">
+<meta name="twitter:image" content="https://s1.ax1x.com/2017/12/16/L0ThD.jpg">
 
 
 
@@ -132,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/30/webpack入门（三）入口与输出/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/16/Javaweb修炼路径（二）Servlet入门/"/>
 
 
 
 
 
-  <title>Webpack入门（三）入口与输出 | IVANBlog</title>
+  <title>Javaweb修炼路径(二)Servlet入门 | IVANBlog</title>
   
 
 
@@ -311,7 +313,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/30/webpack入门（三）入口与输出/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/16/Javaweb修炼路径（二）Servlet入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="IvanTan">
@@ -328,7 +330,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Webpack入门（三）入口与输出</h1>
+          <h1 class="post-title" itemprop="name headline">Javaweb修炼路径(二)Servlet入门</h1>
         
 
         <div class="post-meta">
@@ -340,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-30T00:00:00+08:00">
-                2017-06-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-16T00:00:00+08:00">
+                2017-12-16
               </time>
             
 
@@ -363,8 +365,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/工具入门/" itemprop="url" rel="index">
-                    <span itemprop="name">工具入门</span>
+                  <a href="/categories/学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
                   </a>
                 </span>
 
@@ -380,7 +382,7 @@
 
           
           
-             <span id="/2017/06/30/webpack入门（三）入口与输出/" class="leancloud_visitors" data-flag-title="Webpack入门（三）入口与输出">
+             <span id="/2017/12/16/Javaweb修炼路径（二）Servlet入门/" class="leancloud_visitors" data-flag-title="Javaweb修炼路径(二)Servlet入门">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -407,7 +409,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1,128字
+                  1,698字
                 </span>
               
 
@@ -423,7 +425,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  5分钟
+                  7分钟
                 </span>
               
             </div>
@@ -441,54 +443,125 @@
       
 
       
-        <h1 id="入口-Entry"><a href="#入口-Entry" class="headerlink" title="入口(Entry)"></a>入口(Entry)</h1><p>webpack 将创建所有应用程序的<strong>依赖关系图表(dependency graph)</strong>。图表的起点被称之为<strong>入口起点(entry point)</strong>。入口起点告诉 webpack 从哪里开始，并遵循着依赖关系图表知道要打包什么。可以将您应用程序的入口起点认为是根上下文(contextual root)或 app 第一个启动文件。</p>
-<p>在 webpack 中，我们使用 webpack 配置对象(webpack configuration object) 中的<code>entry</code> 属性来定义入口。</p>
-<p>一个最简单的例子：</p>
-<p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  entry: <span class="string">'./path/to/my/entry/file.js'</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里有多种方式声明应用程序所需的特定 entry 属性。</p>
+        <h2 id="1-Servlet简介"><a href="#1-Servlet简介" class="headerlink" title="1.Servlet简介"></a>1.Servlet简介</h2><p>Servlet(Server Applet)是Java Servlet的简称，称为小服务程序或服务连接器，是运行在 Web 服务器或应用服务器上的用Java编写的程序，它是作为来自 Web 浏览器或其他 HTTP 客户端的请求和 HTTP 服务器上的数据库或应用程序之间的中间层，主要功能在于交互地浏览和修改数据，生成动态web内容。</p>
+<p>上一篇说过JSP本质就是Servlet，JSP内置对象与Servlet中类的对应关系如下：</p>
+<table>
+<thead>
+<tr>
+<th>JSP对象</th>
+<th>Servlet中的类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>out</td>
+<td>JspWriter</td>
+</tr>
+<tr>
+<td>request</td>
+<td>HttpServletRequest</td>
+</tr>
+<tr>
+<td>response</td>
+<td>HttpServletResponse</td>
+</tr>
+<tr>
+<td>session</td>
+<td>HttpSession</td>
+</tr>
+<tr>
+<td>application</td>
+<td>ServletContext</td>
+</tr>
+<tr>
+<td>exception</td>
+<td>Throwable</td>
+</tr>
+<tr>
+<td>page</td>
+<td>this</td>
+</tr>
+<tr>
+<td>pageContext</td>
+<td>PageContext</td>
+</tr>
+<tr>
+<td>config</td>
+<td>ServletConfig</td>
+</tr>
+</tbody>
+</table>
 <a id="more"></a>
-<h2 id="单个入口（简写）语法"><a href="#单个入口（简写）语法" class="headerlink" title="单个入口（简写）语法"></a>单个入口（简写）语法</h2><p>用法：<code>entry: string|Array&lt;string&gt;</code></p>
-<p>webpack.config.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  entry: <span class="string">'./path/to/my/entry/file.js'</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = config;</span><br></pre></td></tr></table></figure></p>
-<p>entry 属性的单个入口语法，是下面的简写：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    main: <span class="string">'./path/to/my/entry/file.js'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="2-一个最简单的Servlet入门程序"><a href="#2-一个最简单的Servlet入门程序" class="headerlink" title="2.一个最简单的Servlet入门程序"></a>2.一个最简单的Servlet入门程序</h2><p>src目录下新建一个servlet<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"loginServlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    <span class="comment">// 获取表单提交过来的数据</span></span><br><span class="line">    <span class="comment">// getParameter()方法可以获取请求的参数信息</span></span><br><span class="line">    String username = req.getParameter(<span class="string">"username"</span>);</span><br><span class="line">    String password = req.getParameter(<span class="string">"password"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 打印获取到的参数信息</span></span><br><span class="line">    System.out.println(<span class="string">"username="</span> + username);</span><br><span class="line">    System.out.println(<span class="string">"password="</span> + password);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 通过转发实现跳转</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">"admin"</span>.equals(username) &amp;&amp; <span class="string">"123"</span>.equals(password)) &#123;</span><br><span class="line">      req.getRequestDispatcher(<span class="string">"success.jsp"</span>).forward(req, resp);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      resp.sendRedirect(<span class="string">"error.jsp"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.doPost(req, resp);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Servlet3.0以后抛弃了以前的xml配置，新特性通过注解完成配置，如代码中的<code>@WebServlet</code>，通过getParameter()获取请求的参数信息，然后进行判断，正确则转发跳转，否则重定向到错误页面。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">%@</span> <span class="attr">page</span> <span class="attr">contentType</span>=<span class="string">"text/html;charset=UTF-8"</span> <span class="attr">language</span>=<span class="string">"java"</span> %&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"loginServlet"</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>用户名：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">name</span>=<span class="string">"username"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>密&amp;nbsp;码：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">name</span>=<span class="string">"password"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"登录"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"reset"</span> <span class="attr">value</span>=<span class="string">"重置"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-Servlet生命周期"><a href="#3-Servlet生命周期" class="headerlink" title="3.Servlet生命周期"></a>3.Servlet生命周期</h2><p>Web容器维护servlet实例的生命周期。<br><a href="https://imgchr.com/i/L0ThD" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2017/12/16/L0ThD.jpg" alt="L0ThD.jpg"></a><br>如上图所示，servlet有三种状态：新，就绪和结束。 如果servlet实例被创建，则servlet处于新状态。 调用init()方法后，Servlet进入就绪状态。 在就绪状态下，servlet执行所有任务。当web容器调用destroy()方法时，它转移到结束状态。</p>
+<p>详细说明一下Servlet生命周期的几个步骤：<br>（1）加载Servlet类<br>类加载器负责加载servlet类。 当Web容器接收到servlet的第一个请求时，将加载servlet类。<br>（2）创建Servlet实例<br>Web容器在加载servlet类之后创建一个servlet的实例。servlet实例在servlet生命周期中只创建一次。<br>（3）调用init方法<br>Web容器在创建servlet实例后调用init方法一次。 init方法用于初始化servlet。 它是javax.servlet.Servlet接口的生命周期方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(ServletConfig config)</span> <span class="keyword">throws</span> ServletException</span></span><br></pre></td></tr></table></figure></p>
+<p>（4）调用service方法<br>每当接收到servlet的请求时，Web容器都会调用service方法。如果servlet未初始化，则遵循上述前三个步骤，然后调用service方法。 如果servlet被初始化，它调用service方法。注意，<strong>servlet仅初始化一次。</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">service</span><span class="params">(ServletRequest req, ServletResponse res)</span>   </span></span><br><span class="line"><span class="function">  <span class="keyword">throws</span> ServletException, IOException</span></span><br></pre></td></tr></table></figure></p>
+<p>（5）调用destroy方法<br>从服务中删除servlet实例之前，Web容器调用destroy方法。它使servlet有机会清理所有资源，例如内存，线程等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public void destroy()</span><br></pre></td></tr></table></figure></p>
+<p>最后，Servlet 是由 JVM 的垃圾回收器进行垃圾回收的。</p>
+<h2 id="4-客户端请求与服务器响应"><a href="#4-客户端请求与服务器响应" class="headerlink" title="4.客户端请求与服务器响应"></a>4.客户端请求与服务器响应</h2><p><strong>请求</strong>：当浏览器请求网页时，它会向 Web 服务器发送特定信息，这些信息不能被直接读取，因为这些信息是作为 HTTP 请求的头的一部分进行传输的。<br><strong>响应</strong>：当一个 Web 服务器响应一个 HTTP 请求时，响应通常包括一个状态行、一些响应报头、一个空行和文档。</p>
 <blockquote>
-<p>向 entry 属性传入「文件路径(file path)数组」将创建“多个主入口(multi-main entry)”。在你想要多个依赖文件一起注入，并且将它们的依赖导向(graph)到一个“chunk”时，这种传入数组的方式比较有效。</p>
+<p>头信息、读取方法和示例可以查阅参考资料</p>
 </blockquote>
-<p>当你正在寻找为「一个应用程序或只有一个入口起点的工具（即 library）」快速设置一个 webpack 配置的时候，这会是个很不错的选择。但是，使用此语法扩展(extend or scale)配置没有太多的灵活性。</p>
-<h2 id="对象语法"><a href="#对象语法" class="headerlink" title="对象语法"></a>对象语法</h2><p>用法：entry: {[entryChunkName: string]: string|Array<string>}</string></p>
-<p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./src/app.js'</span>,</span><br><span class="line">    vendors: <span class="string">'./src/vendors.js'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>对象语法会比较繁琐。然而，这是应用程序中定义入口的最可扩展的方式。</p>
-<blockquote>
-<p>“可扩展的 webpack 配置”是指，可重用并且可以与其他配置组合使用。这是一种流行的技术，用于将关注点(concern)从环境(environment)、构建目标(build target)、运行时(runtime)中分离。然后使用专门的工具（如 webpack-merge）将它们合并。</p>
-</blockquote>
-<h2 id="常见场景"><a href="#常见场景" class="headerlink" title="常见场景"></a>常见场景</h2><p>以下列出入口配置和它们的实际用例：</p>
-<h3 id="分离-应用程序-app-和-公共库-vendor-入口"><a href="#分离-应用程序-app-和-公共库-vendor-入口" class="headerlink" title="分离 应用程序(app) 和 公共库(vendor) 入口"></a>分离 应用程序(app) 和 公共库(vendor) 入口</h3><p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./src/app.js'</span>,</span><br><span class="line">    vendors: <span class="string">'./src/vendors.js'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>1. 原理</strong></p>
-<p>从表面上看，这告诉我们 webpack 从 app.js 和 vendors.js 开始创建依赖图表(dependency graph)。这些图表是彼此完全分离、互相独立的（每个 bundle 中都有一个 webpack 引导(bootstrap)）。这种方式比较常见于只有一个入口起点（不包括 vendor）的单页应用程序(single page application)中。</p>
-<p><strong>2. 原因</strong></p>
-<p>这样设置允许你使用 <code>CommonsChunkPlugin</code> 从「应用程序 bundle」中提取 vendor 引用(vendor reference) 到 vendor bundle，并把 vendor 引用的部分替换为<code>__webpack_require__()</code>调用。如果应用程序 bundle 中没有 vendor 代码，那么你可以在 webpack 中实现被称为<strong>长效缓存</strong>的通用模式。</p>
-<h3 id="多个页面应用程序"><a href="#多个页面应用程序" class="headerlink" title="多个页面应用程序"></a>多个页面应用程序</h3><p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    pageOne: <span class="string">'./src/pageOne/index.js'</span>,</span><br><span class="line">    pageTwo: <span class="string">'./src/pageTwo/index.js'</span>,</span><br><span class="line">    pageThree: <span class="string">'./src/pageThree/index.js'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>我们告诉 webpack 需要 3 个独立分离的依赖图表（如上面的示例）。</p>
-<p>在多页应用中，服务器将为你获取一个新的 HTML 文档。页面重新加载新文档，并且资源被重新下载。然而，这给了我们特殊的机会去做很多事：</p>
-<ul>
-<li>使用 <code>CommonsChunkPlugin</code> 为每个页面间的应用程序共享代码创建 bundle。由于入口起点增多，多页应用能够在入口起点重用大量代码/模块，这样可以极大的从这些这些技术受益。</li>
+<h2 id="5-ServletContext与ServletConfig"><a href="#5-ServletContext与ServletConfig" class="headerlink" title="5.ServletContext与ServletConfig"></a>5.ServletContext与ServletConfig</h2><h3 id="5-1-ServletContext对象"><a href="#5-1-ServletContext对象" class="headerlink" title="5.1 ServletContext对象"></a>5.1 ServletContext对象</h3><p><strong>ServletContext的对象由Web容器在部署项目时创建。，表示JavaWeb工程的配置信息。每个Web应用程序只有一个ServletContext对象。</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.java.servlet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletContext;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/Demo1Servlet"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo1Servlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 获取代表某一个JavaWeb工程的ServletContext对象</span></span><br><span class="line">        <span class="comment">// Context对象是一个域对象，可以往某一个域对象中存放数据，并且还可以取出存放的数据</span></span><br><span class="line">        ServletContext context = <span class="keyword">this</span>.getServletContext();</span><br><span class="line">        <span class="comment">// 往context域对象中存放数据</span></span><br><span class="line">        context.setAttribute(<span class="string">"username"</span>, <span class="string">"张三"</span>);</span><br><span class="line">        <span class="comment">// 取出context域对象中的数据</span></span><br><span class="line">        Object result = context.getAttribute(<span class="string">"username"</span>);</span><br><span class="line">        <span class="comment">// 打印取出的结果</span></span><br><span class="line">        System.out.println(result);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">        doGet(request, response);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-2-ServletConfig"><a href="#5-2-ServletConfig" class="headerlink" title="5.2 ServletConfig"></a>5.2 ServletConfig</h3><p><strong>ServletConfig对象是由每个servlet的Web容器创建的，表示某一个Servelt中的配置文件。</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletConfig;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.ServletException;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="meta">@WebServlet</span>(<span class="string">"/servletConfigDemo"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletConfigDemo</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">          <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 首先需要获取ServletConfig对象</span></span><br><span class="line">    ServletConfig sc = <span class="keyword">this</span>.getServletConfig();</span><br><span class="line">    <span class="comment">// 获取sc这个对象中封装的参数信息</span></span><br><span class="line">    String encoding = sc.getInitParameter(<span class="string">"encoding"</span>);</span><br><span class="line">    System.out.println(<span class="string">"encoding="</span> + encoding);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></span><br><span class="line"><span class="function">          <span class="keyword">throws</span> ServletException, IOException </span>&#123;</span><br><span class="line">    doGet(request, response);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="6-转发与重定向"><a href="#6-转发与重定向" class="headerlink" title="6.转发与重定向"></a>6.转发与重定向</h2><h3 id="6-1-RequestDispatcher请求转发"><a href="#6-1-RequestDispatcher请求转发" class="headerlink" title="6.1 RequestDispatcher请求转发"></a>6.1 RequestDispatcher请求转发</h3><ul>
+<li>实现重定向的是HttpServletResponse对象中的方法</li>
+<li>转发时浏览器中url地址栏发生改变</li>
+<li>转发时浏览器只请求两次服务器</li>
 </ul>
-<h1 id="输出-Output"><a href="#输出-Output" class="headerlink" title="输出(Output)"></a>输出(Output)</h1><p>此选项影响 compilation 对象的输出。output 选项控制 webpack 如何向硬盘写入编译文件。注意，即使可以存在多个入口起点，但只指定一个输出配置。</p>
-<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>在 webpack 中配置 output 属性的最低要求是，将它的值设置为一个对象，包括以下两点：</p>
-<ul>
-<li>编译文件的文件名(filename)，首选推荐：// main.js || bundle.js || index.js</li>
-<li>output.path 对应一个绝对路径，此路径是你希望一次性打包的目录。</li>
+<p>在RequestDispatcher接口中定义了两种方法：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>public void forward(ServletRequest request,ServletResponse response)throws ServletException,java.io.IOException</td>
+<td>将servlet的请求转发到服务器上的另一个资源(servlet，JSP文件或HTML文件)。</td>
+</tr>
+<tr>
+<td>public void include(ServletRequest request,ServletResponse response)throws ServletException,java.io.IOException</td>
+<td>在响应中包含资源的内容(servlet，JSP页面或HTML文件)。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-2-重定向"><a href="#6-2-重定向" class="headerlink" title="6.2 重定向"></a>6.2 重定向</h3><ul>
+<li>实现转发调用的是HttpServletRequest对象中的方法</li>
+<li>转发时浏览器中url地址栏不会发生改变</li>
+<li>转发时浏览器只请求一次服务器</li>
 </ul>
-<p>webpack.config.js</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: <span class="string">'bundle.js'</span>,</span><br><span class="line">    path: <span class="string">'/home/proj/public/assets'</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = config;</span><br></pre></td></tr></table></figure>
-<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><p>output属性还有很多可选传入的值，具体可以访问<a href="https://doc.webpack-china.org/concepts/output/" target="_blank" rel="noopener">输出选项</a></p>
-<h1 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h1><p>本系列参考转载来源：</p>
-<p>Webpack中文指南 <a href="https://zhaoda.gitbooks.io/webpack/content/module-system.html" target="_blank" rel="noopener">https://zhaoda.gitbooks.io/webpack/content/module-system.html</a></p>
-<p>Webpack中文文档v2.2 <a href="http://www.css88.com/doc/webpack2/" target="_blank" rel="noopener">http://www.css88.com/doc/webpack2/</a></p>
+<p>forward()和sendRedirect()方法的区别：<br>RequestDispatcher的forward()方法和HttpServletResponse接口的sendRedirect()方法之间存在很多差异，例如：</p>
+<table>
+<thead>
+<tr>
+<th>forward()方法</th>
+<th>sendRedirect()方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>forward()方法在服务器端工作。</td>
+<td>sendRedirect()方法在客户端工作。</td>
+</tr>
+<tr>
+<td>它将相同的请求和响应对象发送到另一个servlet。</td>
+<td>它总是发送一个新的请求。</td>
+</tr>
+<tr>
+<td>它只能在服务器内工作。</td>
+<td>它可以在服务器内外使用。</td>
+</tr>
+<tr>
+<td>示例: <code>request.getRequestDispacher(&quot;servlet2&quot;).forward(request,response)</code></td>
+<td>示例: <code>response.sendRedirect(&quot;servlet2&quot;)</code></td>
+</tr>
+</tbody>
+</table>
+<p>参考资料：<br><a href="http://www.yiibai.com/servlet/life-cycle-of-a-servlet.html" target="_blank" rel="noopener">易百Servlet教程</a><br><a href="https://www.w3cschool.cn/servlet/" target="_blank" rel="noopener">w3cshool-JSP教程</a></p>
 
       
     </div>
@@ -517,7 +590,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://yoursite.com/2017/06/30/webpack入门（三）入口与输出/" title="Webpack入门（三）入口与输出">http://yoursite.com/2017/06/30/webpack入门（三）入口与输出/</a>
+      <a href="http://yoursite.com/2017/12/16/Javaweb修炼路径（二）Servlet入门/" title="Javaweb修炼路径(二)Servlet入门">http://yoursite.com/2017/12/16/Javaweb修炼路径（二）Servlet入门/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -533,7 +606,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/webpack/" rel="tag"># webpack</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/JavaWeb/" rel="tag"># JavaWeb</a>
           
         </div>
       
@@ -546,8 +621,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/webpack入门（二）安装与试用/" rel="next" title="Webpack入门（二）安装与试用">
-                <i class="fa fa-chevron-left"></i> Webpack入门（二）安装与试用
+              <a href="/2017/12/08/Javaweb修炼路径（一）JSP入门/" rel="next" title="Javaweb修炼路径(一)JSP入门">
+                <i class="fa fa-chevron-left"></i> Javaweb修炼路径(一)JSP入门
               </a>
             
           </div>
@@ -555,10 +630,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/17/webpack入门（四）webpack之plugin示例/" rel="prev" title="webpack入门（四）webpack之plugin示例">
-                webpack入门（四）webpack之plugin示例 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -704,7 +775,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#入口-Entry"><span class="nav-text">入口(Entry)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单个入口（简写）语法"><span class="nav-text">单个入口（简写）语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象语法"><span class="nav-text">对象语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见场景"><span class="nav-text">常见场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分离-应用程序-app-和-公共库-vendor-入口"><span class="nav-text">分离 应用程序(app) 和 公共库(vendor) 入口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多个页面应用程序"><span class="nav-text">多个页面应用程序</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#输出-Output"><span class="nav-text">输出(Output)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选项"><span class="nav-text">选项</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#声明"><span class="nav-text">声明</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Servlet简介"><span class="nav-text">1.Servlet简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-一个最简单的Servlet入门程序"><span class="nav-text">2.一个最简单的Servlet入门程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Servlet生命周期"><span class="nav-text">3.Servlet生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-客户端请求与服务器响应"><span class="nav-text">4.客户端请求与服务器响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-ServletContext与ServletConfig"><span class="nav-text">5.ServletContext与ServletConfig</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-ServletContext对象"><span class="nav-text">5.1 ServletContext对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-ServletConfig"><span class="nav-text">5.2 ServletConfig</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-转发与重定向"><span class="nav-text">6.转发与重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-RequestDispatcher请求转发"><span class="nav-text">6.1 RequestDispatcher请求转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-重定向"><span class="nav-text">6.2 重定向</span></a></li></ol></li></ol></div>
             
 
           </div>
