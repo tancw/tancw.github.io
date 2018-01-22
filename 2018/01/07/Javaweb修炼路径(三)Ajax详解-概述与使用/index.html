@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="IVANBlog">
 <meta property="og:description" content="一、Ajax概述AJAX是“Asynchronous JavaScript And XML”的缩写(即：异步的JavaScript和XML)，是一种实现无页面刷新获取服务器数据的混合技术。 1.XMLXML是“Extensible Markup Language”的缩写（即：可拓展标记语言），是一种特征类似HTML，用来描述数据是什么，并承载数据的标记语言。 而JSON仅仅是一种数据格式，在JSO">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-22T14:32:37.629Z">
+<meta property="og:updated_time" content="2018-01-22T14:39:29.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javaweb修炼路径(三)Ajax详解-概述与使用">
 <meta name="twitter:description" content="一、Ajax概述AJAX是“Asynchronous JavaScript And XML”的缩写(即：异步的JavaScript和XML)，是一种实现无页面刷新获取服务器数据的混合技术。 1.XMLXML是“Extensible Markup Language”的缩写（即：可拓展标记语言），是一种特征类似HTML，用来描述数据是什么，并承载数据的标记语言。 而JSON仅仅是一种数据格式，在JSO">
@@ -458,7 +458,41 @@
 <p><code>XMLHttpRequest</code>只是一个JavaScript对象，确切的说，是一个构造函数。它的特殊之处只在于它是由客户端(即浏览器)提供的（而不是JavaScript原生的），除此之外，它有属性，有方法，需要通过new关键字进行实例化。</p>
 <p><code>XMLHttpRequest</code>对象是不断被扩展的。随着XML对象被广泛的接收，W3C也开始着手制定相应的标准来规范其行为。目前，<code>XMLHttpRequest</code>有两个级别：1级提供了XML对象的实现细节，2级进一步发展了XML对象，额外添加了一些方法，属性和数据类型。（然而，并不是所有浏览器都实现了XML对象2级的内容）</p>
 <p>让我们先从剖析<code>XMLHttpRequest</code>实例的属性和方法开始，先创建一个XML对象的实例：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> xhr = <span class="keyword">new</span> XMLHttpRequest()</span><br></pre></td></tr></table></figure></p>
-<p>该实例的属性，方法有：<br>|方法|描述|<br>|–|–|<br>|open()|准备启动一个AJAX请求；|<br>|setRequestHeader()|设置请求头部信息；|<br>|send()|发送AJAX请求；|<br>|getResponseHeader() |获得响应头部信息；|<br>|getAllResponseHeader()|获得一个包含所有头部信息的长字符串；|<br>|abort()|取消异步请求；|</p>
+<p>该实例的属性，方法有：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>open()</td>
+<td>准备启动一个AJAX请求；</td>
+</tr>
+<tr>
+<td>setRequestHeader()</td>
+<td>设置请求头部信息；</td>
+</tr>
+<tr>
+<td>send()</td>
+<td>发送AJAX请求；</td>
+</tr>
+<tr>
+<td>getResponseHeader()</td>
+<td>获得响应头部信息；</td>
+</tr>
+<tr>
+<td>getAllResponseHeader()</td>
+<td>获得一个包含所有头部信息的长字符串；</td>
+</tr>
+<tr>
+<td>abort()</td>
+<td>取消异步请求；</td>
+</tr>
+</tbody>
+</table>
 <table>
 <thead>
 <tr>
