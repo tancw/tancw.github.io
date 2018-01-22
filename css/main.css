@@ -306,7 +306,8 @@ hr {
 blockquote {
   padding: 0 15px;
   color: #666;
-  border-left: 4px solid #ddd;
+  border-left: 4px solid #76bad9;
+  background-color: #f2f2f2;
 }
 blockquote cite::before {
   content: "-";
